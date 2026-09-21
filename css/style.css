@@ -1479,71 +1479,6 @@ input:focus, select:focus, textarea:focus { border-color: #a09080; box-shadow: 0
     color: #4a4239;
   }
 
-  /* The Black Box: The Rejoice Promise on Mobile */
-  .about-prestige-card {
-    position: static;
-    padding: 24px 18px;
-    border-radius: 20px;
-    margin-top: 24px;
-    background: linear-gradient(145deg, #18140f 0%, #241e17 100%);
-    border: 1px solid rgba(197, 160, 89, 0.38);
-    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.25);
-    text-align: center;
-  }
-  .prestige-card-badge {
-    font-size: 8px;
-    padding: 4px 12px;
-    margin-bottom: 14px;
-    letter-spacing: 0.12em;
-    display: inline-block;
-    max-width: 100%;
-    color: var(--gold-light);
-    border-color: rgba(197, 160, 89, 0.4);
-  }
-  .prestige-title {
-    font-size: 22px;
-    margin-bottom: 4px;
-  }
-  .prestige-subtitle {
-    font-size: 11px;
-    margin-bottom: 16px;
-    color: rgba(212, 175, 95, 0.85);
-  }
-  .prestige-stats {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px 8px;
-    padding: 16px 0;
-    margin-bottom: 18px;
-    border-top: 1px solid rgba(197, 160, 89, 0.2);
-    border-bottom: 1px solid rgba(197, 160, 89, 0.2);
-  }
-  .p-num {
-    font-size: 22px;
-  }
-  .p-desc {
-    font-size: 8.5px;
-  }
-  .prestige-quote {
-    padding: 14px 14px;
-    margin-bottom: 18px;
-    border-radius: 12px;
-  }
-  .prestige-quote p {
-    font-size: 13px;
-    line-height: 1.55;
-    margin-bottom: 4px;
-  }
-  .prestige-quote span {
-    font-size: 10.5px;
-  }
-  .about-prestige-card .btn-full {
-    width: 100%;
-    justify-content: center;
-    padding: 13px 18px;
-    font-size: 12px;
-    box-sizing: border-box;
-  }
 
   /* Floral Studio Section */
   .floral-studio-painted {
@@ -1848,6 +1783,78 @@ input:focus, select:focus, textarea:focus { border-color: #a09080; box-shadow: 0
   margin: 0 auto;
   display: inline-flex;
   justify-content: center;
+}
+
+/* Rejoice Promise Card — Mobile Layout Overrides */
+@media (max-width: 768px) {
+  .about-prestige-card {
+    padding: 24px 16px !important;
+    border-radius: 20px !important;
+    margin-top: 20px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    overflow: hidden !important;
+  }
+  .prestige-card-badge {
+    font-size: 7.5px !important;
+    padding: 5px 12px !important;
+    letter-spacing: 0.1em !important;
+    white-space: normal !important;
+    line-height: 1.35 !important;
+    max-width: 95% !important;
+    margin-bottom: 12px !important;
+  }
+  .prestige-title {
+    font-size: 24px !important;
+    margin-bottom: 4px !important;
+  }
+  .prestige-subtitle {
+    font-size: 11px !important;
+    margin-bottom: 18px !important;
+    line-height: 1.35 !important;
+  }
+  .prestige-stats {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px 10px !important;
+    padding: 16px 0 !important;
+    margin-bottom: 20px !important;
+  }
+  .p-num {
+    font-size: 26px !important;
+  }
+  .p-desc {
+    font-size: 8.5px !important;
+    letter-spacing: 0.06em !important;
+    margin-top: 4px !important;
+  }
+  .prestige-quote {
+    padding: 14px 14px !important;
+    margin-bottom: 20px !important;
+    border-radius: 12px !important;
+  }
+  .prestige-quote p {
+    font-size: 12.5px !important;
+    line-height: 1.5 !important;
+    margin-bottom: 4px !important;
+  }
+  .prestige-quote span {
+    font-size: 10px !important;
+  }
+  .about-prestige-card .btn-full {
+    width: 100% !important;
+    max-width: 100% !important;
+    white-space: normal !important;
+    text-align: center !important;
+    line-height: 1.35 !important;
+    font-size: 12px !important;
+    padding: 12px 16px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    box-sizing: border-box !important;
+    word-break: break-word !important;
+    border-radius: 999px !important;
+  }
 }
 
 /* ══════════════════════════════════════════════
