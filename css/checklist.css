@@ -1,0 +1,611 @@
+/* ============================================================
+   REJOICE EVENTS & FLORAL STUDIO — Interactive Checklist Styles
+   ============================================================ */
+
+:root {
+  --bg: #faf8f5;
+  --bg-alt: #f4f0e8;
+  --white: #ffffff;
+  --text: #181512;
+  --text-muted: #72685c;
+  --text-light: #a39688;
+
+  --gold: #b38e44;
+  --gold-light: #d4af5f;
+  --gold-dark: #8c6b2b;
+  --gold-gradient: linear-gradient(135deg, #c5a059 0%, #9e7935 100%);
+  --gold-glow: rgba(197, 160, 89, 0.25);
+
+  --border: rgba(197, 160, 89, 0.25);
+  --border-light: rgba(197, 160, 89, 0.15);
+
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  --shadow-sm: 0 4px 16px rgba(24, 21, 18, 0.05);
+  --shadow-md: 0 12px 32px rgba(24, 21, 18, 0.08);
+  --shadow-lg: 0 24px 60px rgba(24, 21, 18, 0.12);
+
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 28px;
+  --radius-pill: 999px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: 120px; /* Space for sticky WhatsApp action bar */
+}
+
+/* ── TOP HEADER / BRAND BAR ── */
+.chk-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 20px;
+}
+
+.chk-nav-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.chk-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--text);
+}
+.chk-brand-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--gold);
+}
+.chk-brand-title {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #1a1510;
+}
+.chk-brand-sub {
+  font-size: 6.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-top: 1px;
+}
+
+.chk-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-nav-share {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(197, 160, 89, 0.12);
+  color: var(--gold-dark);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-nav-share:hover {
+  background: var(--gold);
+  color: #fff;
+}
+
+.btn-nav-home {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 6px 10px;
+  transition: color 0.2s;
+}
+.btn-nav-home:hover {
+  color: var(--text);
+}
+
+/* ── HERO BANNER ── */
+.chk-hero {
+  position: relative;
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  padding: 48px 20px;
+  margin-bottom: 36px;
+  overflow: hidden;
+}
+.chk-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(24, 21, 18, 0.75) 0%, rgba(24, 21, 18, 0.55) 100%);
+  z-index: 1;
+}
+.chk-hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto;
+  color: #ffffff;
+}
+.chk-badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  border: 1px solid rgba(212, 175, 95, 0.45);
+  border-radius: var(--radius-pill);
+  padding: 4px 14px;
+  margin-bottom: 12px;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
+}
+.chk-hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(32px, 5.5vw, 52px);
+  font-weight: 400;
+  line-height: 1.15;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+.chk-hero-sub {
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.86);
+  line-height: 1.6;
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+/* ── MAIN LAYOUT CONTAINER ── */
+.chk-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ── GLASSMORPHISM CUSTOMER DETAILS CARD ── */
+.chk-details-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(197, 160, 89, 0.35);
+  border-radius: var(--radius-lg);
+  padding: 32px 36px;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 40px;
+}
+.chk-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: 14px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.chk-card-title {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.chk-card-badge {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  background: rgba(197, 160, 89, 0.12);
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.chk-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+.chk-form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.chk-label {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+.chk-label span.req {
+  color: #c2410c;
+}
+
+.chk-input,
+.chk-select,
+.chk-textarea {
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--text);
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  outline: none;
+  transition: all 0.25s ease;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+.chk-input:focus,
+.chk-select:focus,
+.chk-textarea:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.2);
+  background: #fff;
+}
+.chk-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* ── CHECKLIST SECTION ── */
+.chk-section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.chk-section-title {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--text);
+}
+.chk-section-sub {
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+.chk-controls {
+  display: flex;
+  gap: 8px;
+}
+.btn-control {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 5px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-control:hover {
+  background: rgba(197, 160, 89, 0.1);
+  color: var(--gold-dark);
+  border-color: var(--gold);
+}
+
+/* Category grouping */
+.chk-category {
+  margin-bottom: 32px;
+}
+.chk-category-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+.chk-category-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--border), transparent);
+}
+
+/* Checklist cards grid */
+.chk-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+/* Checkbox item card */
+.chk-item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #ffffff;
+  border: 1.5px solid rgba(197, 160, 89, 0.22);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.25s ease;
+  box-shadow: var(--shadow-sm);
+}
+.chk-item:hover {
+  border-color: rgba(197, 160, 89, 0.55);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(158, 121, 53, 0.12);
+}
+.chk-item.checked {
+  background: linear-gradient(145deg, #ffffff 0%, #fdfbf7 100%);
+  border-color: var(--gold);
+  box-shadow: 0 6px 20px rgba(158, 121, 53, 0.16);
+}
+
+/* Hidden native checkbox */
+.chk-item input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Custom checkbox box */
+.chk-box {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  border: 1.5px solid rgba(197, 160, 89, 0.45);
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+  transition: all 0.2s ease;
+}
+.chk-item:hover .chk-box {
+  border-color: var(--gold);
+}
+.chk-item.checked .chk-box {
+  background: var(--gold-gradient);
+  border-color: var(--gold-dark);
+}
+.chk-box-icon {
+  width: 12px;
+  height: 12px;
+  color: #ffffff;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.chk-item.checked .chk-box-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.chk-content {
+  flex: 1;
+}
+.chk-item-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.35;
+  margin-bottom: 2px;
+}
+.chk-item.checked .chk-item-title {
+  color: #1a1510;
+}
+.chk-item-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* ── STICKY BOTTOM ACTION BAR ── */
+.chk-sticky-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1.5px solid var(--border);
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.12);
+  padding: 14px 20px;
+  animation: slideUpBar 0.5s ease both;
+}
+@keyframes slideUpBar {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.chk-sticky-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.chk-counter-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.chk-counter-badge {
+  background: var(--gold-gradient);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 2px 8px rgba(158, 121, 53, 0.3);
+}
+.chk-counter-label {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.chk-action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-submit-wa {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #25d366;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 12px 26px;
+  cursor: pointer;
+  box-shadow: 0 6px 22px rgba(37, 211, 102, 0.35);
+  transition: all 0.25s ease;
+  font-family: var(--font-sans);
+}
+.btn-submit-wa:hover {
+  background: #1aab53;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(37, 211, 102, 0.5);
+}
+.btn-submit-wa svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* ── FUNERAL / SACRED MEMORIAL SPECIAL PALETTE ── */
+.funeral-theme {
+  --gold: #8c8275;
+  --gold-light: #b5ac9f;
+  --gold-dark: #575046;
+  --gold-gradient: linear-gradient(135deg, #8c8275 0%, #575046 100%);
+  --border: rgba(140, 130, 117, 0.3);
+}
+.funeral-theme .chk-badge {
+  color: #e5e0d8;
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.4);
+}
+.funeral-theme .btn-submit-wa {
+  background: #2f2a24;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+.funeral-theme .btn-submit-wa:hover {
+  background: #1a1714;
+}
+
+/* Toast notification for link copying */
+.chk-toast {
+  position: fixed;
+  top: 76px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: #181512;
+  color: #ffffff;
+  padding: 10px 22px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+.chk-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .chk-form-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .chk-details-card {
+    padding: 24px 18px;
+    border-radius: var(--radius-md);
+  }
+  .chk-hero {
+    min-height: 220px;
+    padding: 36px 16px;
+  }
+  .chk-grid {
+    grid-template-columns: 1fr;
+  }
+  .chk-sticky-inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .chk-counter-wrap {
+    justify-content: space-between;
+  }
+  .btn-submit-wa {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 18px;
+  }
+  .chk-input, .chk-select, .chk-textarea {
+    font-size: 16px; /* Prevents iOS auto-zoom */
+  }
+}

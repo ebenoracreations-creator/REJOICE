@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Funeral &amp; Memorial Services Checklist — Rejoice Events Kerala</title>
+  <meta name="description" content="Compassionate, dignified funeral arrangements and memorial services by Rejoice Events. Pandal setup, hearse van, sound systems, and sacred floral tributes." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/checklist.css" />
+</head>
+<body class="funeral-theme">
+
+  <!-- Toast Notification -->
+  <div class="chk-toast" id="chkToast">Link copied to clipboard!</div>
+
+  <!-- Header Navigation -->
+  <header class="chk-navbar" role="banner">
+    <div class="chk-nav-container">
+      <a href="index.html#packages" class="chk-brand" aria-label="Rejoice Events Home">
+        <svg class="chk-brand-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C11.5 5 9 8 5 8C5 12 8 14.5 12 15C16 14.5 19 12 19 8C15 8 12.5 5 12 2Z" opacity="0.9"/><path d="M12 15C11.5 17 10 19 7 20C9 21.5 11.5 22 12 22C12.5 22 15 21.5 17 20C14 19 12.5 17 12 15Z"/><circle cx="12" cy="7" r="1.5"/></svg>
+        <div>
+          <span class="chk-brand-title">REJOICE</span>
+          <span class="chk-brand-sub">Events &amp; Floral Studio</span>
+        </div>
+      </a>
+
+      <div class="chk-nav-actions">
+        <button type="button" class="btn-nav-share" onclick="shareChecklistPage()" title="Share checklist with family">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Share Checklist
+        </button>
+        <a href="index.html#packages" class="btn-nav-home">&#8592; Back to Website</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="chk-hero" style="background-image: url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1600&q=85');">
+    <div class="chk-hero-overlay"></div>
+    <div class="chk-hero-content">
+      <span class="chk-badge">COMPASSIONATE &amp; DIGNIFIED MEMORIALS</span>
+      <h1 class="chk-hero-title">Funeral &amp; Memorial Checklist</h1>
+      <p class="chk-hero-sub">Providing graceful assistance, weather-safe pandal infrastructure, hearse van transit, sound engineering, and sacred floral tributes with deep reverence.</p>
+    </div>
+  </section>
+
+  <!-- Main Container -->
+  <main class="chk-container">
+
+    <!-- Client Details Form (Glassmorphism Card) -->
+    <div class="chk-details-card">
+      <div class="chk-card-head">
+        <h2 class="chk-card-title">
+          <span>1. Memorial Service Details</span>
+        </h2>
+        <span class="chk-card-badge">24/7 Immediate Support</span>
+      </div>
+
+      <div class="chk-form-grid">
+        <div class="chk-form-group">
+          <label class="chk-label" for="clientName">Family Contact Person Name <span class="req">*</span></label>
+          <input type="text" id="clientName" class="chk-input" placeholder="e.g. Thomas Joseph" required />
+        </div>
+
+        <div class="chk-form-group">
+          <label class="chk-label" for="clientPhone">WhatsApp / Phone Number <span class="req">*</span></label>
+          <input type="tel" id="clientPhone" class="chk-input" placeholder="e.g. +91 99614 02646" required />
+        </div>
+
+        <div class="chk-form-group">
+          <label class="chk-label" for="eventDate">Date of Service</label>
+          <input type="date" id="eventDate" class="chk-input" />
+        </div>
+
+        <div class="chk-form-group">
+          <label class="chk-label" for="eventVenue">Residence / Church / Cemetery</label>
+          <input type="text" id="eventVenue" class="chk-input" placeholder="e.g. Residence, Pala / St. Thomas Church" />
+        </div>
+
+        <div class="chk-form-group">
+          <label class="chk-label" for="eventGuests">Expected Gathering / Mourners</label>
+          <input type="text" id="eventGuests" class="chk-input" placeholder="e.g. 300 - 500 People" />
+        </div>
+
+        <div class="chk-form-group">
+          <label class="chk-label" for="eventTheme">Urgency / Timing Preference</label>
+          <input type="text" id="eventTheme" class="chk-input" placeholder="e.g. Immediate setup required / Morning service at 10 AM" />
+        </div>
+
+        <div class="chk-form-group full-width">
+          <label class="chk-label" for="eventNotes">Specific Requirements / Family Requests</label>
+          <textarea id="eventNotes" class="chk-textarea" placeholder="Note any specific flower preferences (white lilies, roses, chrysanthemums), timing constraints, or special assistance needed..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Checklist Section -->
+    <section>
+      <div class="chk-section-header">
+        <div>
+          <h2 class="chk-section-title">2. Select Required Services</h2>
+          <p class="chk-section-sub">Tick the services required to ensure a dignified, seamless farewell for your loved one:</p>
+        </div>
+        <div class="chk-controls">
+          <button type="button" class="btn-control" onclick="selectAllItems()">Select All</button>
+          <button type="button" class="btn-control" onclick="clearAllItems()">Clear</button>
+        </div>
+      </div>
+
+      <!-- Category 1: Pandal & Seating Infrastructure -->
+      <div class="chk-category">
+        <h3 class="chk-category-title">Pandal &amp; Sheltered Infrastructure</h3>
+        <div class="chk-grid">
+          <label class="chk-item checked">
+            <input type="checkbox" checked />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Pandal (Weatherproof Setup)</div>
+              <div class="chk-item-desc">High-quality, heavy-duty waterproof canopy &amp; pandal erected at the family residence to protect mourners from rain and sun</div>
+            </div>
+          </label>
+
+          <label class="chk-item checked">
+            <input type="checkbox" checked />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Mourning Chairs &amp; Seating</div>
+              <div class="chk-item-desc">Dignified, clean chairs arranged under the pandal and courtyard for visiting relatives and elders</div>
+            </div>
+          </label>
+
+          <label class="chk-item checked">
+            <input type="checkbox" checked />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Pandal Flooring Carpet &amp; Quiet Fans</div>
+              <div class="chk-item-desc">Clean ground matting/carpet and high-capacity silent mist or pedestal fans for guest comfort</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Category 2: Hearse Van & Transport Coordination -->
+      <div class="chk-category">
+        <h3 class="chk-category-title">Hearse Van &amp; Transit Coordination</h3>
+        <div class="chk-grid">
+          <label class="chk-item checked">
+            <input type="checkbox" checked />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Hearse Van (Mortuary Van)</div>
+              <div class="chk-item-desc">Air-conditioned, respectful hearse van with flower garland decoration for transit between hospital, residence, and cemetery</div>
+            </div>
+          </label>
+
+          <label class="chk-item checked">
+            <input type="checkbox" checked />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Casket Handling &amp; Transit Logistics</div>
+              <div class="chk-item-desc">Trained respectful personnel to assist with coffin placement, pallbearer coordination, and church procession</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Category 3: Sound System & Audio Engineering -->
+      <div class="chk-category">
+        <h3 class="chk-category-title">Sound System &amp; Prayer Audio</h3>
+        <div class="chk-grid">
+          <label class="chk-item checked">
+            <input type="checkbox" checked />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Sound System &amp; Wireless Mics</div>
+              <div class="chk-item-desc">High-clarity public address sound system with cordless microphones for priests, choir hymns, family eulogies &amp; prayers</div>
+            </div>
+          </label>
+
+          <label class="chk-item checked">
+            <input type="checkbox" checked />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Outdoor Horns / Extended Speakers</div>
+              <div class="chk-item-desc">Even sound distribution reaching every corner of the courtyard and pandal without echo or distortion</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Category 4: Sacred Flower Arrangements -->
+      <div class="chk-category">
+        <h3 class="chk-category-title">Flower Arrangements &amp; Tributes</h3>
+        <div class="chk-grid">
+          <label class="chk-item checked">
+            <input type="checkbox" checked />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Flower Arrangements &amp; Casket Spray</div>
+              <div class="chk-item-desc">Exquisite white lilies, chrysanthemums, tuberoses &amp; orchids draped gracefully across the casket</div>
+            </div>
+          </label>
+
+          <label class="chk-item checked">
+            <input type="checkbox" checked />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Sacred Floral Cross Tribute</div>
+              <div class="chk-item-desc">Standing wooden floral cross handcrafted with virgin white blooms &amp; green foliage</div>
+            </div>
+          </label>
+
+          <label class="chk-item checked">
+            <input type="checkbox" checked />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Home Prayer Altar Florals &amp; Candles</div>
+              <div class="chk-item-desc">Serene floral stands, brass lamp or candle styling framing the casket at the residence</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Category 5: Hospitality & Coordination -->
+      <div class="chk-category">
+        <h3 class="chk-category-title">Hospitality &amp; Coordination Support</h3>
+        <div class="chk-grid">
+          <label class="chk-item checked">
+            <input type="checkbox" checked />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Condolence Register &amp; Remembrance Desk</div>
+              <div class="chk-item-desc">Elegant remembrance desk with premium leather-bound condolence guest book and portrait stand</div>
+            </div>
+          </label>
+
+          <label class="chk-item checked">
+            <input type="checkbox" checked />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Mourner Hospitality &amp; Refreshment Station</div>
+              <div class="chk-item-desc">Drinking water dispenser counter, tea/coffee service, and light refreshment assistance for visitors</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- Sticky Bottom WhatsApp Action Bar -->
+  <aside class="chk-sticky-bar" role="region" aria-label="Checklist Submission Bar">
+    <div class="chk-sticky-inner">
+      <div class="chk-counter-wrap">
+        <span class="chk-counter-badge"><span id="selectedCount">0</span> Selected</span>
+        <span class="chk-counter-label">of <span id="totalCount">12</span> total services</span>
+      </div>
+
+      <div class="chk-action-buttons">
+        <button type="button" class="btn-submit-wa" onclick="sendChecklistToWhatsApp('Funeral &amp; Memorial Services')">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Request Funeral Support on WhatsApp &#8594;
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <script src="js/checklist.js"></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+# Dependencies & OS
+.DS_Store
+Thumbs.db
+*.bak
+*.tmp
+.vscode/
+.idea/

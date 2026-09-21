@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wedding Planning & Custom Checklist — Rejoice Events Kerala</title>
+  <meta name="description" content="Customise your dream wedding checklist with Rejoice Events & Floral Studio. Select your stage decor, photography, catering, special effects, and music." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/checklist.css" />
+</head>
+<body>
+
+  <!-- Toast Notification -->
+  <div class="chk-toast" id="chkToast">Link copied to clipboard!</div>
+
+  <!-- Header Navigation -->
+  <header class="chk-navbar" role="banner">
+    <div class="chk-nav-container">
+      <a href="index.html#packages" class="chk-brand" aria-label="Rejoice Events Home">
+        <svg class="chk-brand-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C11.5 5 9 8 5 8C5 12 8 14.5 12 15C16 14.5 19 12 19 8C15 8 12.5 5 12 2Z" opacity="0.9"/><path d="M12 15C11.5 17 10 19 7 20C9 21.5 11.5 22 12 22C12.5 22 15 21.5 17 20C14 19 12.5 17 12 15Z"/><circle cx="12" cy="7" r="1.5"/></svg>
+        <div>
+          <span class="chk-brand-title">REJOICE</span>
+          <span class="chk-brand-sub">Events &amp; Floral Studio</span>
+        </div>
+      </a>
+
+      <div class="chk-nav-actions">
+        <button type="button" class="btn-nav-share" onclick="shareChecklistPage()" title="Share checklist with family">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Share Checklist
+        </button>
+        <a href="index.html#packages" class="btn-nav-home">&#8592; Back to Website</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="chk-hero" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=85');">
+    <div class="chk-hero-overlay"></div>
+    <div class="chk-hero-content">
+      <span class="chk-badge">CUSTOM WEDDING PLANNING</span>
+      <h1 class="chk-hero-title">Your Wedding Day Checklist</h1>
+      <p class="chk-hero-sub">Select the exact decor, production, hospitality, and ceremonial services you desire for your wedding milestone across Kottayam and Kerala.</p>
+    </div>
+  </section>
+
+  <!-- Main Container -->
+  <main class="chk-container">
+
+    <!-- Client Details Form (Glassmorphism Card) -->
+    <div class="chk-details-card">
+      <div class="chk-card-head">
+        <h2 class="chk-card-title">
+          <span>1. Your Wedding Details</span>
+        </h2>
+        <span class="chk-card-badge">Instant WhatsApp Quote</span>
+      </div>
+
+      <div class="chk-form-grid">
+        <div class="chk-form-group">
+          <label class="chk-label" for="clientName">Bride &amp; Groom / Client Name <span class="req">*</span></label>
+          <input type="text" id="clientName" class="chk-input" placeholder="e.g. Arun &amp; Meera" required />
+        </div>
+
+        <div class="chk-form-group">
+          <label class="chk-label" for="clientPhone">WhatsApp / Phone Number <span class="req">*</span></label>
+          <input type="tel" id="clientPhone" class="chk-input" placeholder="e.g. +91 99614 02646" required />
+        </div>
+
+        <div class="chk-form-group">
+          <label class="chk-label" for="eventDate">Wedding Date</label>
+          <input type="date" id="eventDate" class="chk-input" />
+        </div>
+
+        <div class="chk-form-group">
+          <label class="chk-label" for="eventVenue">Venue / City / Church</label>
+          <input type="text" id="eventVenue" class="chk-input" placeholder="e.g. Kanjirappally, Kottayam" />
+        </div>
+
+        <div class="chk-form-group">
+          <label class="chk-label" for="eventGuests">Approximate Guests</label>
+          <input type="text" id="eventGuests" class="chk-input" placeholder="e.g. 500 Guests" />
+        </div>
+
+        <div class="chk-form-group">
+          <label class="chk-label" for="eventTheme">Preferred Color Palette / Theme</label>
+          <input type="text" id="eventTheme" class="chk-input" placeholder="e.g. Ivory &amp; Blush Gold, Traditional Kerala" />
+        </div>
+
+        <div class="chk-form-group full-width">
+          <label class="chk-label" for="eventNotes">Specific Ideas / Custom Requests</label>
+          <textarea id="eventNotes" class="chk-textarea" placeholder="Tell us any special wishes or preferences..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Checklist Section -->
+    <section>
+      <div class="chk-section-header">
+        <div>
+          <h2 class="chk-section-title">2. Choose Your Services</h2>
+          <p class="chk-section-sub">Tick every item you would like included in your wedding package:</p>
+        </div>
+        <div class="chk-controls">
+          <button type="button" class="btn-control" onclick="selectAllItems()">Select All</button>
+          <button type="button" class="btn-control" onclick="clearAllItems()">Clear</button>
+        </div>
+      </div>
+
+      <!-- Category 1: Stage, Ceremony & Hall Decor -->
+      <div class="chk-category">
+        <h3 class="chk-category-title">Stage, Mandap &amp; Hall Decor</h3>
+        <div class="chk-grid">
+          <label class="chk-item checked">
+            <input type="checkbox" checked />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Stage Decor</div>
+              <div class="chk-item-desc">Grand backdrop, signature floral arch &amp; geometric structures</div>
+            </div>
+          </label>
+
+          <label class="chk-item checked">
+            <input type="checkbox" checked />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Center Carpet</div>
+              <div class="chk-item-desc">Plush royal aisle runner from entrance to stage</div>
+            </div>
+          </label>
+
+          <label class="chk-item checked">
+            <input type="checkbox" checked />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Pathway Decor</div>
+              <div class="chk-item-desc">Floral pillars, fairy light walkway &amp; botanical bollards</div>
+            </div>
+          </label>
+
+          <label class="chk-item">
+            <input type="checkbox" />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Ramp to Stage</div>
+              <div class="chk-item-desc">Custom elevated bride &amp; groom catwalk connection</div>
+            </div>
+          </label>
+
+          <label class="chk-item">
+            <input type="checkbox" />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Home Lightings</div>
+              <div class="chk-item-desc">Warm fairy ambient lighting around ancestral home</div>
+            </div>
+          </label>
+
+          <label class="chk-item">
+            <input type="checkbox" />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Home Flower Arrangements</div>
+              <div class="chk-item-desc">Fresh floral entryway, staircase &amp; courtyard decor</div>
+            </div>
+          </label>
+
+          <label class="chk-item">
+            <input type="checkbox" />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Madhuramveppu Settings</div>
+              <div class="chk-item-desc">Traditional pre-wedding sweet-giving stage &amp; rituals styling</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Category 2: Dining, Tables & Hospitality -->
+      <div class="chk-category">
+        <h3 class="chk-category-title">Dining, Table Settings &amp; Hospitality</h3>
+        <div class="chk-grid">
+          <label class="chk-item checked">
+            <input type="checkbox" checked />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Premium Cake</div>
+              <div class="chk-item-desc">Tiered designer wedding cake with fresh floral dressing</div>
+            </div>
+          </label>
+
+          <label class="chk-item checked">
+            <input type="checkbox" checked />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Candle Setting</div>
+              <div class="chk-item-desc">Tapered &amp; floating ambient candles for stage &amp; tables</div>
+            </div>
+          </label>
+
+          <label class="chk-item">
+            <input type="checkbox" />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Wine Setting</div>
+              <div class="chk-item-desc">Crystal glasses, chiller display &amp; toast ceremony styling</div>
+            </div>
+          </label>
+
+          <label class="chk-item checked">
+            <input type="checkbox" checked />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Family Table</div>
+              <div class="chk-item-desc">VIP family banqueting table with bespoke floral runner</div>
+            </div>
+          </label>
+
+          <label class="chk-item">
+            <input type="checkbox" />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Round Table Settings</div>
+              <div class="chk-item-desc">Linen drapes, centerpieces &amp; guest table styling</div>
+            </div>
+          </label>
+
+          <label class="chk-item">
+            <input type="checkbox" />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Premium Chairs</div>
+              <div class="chk-item-desc">Chiavari, Dior or luxury cushioned gold wedding chairs</div>
+            </div>
+          </label>
+
+          <label class="chk-item checked">
+            <input type="checkbox" checked />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Welcome Area Settings</div>
+              <div class="chk-item-desc">Calligraphy board, mirror signage &amp; welcome drink station</div>
+            </div>
+          </label>
+
+          <label class="chk-item">
+            <input type="checkbox" />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Catering</div>
+              <div class="chk-item-desc">Complete multi-course banquet, buffet &amp; live counters</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Category 3: Music, Sound & Lighting -->
+      <div class="chk-category">
+        <h3 class="chk-category-title">Music, Sound &amp; Illumination</h3>
+        <div class="chk-grid">
+          <label class="chk-item">
+            <input type="checkbox" />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Live Fusion (Music)</div>
+              <div class="chk-item-desc">Instrumental violin, flute, keyboard or live fusion band</div>
+            </div>
+          </label>
+
+          <label class="chk-item checked">
+            <input type="checkbox" checked />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Recorded Music</div>
+              <div class="chk-item-desc">Curated ceremonial playlists &amp; smooth background tracks</div>
+            </div>
+          </label>
+
+          <label class="chk-item checked">
+            <input type="checkbox" checked />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Sound &amp; Mic</div>
+              <div class="chk-item-desc">High-clarity speaker systems, wireless mics &amp; mixer setup</div>
+            </div>
+          </label>
+
+          <label class="chk-item checked">
+            <input type="checkbox" checked />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Face Light (to Stage)</div>
+              <div class="chk-item-desc">Warm facial profile spotlighting for pristine photography</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Category 4: Special Effects & Grand Entrances -->
+      <div class="chk-category">
+        <h3 class="chk-category-title">Special Effects &amp; Grand Entrances</h3>
+        <div class="chk-grid">
+          <label class="chk-item">
+            <input type="checkbox" />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Flower Shots</div>
+              <div class="chk-item-desc">Petal cannons &amp; celebratory rose petal showers</div>
+            </div>
+          </label>
+
+          <label class="chk-item">
+            <input type="checkbox" />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Cool Fire</div>
+              <div class="chk-item-desc">Safe cold spark pyrotechnics for grand couple entry &amp; cake cutting</div>
+            </div>
+          </label>
+
+          <label class="chk-item">
+            <input type="checkbox" />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Dry Ice Settings</div>
+              <div class="chk-item-desc">Ethereal low-lying white cloud fog covering stage &amp; aisle</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Category 5: Coordination, Hosts & Transport -->
+      <div class="chk-category">
+        <h3 class="chk-category-title">Coordination, Hosts, Cars &amp; Media</h3>
+        <div class="chk-grid">
+          <label class="chk-item checked">
+            <input type="checkbox" checked />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Anchoring</div>
+              <div class="chk-item-desc">Professional multilingual emcee / host for lively flow</div>
+            </div>
+          </label>
+
+          <label class="chk-item">
+            <input type="checkbox" />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Welcome Girls</div>
+              <div class="chk-item-desc">Traditionally styled hospitality hosts for guest reception</div>
+            </div>
+          </label>
+
+          <label class="chk-item">
+            <input type="checkbox" />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Premium Car Groom</div>
+              <div class="chk-item-desc">Luxury chauffeur-driven Mercedes / BMW / Audi for groom</div>
+            </div>
+          </label>
+
+          <label class="chk-item">
+            <input type="checkbox" />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Engagement Car Decor</div>
+              <div class="chk-item-desc">Fresh floral bonnet garland &amp; door handle accents</div>
+            </div>
+          </label>
+
+          <label class="chk-item checked">
+            <input type="checkbox" checked />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Wedding Car Decor</div>
+              <div class="chk-item-desc">Opulent botanical styling for the bridal getaway car</div>
+            </div>
+          </label>
+
+          <label class="chk-item checked">
+            <input type="checkbox" checked />
+            <div class="chk-box"><svg class="chk-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="chk-content">
+              <div class="chk-item-title">Photography</div>
+              <div class="chk-item-desc">Candid &amp; traditional wedding photography and 4K video teaser</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- Sticky Bottom WhatsApp Action Bar -->
+  <aside class="chk-sticky-bar" role="region" aria-label="Checklist Submission Bar">
+    <div class="chk-sticky-inner">
+      <div class="chk-counter-wrap">
+        <span class="chk-counter-badge"><span id="selectedCount">0</span> Selected</span>
+        <span class="chk-counter-label">of <span id="totalCount">28</span> total services</span>
+      </div>
+
+      <div class="chk-action-buttons">
+        <button type="button" class="btn-submit-wa" onclick="sendChecklistToWhatsApp('Wedding Planning &amp; Styling')">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Send My Custom Checklist on WhatsApp &#8594;
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <script src="js/checklist.js"></script>
+</body>
+</html>
