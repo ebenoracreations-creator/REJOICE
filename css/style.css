@@ -1226,9 +1226,6 @@ input:focus, select:focus, textarea:focus { border-color: #a09080; box-shadow: 0
 /* ── TABLET (max-width: 1024px) ── */
 @media (max-width: 1024px) {
   .booking-grid { grid-template-columns: 1fr; gap: 36px; }
-  .about-luxury-grid { grid-template-columns: 1fr; gap: 36px; }
-  .about-prestige-card { position: static; top: auto; }
-  .about-luxury-pillars { grid-template-columns: 1fr 1fr; }
   .floral-cards-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
 }
 
@@ -1457,9 +1454,9 @@ input:focus, select:focus, textarea:focus { border-color: #a09080; box-shadow: 0
     text-align: center;
   }
 
-  /* About Us Section — High-End Mobile Optimization */
+  /* About Us Section — Streamlined Mobile Layout */
   .about-section-luxury {
-    padding: 50px 0;
+    padding: 48px 0;
   }
   .about-header {
     margin-bottom: 18px;
@@ -1475,59 +1472,6 @@ input:focus, select:focus, textarea:focus { border-color: #a09080; box-shadow: 0
     margin-bottom: 16px;
     color: var(--gold-dark);
   }
-
-  /* Upfront Trust Stats Strip on Mobile */
-  .about-mobile-stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
-    background: linear-gradient(145deg, #1f1a14 0%, #13100c 100%);
-    border: 1px solid rgba(197, 160, 89, 0.35);
-    border-radius: 18px;
-    padding: 16px 10px;
-    margin-bottom: 24px;
-    box-shadow: 0 10px 28px rgba(24, 21, 18, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  }
-  .m-stat {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-  .m-num {
-    font-family: var(--font-serif);
-    font-size: 20px;
-    font-weight: 400;
-    color: var(--gold-light);
-    line-height: 1;
-    letter-spacing: -0.01em;
-  }
-  .m-desc {
-    font-size: 8px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: rgba(255, 255, 255, 0.72);
-    margin-top: 4px;
-    line-height: 1.2;
-  }
-
-  @media (max-width: 440px) {
-    .about-mobile-stats {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px 6px;
-      padding: 14px 12px;
-    }
-    .m-num {
-      font-size: 21px;
-    }
-  }
-
-  .about-luxury-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
   .about-luxury-story p {
     font-size: 13px;
     line-height: 1.7;
@@ -1535,64 +1479,26 @@ input:focus, select:focus, textarea:focus { border-color: #a09080; box-shadow: 0
     color: #4a4239;
   }
 
-  /* 2x2 Clean Dashboard Grid for Pillars on Mobile */
-  .about-luxury-pillars {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    margin-top: 18px;
-  }
-  @media (max-width: 480px) {
-    .about-luxury-pillars {
-      grid-template-columns: 1fr;
-      gap: 8px;
-    }
-  }
-  .about-pillar-card {
-    padding: 12px 14px;
-    border-radius: 16px;
-    background: #ffffff;
-    border: 1px solid rgba(197, 160, 89, 0.22);
-    box-shadow: 0 2px 10px rgba(24, 21, 18, 0.04);
-    gap: 10px;
-    align-items: flex-start;
-  }
-  .pillar-bullet {
-    font-size: 18px;
-    width: 22px;
-    line-height: 1;
-    margin-top: 2px;
-  }
-  .pillar-content {
-    flex: 1;
-    min-width: 0;
-  }
-  .pillar-name {
-    font-size: 12.5px;
-    font-weight: 700;
-    margin-bottom: 3px;
-    color: #1a1510;
-  }
-  .pillar-detail {
-    font-size: 11px;
-    line-height: 1.4;
-    color: #6e6457;
-  }
-
-  /* Prestige Card at Bottom of Mobile Flow */
+  /* The Black Box: The Rejoice Promise on Mobile */
   .about-prestige-card {
     position: static;
     padding: 24px 18px;
-    border-radius: 22px;
-    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.22);
-  }
-  .desktop-only-stats {
-    display: none !important;
+    border-radius: 20px;
+    margin-top: 24px;
+    background: linear-gradient(145deg, #18140f 0%, #241e17 100%);
+    border: 1px solid rgba(197, 160, 89, 0.38);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.25);
+    text-align: center;
   }
   .prestige-card-badge {
-    font-size: 8.5px;
+    font-size: 8px;
     padding: 4px 12px;
     margin-bottom: 14px;
+    letter-spacing: 0.12em;
+    display: inline-block;
+    max-width: 100%;
+    color: var(--gold-light);
+    border-color: rgba(197, 160, 89, 0.4);
   }
   .prestige-title {
     font-size: 22px;
@@ -1601,6 +1507,22 @@ input:focus, select:focus, textarea:focus { border-color: #a09080; box-shadow: 0
   .prestige-subtitle {
     font-size: 11px;
     margin-bottom: 16px;
+    color: rgba(212, 175, 95, 0.85);
+  }
+  .prestige-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px 8px;
+    padding: 16px 0;
+    margin-bottom: 18px;
+    border-top: 1px solid rgba(197, 160, 89, 0.2);
+    border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+  }
+  .p-num {
+    font-size: 22px;
+  }
+  .p-desc {
+    font-size: 8.5px;
   }
   .prestige-quote {
     padding: 14px 14px;
@@ -1618,7 +1540,7 @@ input:focus, select:focus, textarea:focus { border-color: #a09080; box-shadow: 0
   .about-prestige-card .btn-full {
     width: 100%;
     justify-content: center;
-    padding: 12px 16px;
+    padding: 13px 18px;
     font-size: 12px;
     box-sizing: border-box;
   }
@@ -1794,18 +1716,11 @@ input:focus, select:focus, textarea:focus { border-color: #a09080; box-shadow: 0
   pointer-events: none;
 }
 
-.about-luxury-grid {
-  display: grid;
-  grid-template-columns: 1.2fr 0.9fr;
-  gap: 64px;
-  align-items: start;
-  position: relative;
-  z-index: 1;
-}
-
 .about-header {
-  margin-bottom: 32px;
-  max-width: 860px;
+  margin-bottom: 28px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
   position: relative;
   z-index: 1;
 }
@@ -1813,10 +1728,6 @@ input:focus, select:focus, textarea:focus { border-color: #a09080; box-shadow: 0
 .about-header .section-title {
   color: var(--text);
   margin-bottom: 14px;
-}
-
-.about-mobile-stats {
-  display: none;
 }
 
 .about-luxury-lead {
@@ -1828,115 +1739,76 @@ input:focus, select:focus, textarea:focus { border-color: #a09080; box-shadow: 0
   margin-bottom: 24px;
 }
 
+.about-luxury-content {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
 .about-luxury-story p {
-  font-size: 13.5px;
+  font-size: 14px;
   line-height: 1.85;
   color: var(--text-muted);
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 .about-luxury-story strong {
   color: var(--text);
   font-weight: 600;
 }
 
-.about-luxury-pillars {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  margin-top: 28px;
-}
-.about-pillar-card {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  background: #fff;
-  border: 1px solid rgba(197,160,89,0.22);
-  border-radius: 18px;
-  padding: 16px 18px;
-  box-shadow: 0 2px 12px rgba(197,160,89,0.06);
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-.about-pillar-card:hover {
-  border-color: rgba(197,160,89,0.5);
-  box-shadow: 0 6px 24px rgba(197,160,89,0.12);
-}
-.pillar-bullet {
-  font-family: var(--font-serif);
-  font-size: 22px;
-  font-weight: 300;
-  color: var(--gold);
-  flex-shrink: 0;
-  line-height: 1;
-  width: 32px;
-  text-align: center;
-  margin-top: 2px;
-}
-.pillar-name {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 4px;
-}
-.pillar-detail {
-  font-size: 11.5px;
-  color: var(--text-muted);
-  line-height: 1.5;
-}
-
-/* About Prestige Card (sidebar) */
+/* About Prestige Card (The Black Box directly in place of the four boxes) */
 .about-prestige-card {
-  background: linear-gradient(145deg, #1a1510 0%, #25201a 100%);
-  border: 1px solid rgba(197,160,89,0.35);
-  border-radius: 32px;
-  padding: 42px 36px;
-  box-shadow: 0 24px 60px rgba(0,0,0,0.2), 0 0 40px rgba(197,160,89,0.08);
-  position: sticky;
-  top: 100px;
+  background: linear-gradient(145deg, #18140f 0%, #241e17 100%);
+  border: 1px solid rgba(197,160,89,0.38);
+  border-radius: 28px;
+  padding: 42px 48px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.22), 0 0 40px rgba(197,160,89,0.08);
+  margin-top: 36px;
   color: #fff;
+  text-align: center;
 }
 .prestige-card-badge {
-  font-size: 9px;
+  font-size: 9.5px;
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--gold-light);
   text-align: center;
-  margin-bottom: 20px;
-  padding: 6px 16px;
+  margin: 0 auto 20px;
+  padding: 6px 20px;
   border: 1px solid rgba(197,160,89,0.4);
   border-radius: 999px;
   display: inline-block;
-  width: 100%;
+  width: fit-content;
   box-sizing: border-box;
 }
 .prestige-title {
   font-family: var(--font-serif);
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 400;
   color: #fff;
   margin-bottom: 6px;
-  text-align: center;
 }
 .prestige-subtitle {
-  font-size: 11.5px;
-  color: rgba(212,175,95,0.8);
-  text-align: center;
+  font-size: 12px;
+  color: rgba(212,175,95,0.85);
   margin-bottom: 28px;
 }
 .prestige-stats {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
-  padding: 20px 0;
+  padding: 24px 0;
   border-top: 1px solid rgba(197,160,89,0.2);
   border-bottom: 1px solid rgba(197,160,89,0.2);
-  margin-bottom: 24px;
+  margin-bottom: 28px;
   text-align: center;
 }
 .p-num {
   display: block;
   font-family: var(--font-serif);
-  font-size: 26px;
+  font-size: 32px;
   font-weight: 300;
   color: var(--gold-light);
   line-height: 1.1;
@@ -1946,19 +1818,21 @@ input:focus, select:focus, textarea:focus { border-color: #a09080; box-shadow: 0
   font-size: 9.5px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: rgba(255,255,255,0.6);
-  margin-top: 5px;
+  color: rgba(255,255,255,0.65);
+  margin-top: 6px;
 }
 .prestige-quote {
-  background: rgba(197,160,89,0.1);
+  background: rgba(197,160,89,0.08);
   border-left: 3px solid var(--gold);
-  padding: 16px 18px;
-  border-radius: 10px;
-  margin-bottom: 24px;
+  padding: 18px 24px;
+  border-radius: 12px;
+  margin: 0 auto 28px;
+  max-width: 720px;
+  text-align: center;
 }
 .prestige-quote p {
   font-family: var(--font-serif);
-  font-size: 14px;
+  font-size: 15px;
   font-style: italic;
   color: #fff;
   line-height: 1.6;
@@ -1967,6 +1841,13 @@ input:focus, select:focus, textarea:focus { border-color: #a09080; box-shadow: 0
 .prestige-quote span {
   font-size: 11px;
   color: var(--gold-light);
+}
+.about-prestige-card .btn-full {
+  max-width: 380px;
+  width: 100%;
+  margin: 0 auto;
+  display: inline-flex;
+  justify-content: center;
 }
 
 /* ══════════════════════════════════════════════
