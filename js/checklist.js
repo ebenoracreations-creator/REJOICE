@@ -125,8 +125,10 @@
       }
     });
 
-    if (totalSelected === 0) {
-      alert('Please check at least one item from the checklist before submitting!');
+    const customExtra = document.getElementById('customExtraItems')?.value.trim() || '';
+
+    if (totalSelected === 0 && !customExtra) {
+      alert('Please select at least one service or describe what you need in the custom requirement box before submitting!');
       return;
     }
 
@@ -141,11 +143,16 @@
     if (guests) msg += `👥 *Approx Guests:* ${guests}\n`;
     if (theme) msg += `🎨 *Requested Theme:* ${theme}\n`;
     msg += `─────────────────────────\n`;
-    msg += `📋 *SERVICES REQUESTED (${totalSelected} Items Selected):*\n`;
+    if (totalSelected > 0) {
+      msg += `📋 *SERVICES REQUESTED (${totalSelected} Items Selected):*\n`;
+      selectedGrouped.forEach(grp => {
+        msg += grp;
+      });
+    }
 
-    selectedGrouped.forEach(grp => {
-      msg += grp;
-    });
+    if (customExtra) {
+      msg += `\n🌟 *CUSTOM REQUIREMENT / SOMETHING MORE:*\n${customExtra}\n`;
+    }
 
     if (notes) {
       msg += `\n💬 *Additional Notes / Requests:*\n${notes}\n`;

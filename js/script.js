@@ -249,3 +249,17 @@ function bookPackageWhatsApp(packageName) {
   const msg = "Hi Rejoice Events! \uD83C\uDF38 I am interested in your *" + packageName + "* package.\n\nCould you please share more details, the full checklist, and pricing options?\n\nThank you!";
   window.open('https://wa.me/919961402646?text=' + encodeURIComponent(msg), '_blank');
 }
+
+/* ══════════════════════════════════════════════════════════════
+   HERO PICTURE SLIDESHOW ROTATION
+══════════════════════════════════════════════════════════════ */
+(function initHeroSlider() {
+  const slides = document.querySelectorAll('.hero-slide');
+  if (slides.length < 2) return;
+  let activeIndex = 0;
+  setInterval(() => {
+    slides[activeIndex].classList.remove('active');
+    activeIndex = (activeIndex + 1) % slides.length;
+    slides[activeIndex].classList.add('active');
+  }, 5500);
+})();
