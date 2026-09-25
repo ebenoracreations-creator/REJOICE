@@ -430,12 +430,19 @@ body {
 .chk-content {
   flex: 1;
 }
+.chk-item-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
 .chk-item-title {
   font-size: 13.5px;
   font-weight: 600;
   color: var(--text);
   line-height: 1.35;
   margin-bottom: 2px;
+  flex: 1;
 }
 .chk-item.checked .chk-item-title {
   color: #1a1510;
@@ -453,6 +460,201 @@ body {
   display: inline-block;
   margin-left: 6px;
   vertical-align: middle;
+}
+.chk-custom-badge {
+  font-size: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #1e3a8a;
+  background: #dbeafe;
+  border: 1px solid #bfdbfe;
+  padding: 2px 6px;
+  border-radius: 999px;
+  display: inline-block;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.chk-custom-badge.edited {
+  color: #065f46;
+  background: #d1fae5;
+  border-color: #a7f3d0;
+}
+
+/* Edit & delete item buttons */
+.chk-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  opacity: 0.55;
+  transition: opacity 0.2s ease;
+}
+.chk-item:hover .chk-item-actions {
+  opacity: 1;
+}
+@media (hover: none) {
+  .chk-item-actions {
+    opacity: 0.85;
+  }
+}
+.btn-item-action {
+  background: rgba(197, 160, 89, 0.08);
+  border: 1px solid rgba(197, 160, 89, 0.2);
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+.btn-item-action:hover {
+  background: rgba(197, 160, 89, 0.2);
+  color: var(--gold-dark);
+  border-color: var(--gold);
+}
+.btn-item-delete:hover {
+  background: #fee2e2;
+  color: #dc2626;
+  border-color: #fca5a5;
+}
+
+/* Inline Edit Box */
+.chk-inline-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 6px;
+  width: 100%;
+}
+.chk-edit-input {
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  padding: 7px 10px;
+  border: 1.5px solid var(--gold);
+  border-radius: var(--radius-sm);
+  background: #ffffff;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(197, 160, 89, 0.18);
+}
+.chk-edit-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-edit-save {
+  background: var(--gold-dark);
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-edit-save:hover {
+  background: #8b6b23;
+}
+.btn-edit-cancel {
+  background: #f3f4f6;
+  color: var(--text-muted);
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 11px;
+  cursor: pointer;
+}
+.btn-edit-cancel:hover {
+  background: #e5e7eb;
+}
+
+/* Category Add Custom Item Row */
+.chk-add-category-row {
+  margin-top: 10px;
+  margin-bottom: 24px;
+}
+.btn-open-add-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1.5px dashed rgba(197, 160, 89, 0.45);
+  border-radius: var(--radius-sm);
+  padding: 9px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gold-dark);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  justify-content: center;
+}
+.btn-open-add-item:hover {
+  background: #ffffff;
+  border-color: var(--gold);
+  border-style: solid;
+  color: #1a1510;
+  box-shadow: 0 2px 10px rgba(197, 160, 89, 0.15);
+}
+.chk-add-box {
+  display: none;
+  background: #ffffff;
+  border: 1.5px solid var(--gold);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+.chk-add-box.active {
+  display: block;
+}
+.chk-add-box-inner {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.chk-add-input {
+  flex: 1;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.chk-add-input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 2px rgba(197, 160, 89, 0.15);
+}
+.btn-add-submit {
+  background: var(--gold-dark);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+.btn-add-submit:hover {
+  background: #8b6b23;
+}
+.btn-add-cancel {
+  background: #f9fafb;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.btn-add-cancel:hover {
+  background: #f3f4f6;
 }
 
 /* ── "WANT SOMETHING MORE?" CUSTOM REQUIREMENT CARD ── */
