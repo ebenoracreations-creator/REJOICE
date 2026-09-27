@@ -6,14 +6,15 @@
 .bend-gallery-section {
   position: relative;
   background: var(--bg);
-  padding: 60px 0 80px;
+  padding: 105px 0 75px;
+  scroll-margin-top: 80px;
   overflow: hidden;
   z-index: 2;
 }
 
 .bend-gallery-header {
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 .bend-gallery-header .section-subtitle {
@@ -25,7 +26,7 @@
   position: relative;
   width: 100%;
   max-width: 980px;
-  height: clamp(520px, 68vh, 620px);
+  height: clamp(540px, 70vh, 640px);
   margin: 0 auto;
   perspective: 950px;
   perspective-origin: 50% 50%;
@@ -50,15 +51,13 @@
   justify-content: center;
 }
 
-/* Individual Bend Card Tile */
+/* Individual Bend Card Tile — Clean Center Alignment without conflicting negative margins */
 .bend-card-item {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: min(92vw, 840px);
-  height: clamp(340px, 44vh, 390px);
-  margin-top: calc(clamp(340px, 44vh, 390px) / -2);
-  margin-left: calc(min(92vw, 840px) / -2);
+  width: min(92vw, 860px);
+  height: 400px;
   transform-style: preserve-3d;
   transform-origin: 50% 50%;
   backface-visibility: hidden;
@@ -66,11 +65,11 @@
   text-decoration: none;
   color: inherit;
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
+  grid-template-columns: 46% 54%;
   background: #ffffff;
   border-radius: 26px;
   overflow: hidden;
-  border: 1px solid rgba(197, 160, 89, 0.35);
+  border: 1px solid rgba(197, 160, 89, 0.4);
   box-shadow: 0 20px 60px rgba(24, 21, 18, 0.16), 0 4px 18px rgba(0, 0, 0, 0.06);
   transition: box-shadow 0.3s ease;
   pointer-events: auto;
@@ -79,7 +78,7 @@
 .bend-card-item:hover {
   text-decoration: none;
   color: inherit;
-  box-shadow: 0 28px 75px rgba(24, 21, 18, 0.22), 0 0 0 1.5px rgba(197, 160, 89, 0.5);
+  box-shadow: 0 28px 75px rgba(24, 21, 18, 0.22), 0 0 0 1.5px rgba(197, 160, 89, 0.55);
 }
 
 /* Card Visual Media (White scale, pure vibrant colors) */
@@ -104,12 +103,12 @@
   transform: scale(1.05);
 }
 
-/* Card Content / Checklist details */
+/* Card Content / High-contrast, rich typography */
 .bend-card-content {
   position: relative;
   height: 100%;
-  padding: 30px 34px;
-  background: linear-gradient(145deg, #ffffff 0%, #faf8f5 100%);
+  padding: 28px 34px 28px 30px;
+  background: #ffffff;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -118,38 +117,38 @@
 
 .bend-badge {
   align-self: flex-start;
-  font-size: 9.5px;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--gold-dark);
-  border: 1px solid rgba(197, 160, 89, 0.5);
+  color: #9e7935;
+  border: 1px solid rgba(197, 160, 89, 0.55);
   border-radius: 999px;
-  padding: 4px 12px;
+  padding: 4px 13px;
   margin-bottom: 8px;
   background: rgba(197, 160, 89, 0.08);
 }
 
 .bend-badge-memorial {
   color: #72685c;
-  border-color: rgba(114, 104, 92, 0.4);
+  border-color: rgba(114, 104, 92, 0.45);
   background: rgba(114, 104, 92, 0.08);
 }
 
 .bend-title {
   font-family: var(--font-serif);
-  font-size: 28px;
-  font-weight: 500;
-  color: var(--text);
+  font-size: 32px;
+  font-weight: 600;
+  color: #1a1510;
   line-height: 1.15;
   margin-bottom: 4px;
 }
 
 .bend-sub {
   font-family: var(--font-sans);
-  font-size: 12.5px;
-  color: var(--text-muted);
-  line-height: 1.4;
+  font-size: 13px;
+  color: #554d42;
+  line-height: 1.45;
   margin-bottom: 12px;
 }
 
@@ -159,12 +158,12 @@
 
 .bend-check-title {
   display: block;
-  font-size: 9.5px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 6px;
+  color: #9e7935;
+  margin-bottom: 7px;
 }
 
 .bend-checklist ul {
@@ -173,21 +172,22 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 4.5px;
+  gap: 5px;
 }
 
 .bend-checklist li {
-  font-size: 11.5px;
-  color: #443c33;
+  font-size: 12px;
+  color: #2b241c;
   line-height: 1.35;
   display: flex;
   align-items: flex-start;
-  gap: 7px;
+  gap: 8px;
+  font-weight: 500;
 }
 
 .bend-check-icon {
-  color: var(--gold);
-  font-size: 11px;
+  color: #9e7935;
+  font-size: 12px;
   font-weight: 700;
   flex-shrink: 0;
   margin-top: 1px;
@@ -201,9 +201,9 @@
   gap: 6px;
   background: var(--gold-gradient);
   color: #ffffff;
-  padding: 8px 18px;
+  padding: 9px 20px;
   border-radius: 999px;
-  font-size: 11.5px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.03em;
   border: 1px solid rgba(255, 255, 255, 0.35);
@@ -242,7 +242,7 @@
   align-items: center;
   justify-content: center;
   gap: 16px;
-  margin-top: 20px;
+  margin-top: 22px;
 }
 
 .bend-btn-arrow {
@@ -298,37 +298,40 @@
 
 /* Responsive Rules */
 @media (max-width: 768px) {
+  .bend-gallery-section {
+    padding: 85px 0 60px;
+  }
   .bend-gallery-viewport {
-    height: 470px;
+    height: 520px;
     perspective: 750px;
   }
   .bend-card-item {
     grid-template-columns: 1fr;
-    grid-template-rows: 150px 1fr;
-    height: 390px;
-    margin-top: -195px;
+    grid-template-rows: 160px 1fr;
+    width: 90vw;
+    height: 440px;
     border-radius: 20px;
   }
   .bend-card-content {
-    padding: 14px 16px 16px;
+    padding: 16px 18px 18px;
   }
   .bend-title {
-    font-size: 21px;
+    font-size: 24px;
     margin-bottom: 2px;
   }
   .bend-sub {
-    font-size: 11px;
-    margin-bottom: 6px;
+    font-size: 11.5px;
+    margin-bottom: 8px;
   }
   .bend-checklist li {
-    font-size: 10px;
-    gap: 5px;
+    font-size: 10.5px;
+    gap: 6px;
   }
   .bend-checklist ul {
-    gap: 3px;
+    gap: 3.5px;
   }
   .bend-btn-action {
-    padding: 6px 14px;
-    font-size: 10.5px;
+    padding: 7px 16px;
+    font-size: 11px;
   }
 }
