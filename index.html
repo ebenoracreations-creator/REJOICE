@@ -236,6 +236,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dome-gallery.css" />
 </head>
 <body>
 
@@ -245,8 +246,17 @@
       <source src="videos/mobile-hero-video.mp4" type="video/mp4" />
     </video>
     <div class="mobile-intro-bar">
-      <button type="button" id="mobileSoundBtn" class="btn-intro-sound" aria-label="Toggle Sound">
-        🔇 Tap for Sound
+      <button type="button" id="mobileSoundBtn" class="btn-intro-sound" aria-label="Toggle Sound" title="Toggle Sound">
+        <svg class="intro-sound-muted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <line x1="23" y1="9" x2="17" y2="15"></line>
+          <line x1="17" y1="9" x2="23" y2="15"></line>
+        </svg>
+        <svg class="intro-sound-unmuted" style="display:none;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+        </svg>
       </button>
       <button type="button" id="skipIntroBtn" class="btn-intro-skip" aria-label="Skip to website">
         Skip &#8594;
@@ -337,13 +347,12 @@
         </svg>
       </span>
       <span class="sound-icon-muted">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
           <line x1="23" y1="9" x2="17" y2="15"></line>
           <line x1="17" y1="9" x2="23" y2="15"></line>
         </svg>
       </span>
-      <span class="sound-label">Sound Off</span>
     </button>
   </section>
 
@@ -453,57 +462,11 @@
           </div>
         </a>
 
-        <!-- 5. Corporate Events -->
-        <a href="corporate-checklist.html" class="pkg-card" aria-label="Open Corporate Event Checklist">
-          <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=600&q=85" alt="Elegantly set corporate event venue in Kerala" loading="lazy" />
-          <div class="pkg-overlay">
-            <div class="pkg-text">
-              <span class="pkg-badge">Executive &amp; Gala</span>
-              <h3 class="pkg-title">Corporate Events</h3>
-              <p class="pkg-sub">Prestigious execution, conferences &amp; annual galas</p>
-              <div class="pkg-checklist">
-                <span class="pkg-check-title">Package Checklist:</span>
-                <ul>
-                  <li><span class="check-icon">✓</span> Executive Stage &amp; LED Video Walls</li>
-                  <li><span class="check-icon">✓</span> VIP Seating &amp; Podium Floral Styling</li>
-                  <li><span class="check-icon">✓</span> High-Fidelity Audio / Visual Engineering</li>
-                  <li><span class="check-icon">✓</span> Registration Desk &amp; Welcome Area</li>
-                  <li><span class="check-icon">✓</span> Corporate Banquet &amp; Gala Dinner Coordination</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </a>
-
-        <!-- 6. Special Events -->
-        <a href="#booking" class="pkg-card" aria-label="Plan Special Event with Rejoice Events">
-          <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=600&q=85" alt="Bespoke special celebration and jubilee banquet by Rejoice Events" loading="lazy" />
-          <div class="pkg-overlay">
-            <div class="pkg-text">
-              <span class="pkg-badge">Bespoke &amp; Memorable</span>
-              <h3 class="pkg-title">Special Events</h3>
-              <p class="pkg-sub">Holy communions, anniversaries &amp; milestone celebrations</p>
-              <div class="pkg-checklist">
-                <span class="pkg-check-title">Package Highlights:</span>
-                <ul>
-                  <li><span class="check-icon">✓</span> Custom Themed Stage &amp; Ambient Lighting</li>
-                  <li><span class="check-icon">✓</span> Family Banqueting &amp; Atmospheric Tablescapes</li>
-                  <li><span class="check-icon">✓</span> Live Entertainment &amp; Sound Engineering</li>
-                  <li><span class="check-icon">✓</span> Welcome Experience &amp; Red Carpet Entry</li>
-                  <li><span class="check-icon">✓</span> Dedicated End-to-End Coordination</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </a>
-
           </div>
 
           <!-- Deck Progress Dots -->
           <div class="deck-indicators" id="deckIndicators">
             <span class="deck-dot active"></span>
-            <span class="deck-dot"></span>
-            <span class="deck-dot"></span>
             <span class="deck-dot"></span>
             <span class="deck-dot"></span>
             <span class="deck-dot"></span>
@@ -519,69 +482,63 @@
         <div class="custom-banner-overlay" aria-hidden="true"></div>
         <div class="custom-banner-text">
           <h3>Need a Custom Package or Checklist?</h3>
-          <p>Tell us your unique vision — Kerala's finest planners will craft a tailored concept for your budget.</p>
+          <p>Tell us your unique celebration vision — Kerala's finest planners will craft a tailored concept for your budget.</p>
         </div>
         <div class="custom-banner-cta">
-          <a href="wedding-checklist.html" class="btn-pill btn-banner-chk" style="background: rgba(255,255,255,0.92); color: #1a1510; margin-right: 8px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">Interactive Checklists &#8594;</a>
-          <a href="https://wa.me/919961402646?text=Hello%20Rejoice%20Events,%20I%20would%20like%20a%20custom%20event%20package%20and%20checklist." target="_blank" rel="noopener" class="btn-pill btn-gold">Custom Package &#8594;</a>
+          <a href="custom-checklist.html" class="btn-pill btn-banner-chk" style="background: rgba(255,255,255,0.92); color: #1a1510; margin-right: 8px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">Custom Package Checklist &#8594;</a>
+          <a href="https://wa.me/919961402646?text=Hello%20Rejoice%20Events,%20I%20would%20like%20a%20custom%20event%20package%20and%20checklist." target="_blank" rel="noopener" class="btn-pill btn-gold">Instant WhatsApp &#8594;</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════ ABOUT US / REDESIGNED LUXURY ═══════════════════════════════════════ -->
-  <section id="about" class="section about-section-luxury stack-section" aria-label="About Rejoice Events — The Best of the Best Event Management Company in Kerala">
+  <!-- ═══════════════════════════════════════ ABOUT US / WHY CHOOSE REJOICE ═══════════════════════════════════════ -->
+  <section id="about" class="section about-section-luxury stack-section" aria-label="About Rejoice Events — Best Event Management Company in Kerala & Flower Shop">
     <div class="container">
       
       <!-- Section Header -->
-      <div class="about-header">
-        <p class="label label-gold">WHY CHOOSE REJOICE · KERALA'S PREMIER EVENT PARTNER</p>
-        <h2 class="section-title">The Best of the Best Event Management Company in Kerala.</h2>
-        <p class="about-luxury-lead">Headquartered in Kottayam and serving all 14 districts across Kerala — where warm family traditions meet modern bespoke luxury and breathtaking floral mastery.</p>
+      <div class="about-header text-center" style="max-width: 920px; margin: 0 auto 32px;">
+        <p class="label label-gold">WHY CHOOSE REJOICE · KERALA'S NUMBER ONE CELEBRATION SPECIALISTS</p>
+        <h2 class="section-title">Best Event Management Company &amp; Flower Shop in Kerala.</h2>
+        <p class="about-luxury-lead" style="font-size: 16px; line-height: 1.6; color: var(--gold-dark); margin-top: 8px;">
+          Headquartered in Kottayam and delivering signature celebrations across Kochi, Kumarakom, Trivandrum, Kozhikode, and all 14 districts of Kerala — where sacred family traditions harmonize with bespoke luxury design and breathtaking botanical artistry.
+        </p>
       </div>
 
-      <div class="about-luxury-content">
-        <div class="about-luxury-story">
-          <p>For over a decade, Rejoice Events &amp; Floral Studio has stood as the benchmark for celebration excellence in Kerala. Born with a passion to bring world-class design, authentic warmth, and stress-free execution to families, our reputation is built on one simple standard: <strong>we treat your celebration as our own masterpiece.</strong></p>
-          <p>Whether orchestrating a grand Christian or Hindu Kerala wedding with thousands of guests, a tender church baptism cradle ceremony, an intimate birthday jubilee, a prestigious corporate symposium, or a dignified and compassionate funeral tribute — our team handles every timeline, every floral stem, and every logistical thread with absolute mastery.</p>
-        </div>
-
-        <!-- The Black Box: The Rejoice Promise (In place of the four boxes) -->
-        <div class="about-prestige-card" role="region" aria-label="The Rejoice Promise">
-          <div class="prestige-card-badge">★ TOP LUXURY KERALA DESTINATION PLANNER ★</div>
-          <h3 class="prestige-title">The Rejoice Promise</h3>
-          <p class="prestige-subtitle">Over a decade of excellence in Kottayam &amp; Kerala</p>
-
-          <div class="prestige-stats">
-            <div class="p-stat">
-              <span class="p-num">500+</span>
-              <span class="p-desc">Events Designed</span>
-            </div>
-            <div class="p-stat">
-              <span class="p-num">10+</span>
-              <span class="p-desc">Years of Craft</span>
-            </div>
-            <div class="p-stat">
-              <span class="p-num">5.0★</span>
-              <span class="p-desc">Google Rating</span>
-            </div>
-            <div class="p-stat">
-              <span class="p-num">100+</span>
-              <span class="p-desc">Floral Decor</span>
-            </div>
+      <div class="about-luxury-content" style="max-width: 920px; margin: 0 auto;">
+        <div class="about-luxury-story" style="font-size: 14.5px; line-height: 1.85; color: #443c33;">
+          <p>
+            Renowned as the <strong>best event management company in Kerala</strong> and the premier <strong>event management and flower shop in Kerala</strong>, Rejoice Events &amp; Floral Studio crafts milestones that linger in hearts for generations. For more than a decade, our passionate artisans, floral designers, sound engineers, and production maestros have set the gold standard for luxury destination weddings, traditional Kerala ceremonies, church baptisms, first birthday wonderlands, and dignified, compassionate funeral tributes.
+          </p>
+          <p>
+            What elevates Rejoice is our in-house <strong>Floral Studio</strong> — a dedicated sanctuary of exotic fresh blooms imported directly and curated locally. From cascading bridal mandaps, crystal candelabra tablescapes, and holy church altar installations to bespoke hand-tied bouquets, every single petal is thoughtfully selected and arranged. We seamlessly handle every venue inspection, stage construction, audio-visual engineering, multi-course feast catering, and guest ushering across Kottayam and throughout Kerala.
+          </p>
+          <p>
+            Whether you envision a grand royal celebration in a 5-star backwater resort or an intimate blessing ceremony at your family home, we treat your celebration as our own personal masterpiece with uncompromising perfection, transparent pricing, and 24/7 client care.
+          </p>
+          <div style="display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 28px;">
+            <a href="custom-checklist.html" class="btn-pill btn-outline">Explore Custom Checklist &#8594;</a>
+            <a href="https://wa.me/919961402646?text=Hello%20Rejoice%20Events,%20I%20would%20like%20to%20consult%20Kerala's%20best%20event%20planners." target="_blank" rel="noopener" class="btn-pill btn-gold">
+              Speak with Our Event Planners &#8594;
+            </a>
           </div>
-
-          <div class="prestige-quote">
-            <p>&ldquo;We don&rsquo;t simply decorate venues — we craft the sacred, joyful spaces where memories take root forever.&rdquo;</p>
-            <span>— The Rejoice Creative Direction Team</span>
-          </div>
-
-          <a href="https://wa.me/919961402646?text=Hello%20Rejoice%20Events,%20I%20would%20like%20to%20consult%20Kerala's%20best%20event%20planners." target="_blank" rel="noopener" class="btn-pill btn-gold btn-full">
-            Talk to Kerala's Best Event Planners &#8594;
-          </a>
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════ 3D DOME GALLERY (THE GLOBE) ═══════════════════════════════════════ -->
+  <section id="gallery-globe" class="dome-gallery-section stack-section" aria-label="3D Interactive Event Globe Experience">
+    <div class="container text-center" style="margin-bottom: 24px;">
+      <p class="label label-gold" style="color: var(--gold) !important; margin-bottom: 6px;">INTERACTIVE 3D EXPERIENCE</p>
+      <h2 class="section-title" style="color: #ffffff; margin-bottom: 8px;">Explore Our World of Celebrations.</h2>
+      <p style="color: rgba(255, 255, 255, 0.75); font-size: 13.5px; max-width: 620px; margin: 0 auto;">
+        Spin the 3D spherical dome to experience our signature luxury wedding decors, angelic baptisms, fairy birthdays, and floral installations across Kerala. Click any photo to view in high resolution.
+      </p>
+    </div>
+    <div class="dome-gallery-viewport">
+      <div id="domeGalleryContainer" style="width: 100%; height: 100%;"></div>
     </div>
   </section>
 
@@ -873,6 +830,7 @@
     </a>
   </div>
 
+  <script src="js/dome-gallery.js"></script>
   <script src="js/script.js"></script>
 </body>
 </html>

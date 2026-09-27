@@ -279,27 +279,28 @@ function bookPackageWhatsApp(packageName) {
   const LIGHT_VOLUME = 0.22;
   let hasAutoMutedAfterFirstLoop = false;
 
-  // 1. Desktop Hero Video & Sound Logic
+  // 1. Desktop & Hero Sound Logic (Icon Only, No text)
   function updateDesktopSoundUI(isMuted) {
     if (!soundBtn) return;
     const unmutedIcon = soundBtn.querySelector('.sound-icon-unmuted');
     const mutedIcon = soundBtn.querySelector('.sound-icon-muted');
-    const label = soundBtn.querySelector('.sound-label');
 
     if (isMuted) {
       soundBtn.classList.remove('is-unmuted');
       if (unmutedIcon) unmutedIcon.style.display = 'none';
       if (mutedIcon) mutedIcon.style.display = 'inline-block';
-      if (label) label.textContent = 'Sound Off';
+      soundBtn.setAttribute('title', 'Unmute Sound');
+      soundBtn.setAttribute('aria-label', 'Unmute Sound');
     } else {
       soundBtn.classList.add('is-unmuted');
       if (unmutedIcon) unmutedIcon.style.display = 'inline-block';
       if (mutedIcon) mutedIcon.style.display = 'none';
-      if (label) label.textContent = 'Sound On';
+      soundBtn.setAttribute('title', 'Mute Sound');
+      soundBtn.setAttribute('aria-label', 'Mute Sound');
     }
   }
 
-  if (video && window.innerWidth >= 769) {
+  if (video) {
     video.volume = LIGHT_VOLUME;
 
     // First time reload/entry: attempt to play unmuted
@@ -365,7 +366,24 @@ function bookPackageWhatsApp(packageName) {
     }
   }
 
-  // 2. Mobile Intro Video Logic
+  // 2. Mobile Intro Video Logic (SVG Icon Only, No emoji / text)
+  function updateMobileIntroSoundUI(isMuted) {
+    if (!mobileSoundBtn) return;
+    const unmutedIcon = mobileSoundBtn.querySelector('.intro-sound-unmuted');
+    const mutedIcon = mobileSoundBtn.querySelector('.intro-sound-muted');
+    if (isMuted) {
+      if (unmutedIcon) unmutedIcon.style.display = 'none';
+      if (mutedIcon) mutedIcon.style.display = 'inline-block';
+      mobileSoundBtn.setAttribute('title', 'Unmute Sound');
+      mobileSoundBtn.setAttribute('aria-label', 'Unmute Sound');
+    } else {
+      if (unmutedIcon) unmutedIcon.style.display = 'inline-block';
+      if (mutedIcon) mutedIcon.style.display = 'none';
+      mobileSoundBtn.setAttribute('title', 'Mute Sound');
+      mobileSoundBtn.setAttribute('aria-label', 'Mute Sound');
+    }
+  }
+
   function dismissIntro() {
     if (!introOverlay) return;
     introOverlay.classList.add('dismissed');
@@ -383,12 +401,12 @@ function bookPackageWhatsApp(packageName) {
     const p = introVideo.play();
     if (p !== undefined) {
       p.then(() => {
-        if (mobileSoundBtn) mobileSoundBtn.textContent = '🔊 Sound On';
+        updateMobileIntroSoundUI(false);
       }).catch(() => {
         // Start muted if blocked by mobile browser
         introVideo.muted = true;
         introVideo.play().catch(() => {});
-        if (mobileSoundBtn) mobileSoundBtn.textContent = '🔇 Tap for Sound';
+        updateMobileIntroSoundUI(true);
       });
     }
 
@@ -399,10 +417,8 @@ function bookPackageWhatsApp(packageName) {
         if (!introVideo.muted) {
           introVideo.volume = 0.45;
           introVideo.play().catch(() => {});
-          mobileSoundBtn.textContent = '🔊 Sound On';
-        } else {
-          mobileSoundBtn.textContent = '🔇 Sound Off';
         }
+        updateMobileIntroSoundUI(introVideo.muted);
       });
     }
 
@@ -417,11 +433,11 @@ function bookPackageWhatsApp(packageName) {
 
     // Tap on intro screen to unmute if muted or tap to proceed
     introOverlay.addEventListener('click', (e) => {
-      if (e.target !== mobileSoundBtn && e.target !== skipBtn) {
+      if (e.target !== mobileSoundBtn && e.target !== skipBtn && !mobileSoundBtn.contains(e.target)) {
         if (introVideo.muted) {
           introVideo.muted = false;
           introVideo.volume = 0.45;
-          if (mobileSoundBtn) mobileSoundBtn.textContent = '🔊 Sound On';
+          updateMobileIntroSoundUI(false);
         }
       }
     });

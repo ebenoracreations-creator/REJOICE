@@ -63,8 +63,7 @@ body {
 }
 
 #home {
-  position: sticky;
-  top: 0;
+  position: relative;
   z-index: 1;
   min-height: 100vh;
 }
@@ -80,32 +79,38 @@ body {
   background: #fdf9f4;
   box-shadow: 0 -30px 70px rgba(24, 21, 18, 0.12);
 }
-#floral-studio {
+#gallery-globe {
   position: relative;
   z-index: 4;
+  background: #100d14;
+  box-shadow: 0 -30px 70px rgba(24, 21, 18, 0.2);
+}
+#floral-studio {
+  position: relative;
+  z-index: 5;
   box-shadow: 0 -30px 70px rgba(24, 21, 18, 0.12);
 }
 #booking {
   position: relative;
-  z-index: 5;
+  z-index: 6;
   background: var(--bg-alt);
   box-shadow: 0 -30px 70px rgba(24, 21, 18, 0.12);
 }
 #reviews {
   position: relative;
-  z-index: 6;
+  z-index: 7;
   background: var(--bg);
   box-shadow: 0 -30px 70px rgba(24, 21, 18, 0.12);
 }
 #faq {
   position: relative;
-  z-index: 7;
+  z-index: 8;
   background: var(--bg-alt);
   box-shadow: 0 -30px 70px rgba(24, 21, 18, 0.12);
 }
 .footer {
   position: relative;
-  z-index: 8;
+  z-index: 9;
   background: var(--bg);
   box-shadow: 0 -20px 50px rgba(24, 21, 18, 0.08);
 }
@@ -571,33 +576,30 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   font-size: 11px;
 }
 
-/* ── HERO VIDEO SOUND / MUTE TOGGLE (COMPACT GLASSMORPHISM) ── */
+/* ── HERO VIDEO SOUND / MUTE TOGGLE (CIRCULAR ICON-ONLY) ── */
 .hero-sound-btn {
   position: absolute;
-  bottom: 24px;
-  left: 40px;
+  bottom: 28px;
+  right: 40px;
   z-index: 25;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
   background: rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.65);
-  border-radius: var(--radius-pill);
-  padding: 6px 14px;
+  border-radius: 50%;
   color: #1a1510;
-  font-family: var(--font-sans);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
   cursor: pointer;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
   transition: all 0.25s ease;
 }
 .hero-sound-btn:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.06);
   background: rgba(255, 255, 255, 0.75);
   border-color: rgba(255, 255, 255, 0.9);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
@@ -615,7 +617,15 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 
 @media (max-width: 768px) {
   .hero-sound-btn {
-    display: none !important;
+    display: inline-flex !important;
+    position: absolute;
+    bottom: 22px;
+    left: 20px;
+    right: auto;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    z-index: 25;
   }
 }
 
@@ -726,7 +736,7 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 
 .packages-track {
   position: relative;
-  height: 440vh; /* Smooth scroll track for all 6 cards */
+  height: 300vh; /* Smooth scroll track for 4 cards */
 }
 
 .packages-sticky-stage {
@@ -1576,7 +1586,7 @@ input:focus, select:focus, textarea:focus { border-color: #a09080; box-shadow: 0
 
   /* Packages Stacking Section on Mobile */
   .packages-track {
-    height: 380vh;
+    height: 240vh;
   }
   .packages-sticky-stage {
     top: 56px;
