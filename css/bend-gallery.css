@@ -1,0 +1,334 @@
+/* ══════════════════════════════════════════════════════════════
+   BEND GALLERY (3D FOLDING INFINITE COLUMN) — CSS
+   Based on React Bits Pro BendGallery
+   ══════════════════════════════════════════════════════════════ */
+
+.bend-gallery-section {
+  position: relative;
+  background: var(--bg);
+  padding: 60px 0 80px;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.bend-gallery-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.bend-gallery-header .section-subtitle {
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.bend-gallery-viewport {
+  position: relative;
+  width: 100%;
+  max-width: 980px;
+  height: clamp(520px, 68vh, 620px);
+  margin: 0 auto;
+  perspective: 950px;
+  perspective-origin: 50% 50%;
+  overflow: hidden;
+  touch-action: pan-x;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+}
+
+.bend-gallery-viewport:active {
+  cursor: grabbing;
+}
+
+.bend-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Individual Bend Card Tile */
+.bend-card-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(92vw, 840px);
+  height: clamp(340px, 44vh, 390px);
+  margin-top: calc(clamp(340px, 44vh, 390px) / -2);
+  margin-left: calc(min(92vw, 840px) / -2);
+  transform-style: preserve-3d;
+  transform-origin: 50% 50%;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+  text-decoration: none;
+  color: inherit;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  background: #ffffff;
+  border-radius: 26px;
+  overflow: hidden;
+  border: 1px solid rgba(197, 160, 89, 0.35);
+  box-shadow: 0 20px 60px rgba(24, 21, 18, 0.16), 0 4px 18px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.3s ease;
+  pointer-events: auto;
+}
+
+.bend-card-item:hover {
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 28px 75px rgba(24, 21, 18, 0.22), 0 0 0 1.5px rgba(197, 160, 89, 0.5);
+}
+
+/* Card Visual Media (White scale, pure vibrant colors) */
+.bend-card-media {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #f7f4ee;
+}
+
+.bend-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(1.03) contrast(1.02) saturate(1.04); /* Crisp, vibrant white-scale */
+  transition: transform 0.5s ease;
+}
+
+.bend-card-item:hover .bend-card-media img {
+  transform: scale(1.05);
+}
+
+/* Card Content / Checklist details */
+.bend-card-content {
+  position: relative;
+  height: 100%;
+  padding: 30px 34px;
+  background: linear-gradient(145deg, #ffffff 0%, #faf8f5 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.bend-badge {
+  align-self: flex-start;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  border: 1px solid rgba(197, 160, 89, 0.5);
+  border-radius: 999px;
+  padding: 4px 12px;
+  margin-bottom: 8px;
+  background: rgba(197, 160, 89, 0.08);
+}
+
+.bend-badge-memorial {
+  color: #72685c;
+  border-color: rgba(114, 104, 92, 0.4);
+  background: rgba(114, 104, 92, 0.08);
+}
+
+.bend-title {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.15;
+  margin-bottom: 4px;
+}
+
+.bend-sub {
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.bend-checklist {
+  margin-bottom: 10px;
+}
+
+.bend-check-title {
+  display: block;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+
+.bend-checklist ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4.5px;
+}
+
+.bend-checklist li {
+  font-size: 11.5px;
+  color: #443c33;
+  line-height: 1.35;
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+}
+
+.bend-check-icon {
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.bend-btn-action {
+  align-self: flex-start;
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--gold-gradient);
+  color: #ffffff;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 4px 14px rgba(158, 121, 53, 0.28);
+  transition: all 0.25s ease;
+}
+
+.bend-card-item:hover .bend-btn-action {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(158, 121, 53, 0.4);
+}
+
+/* Vignette Top & Bottom Fades for Depth */
+.bend-vignette {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 90px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.bend-vignette-top {
+  top: 0;
+  background: linear-gradient(to bottom, var(--bg) 0%, rgba(250, 248, 244, 0.8) 50%, transparent 100%);
+}
+
+.bend-vignette-bottom {
+  bottom: 0;
+  background: linear-gradient(to top, var(--bg) 0%, rgba(250, 248, 244, 0.8) 50%, transparent 100%);
+}
+
+/* Nav Indicators & Controls */
+.bend-nav-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.bend-btn-arrow {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid rgba(197, 160, 89, 0.4);
+  color: #1a1510;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(24, 21, 18, 0.08);
+  transition: all 0.25s ease;
+}
+
+.bend-btn-arrow:hover {
+  background: var(--gold-gradient);
+  color: #ffffff;
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(158, 121, 53, 0.35);
+}
+
+.bend-dots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.bend-dot {
+  width: 22px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(197, 160, 89, 0.25);
+  cursor: pointer;
+  transition: all 0.35s ease;
+}
+
+.bend-dot.active {
+  width: 42px;
+  background: var(--gold);
+}
+
+.bend-instructions {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 11.5px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+/* Responsive Rules */
+@media (max-width: 768px) {
+  .bend-gallery-viewport {
+    height: 470px;
+    perspective: 750px;
+  }
+  .bend-card-item {
+    grid-template-columns: 1fr;
+    grid-template-rows: 150px 1fr;
+    height: 390px;
+    margin-top: -195px;
+    border-radius: 20px;
+  }
+  .bend-card-content {
+    padding: 14px 16px 16px;
+  }
+  .bend-title {
+    font-size: 21px;
+    margin-bottom: 2px;
+  }
+  .bend-sub {
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+  .bend-checklist li {
+    font-size: 10px;
+    gap: 5px;
+  }
+  .bend-checklist ul {
+    gap: 3px;
+  }
+  .bend-btn-action {
+    padding: 6px 14px;
+    font-size: 10.5px;
+  }
+}

@@ -141,7 +141,7 @@ main.sphere-main:active {
   object-fit: cover;
   pointer-events: none;
   backface-visibility: hidden;
-  filter: var(--image-filter, none);
+  filter: brightness(1.04) contrast(1.02) saturate(1.05); /* Pure vibrant white-scale */
   transition: transform 0.4s ease;
 }
 
