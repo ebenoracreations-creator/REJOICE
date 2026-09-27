@@ -266,17 +266,21 @@ function bookPackageWhatsApp(packageName) {
 }
 
 /* ══════════════════════════════════════════════════════════════
-   HERO VIDEO (DESKTOP) & PICTURE SLIDESHOW (MOBILE FALLBACK)
+   HERO VIDEO (DESKTOP) & MOBILE INTRO VIDEO CONTROLLER
 ══════════════════════════════════════════════════════════════ */
 (function initHeroMedia() {
   const video = document.getElementById('heroVideo');
-  const slides = document.querySelectorAll('.hero-slide');
   const soundBtn = document.getElementById('heroSoundToggle');
+  const introOverlay = document.getElementById('mobileIntroOverlay');
+  const introVideo = document.getElementById('mobileIntroVideo');
+  const skipBtn = document.getElementById('skipIntroBtn');
+  const mobileSoundBtn = document.getElementById('mobileSoundBtn');
 
-  // Light sound volume (22% subtle background audio)
   const LIGHT_VOLUME = 0.22;
+  let hasAutoMutedAfterFirstLoop = false;
 
-  function updateSoundUI(isMuted) {
+  // 1. Desktop Hero Video & Sound Logic
+  function updateDesktopSoundUI(isMuted) {
     if (!soundBtn) return;
     const unmutedIcon = soundBtn.querySelector('.sound-icon-unmuted');
     const mutedIcon = soundBtn.querySelector('.sound-icon-muted');
@@ -295,58 +299,133 @@ function bookPackageWhatsApp(packageName) {
     }
   }
 
-  function checkMedia() {
-    const isDesktop = window.innerWidth >= 769;
-    if (video) {
-      if (isDesktop) {
-        video.volume = LIGHT_VOLUME;
-        video.play().catch(() => {});
-      } else {
-        video.pause();
+  if (video && window.innerWidth >= 769) {
+    video.volume = LIGHT_VOLUME;
+
+    // First time reload/entry: attempt to play unmuted
+    video.muted = false;
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          updateDesktopSoundUI(false);
+        })
+        .catch(() => {
+          // If browser policy blocks unmuted autoplay without gesture, start muted
+          video.muted = true;
+          video.play().catch(() => {});
+          updateDesktopSoundUI(true);
+
+          // On first user interaction, unmute for the first loop
+          const unmuteOnFirstGesture = () => {
+            if (!hasAutoMutedAfterFirstLoop && video) {
+              video.volume = LIGHT_VOLUME;
+              video.muted = false;
+              updateDesktopSoundUI(false);
+            }
+            document.removeEventListener('click', unmuteOnFirstGesture);
+            document.removeEventListener('keydown', unmuteOnFirstGesture);
+            document.removeEventListener('touchstart', unmuteOnFirstGesture);
+          };
+          document.addEventListener('click', unmuteOnFirstGesture, { once: true });
+          document.addEventListener('keydown', unmuteOnFirstGesture, { once: true });
+          document.addEventListener('touchstart', unmuteOnFirstGesture, { once: true });
+        });
+    }
+
+    // Automatically mute when first loop finishes!
+    video.addEventListener('timeupdate', () => {
+      if (!hasAutoMutedAfterFirstLoop && video.duration > 0) {
+        if (video.currentTime >= video.duration - 0.3) {
+          hasAutoMutedAfterFirstLoop = true;
+          video.muted = true;
+          updateDesktopSoundUI(true);
+        }
       }
+    });
+
+    video.addEventListener('ended', () => {
+      hasAutoMutedAfterFirstLoop = true;
+      video.muted = true;
+      updateDesktopSoundUI(true);
+      video.play().catch(() => {});
+    });
+
+    if (soundBtn) {
+      soundBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        video.volume = LIGHT_VOLUME;
+        video.muted = !video.muted;
+        if (!video.muted) {
+          video.play().catch(() => {});
+        }
+        updateDesktopSoundUI(video.muted);
+      });
     }
   }
 
-  window.addEventListener('resize', checkMedia, { passive: true });
-  checkMedia();
-
-  // Sound toggle button click handler
-  if (video && soundBtn) {
-    soundBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      video.volume = LIGHT_VOLUME;
-      video.muted = !video.muted;
-      if (!video.muted) {
-        video.play().catch(() => {});
-      }
-      updateSoundUI(video.muted);
-    });
-
-    // Start video with light sound on first user gesture anywhere on document
-    const enableSoundOnFirstGesture = () => {
-      if (window.innerWidth >= 769 && video && video.muted) {
-        video.volume = LIGHT_VOLUME;
-        video.muted = false;
-        video.play().catch(() => {});
-        updateSoundUI(false);
-      }
-      document.removeEventListener('click', enableSoundOnFirstGesture);
-      document.removeEventListener('keydown', enableSoundOnFirstGesture);
-    };
-    document.addEventListener('click', enableSoundOnFirstGesture, { once: true });
-    document.addEventListener('keydown', enableSoundOnFirstGesture, { once: true });
+  // 2. Mobile Intro Video Logic
+  function dismissIntro() {
+    if (!introOverlay) return;
+    introOverlay.classList.add('dismissed');
+    if (introVideo) {
+      try { introVideo.pause(); } catch(e) {}
+    }
+    setTimeout(() => {
+      introOverlay.style.display = 'none';
+    }, 700);
   }
 
-  // Mobile slideshow fallback rotation
-  if (slides.length >= 2) {
-    let activeIndex = 0;
-    setInterval(() => {
-      if (window.innerWidth < 769) {
-        slides[activeIndex].classList.remove('active');
-        activeIndex = (activeIndex + 1) % slides.length;
-        slides[activeIndex].classList.add('active');
+  if (window.innerWidth <= 768 && introOverlay && introVideo) {
+    introVideo.volume = 0.45;
+    introVideo.muted = false;
+    const p = introVideo.play();
+    if (p !== undefined) {
+      p.then(() => {
+        if (mobileSoundBtn) mobileSoundBtn.textContent = '🔊 Sound On';
+      }).catch(() => {
+        // Start muted if blocked by mobile browser
+        introVideo.muted = true;
+        introVideo.play().catch(() => {});
+        if (mobileSoundBtn) mobileSoundBtn.textContent = '🔇 Tap for Sound';
+      });
+    }
+
+    if (mobileSoundBtn) {
+      mobileSoundBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        introVideo.muted = !introVideo.muted;
+        if (!introVideo.muted) {
+          introVideo.volume = 0.45;
+          introVideo.play().catch(() => {});
+          mobileSoundBtn.textContent = '🔊 Sound On';
+        } else {
+          mobileSoundBtn.textContent = '🔇 Sound Off';
+        }
+      });
+    }
+
+    introVideo.addEventListener('ended', dismissIntro);
+
+    if (skipBtn) {
+      skipBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dismissIntro();
+      });
+    }
+
+    // Tap on intro screen to unmute if muted or tap to proceed
+    introOverlay.addEventListener('click', (e) => {
+      if (e.target !== mobileSoundBtn && e.target !== skipBtn) {
+        if (introVideo.muted) {
+          introVideo.muted = false;
+          introVideo.volume = 0.45;
+          if (mobileSoundBtn) mobileSoundBtn.textContent = '🔊 Sound On';
+        }
       }
-    }, 5500);
+    });
+  } else if (introOverlay) {
+    introOverlay.style.display = 'none';
   }
 })();

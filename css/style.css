@@ -488,13 +488,13 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
     padding: 30px 34px;
   }
   .hero-quote {
-    left: 48px;
+    left: 40px;
     right: auto;
-    bottom: 32px;
+    bottom: 74px;
     text-align: left;
     font-size: 8.5px;
     letter-spacing: 0.2em;
-    opacity: 0.85;
+    opacity: 0.88;
   }
   .hero-overlay {
     background: linear-gradient(to right, rgba(0,0,0,0.01) 0%, rgba(0,0,0,0.04) 45%, rgba(0,0,0,0.2) 100%),
@@ -552,42 +552,42 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   font-size: 11px;
 }
 
-/* ── HERO VIDEO SOUND / MUTE TOGGLE ── */
+/* ── HERO VIDEO SOUND / MUTE TOGGLE (COMPACT GLASSMORPHISM) ── */
 .hero-sound-btn {
   position: absolute;
-  bottom: 28px;
+  bottom: 24px;
   left: 40px;
   z-index: 25;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1.5px solid rgba(197, 160, 89, 0.45);
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.65);
   border-radius: var(--radius-pill);
-  padding: 7px 16px;
+  padding: 6px 14px;
   color: #1a1510;
   font-family: var(--font-sans);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
   transition: all 0.25s ease;
 }
 .hero-sound-btn:hover {
   transform: translateY(-2px);
-  background: #ffffff;
-  border-color: var(--gold);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.75);
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 .hero-sound-btn.is-unmuted {
   background: var(--gold-gradient);
   color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.6);
-  box-shadow: 0 8px 24px rgba(158, 121, 53, 0.45);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 6px 20px rgba(158, 121, 53, 0.35);
 }
 .hero-sound-btn svg {
   display: block;
@@ -596,6 +596,101 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 
 @media (max-width: 768px) {
   .hero-sound-btn {
+    display: none !important;
+  }
+}
+
+/* ── MOBILE INTRO VIDEO OVERLAY ── */
+.mobile-intro-overlay {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-intro-overlay {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    background: #000000;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.65s ease;
+  }
+  .mobile-intro-overlay.dismissed {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .mobile-intro-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .mobile-intro-bar {
+    position: absolute;
+    top: 20px;
+    left: 16px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 10;
+  }
+  .btn-intro-sound,
+  .btn-intro-skip {
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #ffffff;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 7px 15px;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+  }
+  .btn-intro-sound {
+    border-color: rgba(197, 160, 89, 0.6);
+    color: var(--gold-light);
+  }
+  .btn-intro-skip {
+    background: rgba(255, 255, 255, 0.22);
+  }
+
+  /* Mobile Single Photo with continuous zooming-in */
+  .hero-single-photo {
+    position: absolute;
+    inset: -6%;
+    width: 112%;
+    height: 112%;
+    background-image: url('../images/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    animation: heroSingleZoom 18s ease-in-out infinite alternate;
+    will-change: transform;
+    z-index: 0;
+    display: block;
+  }
+  @keyframes heroSingleZoom {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.15);
+    }
+  }
+}
+
+@media (min-width: 769px) {
+  .hero-single-photo {
     display: none !important;
   }
 }

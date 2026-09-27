@@ -335,6 +335,13 @@ body {
 .chk-category {
   margin-bottom: 32px;
 }
+.chk-category-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
 .chk-category-title {
   display: flex;
   align-items: center;
@@ -344,13 +351,43 @@ body {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--gold);
-  margin-bottom: 14px;
+  margin-bottom: 0 !important;
+  flex: 1;
 }
 .chk-category-title::after {
   content: '';
   flex: 1;
   height: 1px;
   background: linear-gradient(to right, var(--border), transparent);
+}
+.btn-cat-select {
+  background: rgba(197, 160, 89, 0.12);
+  border: 1px solid rgba(197, 160, 89, 0.35);
+  color: var(--gold-dark);
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.btn-cat-select:hover {
+  background: var(--gold);
+  color: #ffffff;
+  border-color: var(--gold);
+}
+.btn-cat-select.is-all-selected {
+  background: var(--gold-dark);
+  color: #ffffff;
+}
+
+/* Checklist item descriptions hidden: headings only */
+.chk-item-desc {
+  display: none !important;
 }
 
 /* Checklist cards grid */

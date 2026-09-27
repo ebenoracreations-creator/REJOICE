@@ -23,6 +23,68 @@
     }
   }
 
+  // Category-level Select / Deselect button management
+  function updateCatButton(cat) {
+    if (!cat) return;
+    const btn = cat.querySelector('.btn-cat-select');
+    if (!btn) return;
+    const checkboxes = cat.querySelectorAll('.chk-item input[type="checkbox"]');
+    if (checkboxes.length === 0) return;
+    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+    if (allChecked) {
+      btn.textContent = 'Deselect All';
+      btn.classList.add('is-all-selected');
+    } else {
+      btn.textContent = 'Select All';
+      btn.classList.remove('is-all-selected');
+    }
+  }
+
+  function updateAllCatButtons() {
+    document.querySelectorAll('.chk-category').forEach(cat => updateCatButton(cat));
+  }
+
+  function initCategoryHeaders() {
+    const categories = document.querySelectorAll('.chk-category');
+    categories.forEach(cat => {
+      const title = cat.querySelector('.chk-category-title');
+      if (!title) return;
+      if (cat.querySelector('.btn-cat-select')) return;
+
+      const header = document.createElement('div');
+      header.className = 'chk-category-header';
+      title.parentNode.insertBefore(header, title);
+      header.appendChild(title);
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'btn-cat-select';
+      btn.textContent = 'Select All';
+      header.appendChild(btn);
+
+      btn.addEventListener('click', function () {
+        const checkboxes = cat.querySelectorAll('.chk-item input[type="checkbox"]');
+        const allChecked = Array.from(checkboxes).length > 0 && Array.from(checkboxes).every(cb => cb.checked);
+
+        checkboxes.forEach(cb => {
+          cb.checked = !allChecked;
+          const item = cb.closest('.chk-item');
+          if (item) {
+            if (cb.checked) {
+              item.classList.add('checked');
+            } else {
+              item.classList.remove('checked');
+            }
+          }
+        });
+
+        updateCatButton(cat);
+        updateCount();
+      });
+    });
+    updateAllCatButtons();
+  }
+
   // 1. Smooth, reliable checkbox toggle via native CHANGE event
   document.addEventListener('change', function (e) {
     if (e.target && e.target.matches('.chk-item input[type="checkbox"]')) {
@@ -33,6 +95,7 @@
         } else {
           item.classList.remove('checked');
         }
+        updateCatButton(item.closest('.chk-category'));
         updateCount();
       }
     }
@@ -46,6 +109,7 @@
       if (cb) cb.checked = true;
       item.classList.add('checked');
     });
+    updateAllCatButtons();
     updateCount();
   };
 
@@ -57,6 +121,7 @@
       if (cb) cb.checked = false;
       item.classList.remove('checked');
     });
+    updateAllCatButtons();
     updateCount();
   };
 
@@ -151,11 +216,16 @@
     window.open(waUrl, '_blank');
   };
 
-  // Initial count
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', updateCount);
-  } else {
+  // Initial setup
+  function init() {
+    initCategoryHeaders();
     updateCount();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
   }
 
 })();

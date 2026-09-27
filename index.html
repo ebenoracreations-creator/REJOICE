@@ -234,6 +234,21 @@
 </head>
 <body>
 
+  <!-- ═══════════════════════════════════════ MOBILE INTRO VIDEO OVERLAY ═══════════════════════════════════════ -->
+  <div id="mobileIntroOverlay" class="mobile-intro-overlay" role="dialog" aria-modal="true" aria-label="Welcome Video">
+    <video id="mobileIntroVideo" class="mobile-intro-video" playsinline preload="auto" muted>
+      <source src="videos/mobile-hero-video.mp4" type="video/mp4" />
+    </video>
+    <div class="mobile-intro-bar">
+      <button type="button" id="mobileSoundBtn" class="btn-intro-sound" aria-label="Toggle Sound">
+        🔇 Tap for Sound
+      </button>
+      <button type="button" id="skipIntroBtn" class="btn-intro-skip" aria-label="Skip to website">
+        Skip &#8594;
+      </button>
+    </div>
+  </div>
+
   <!-- ═══════════════════════════════════════ NAVBAR ═══════════════════════════════════════ -->
   <header id="navbar" role="banner">
     <div class="nav-inner">
@@ -288,12 +303,8 @@
       </video>
     </div>
 
-    <!-- Mobile Hero Picture Slideshow with Ken Burns Motion (Fallback until mobile video is provided) -->
-    <div class="hero-slider" aria-hidden="true">
-      <div class="hero-slide active" style="background-image:url('images/hero-bg.jpg');" role="img" aria-label="Luxury Kerala wedding mandap and floral stage"></div>
-      <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1920&q=85');" role="img" aria-label="Exquisite floral dining table and glowing chandelier lighting"></div>
-      <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=1920&q=85');" role="img" aria-label="Enchanting outdoor evening celebration with fairy lights"></div>
-    </div>
+    <!-- Mobile Single Photo Background with continuous Ken Burns Zoom In -->
+    <div class="hero-single-photo" aria-hidden="true"></div>
     <div class="hero-overlay" aria-hidden="true"></div>
     <div class="hero-quote" aria-hidden="true">
       &lsquo;MORE<br>THAN EVENTS.<br>MEMORABLE<br>&mdash; MOMENTS.&rdquo;
