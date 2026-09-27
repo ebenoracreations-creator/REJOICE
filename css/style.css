@@ -707,7 +707,7 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 
 .packages-track {
   position: relative;
-  height: 380vh; /* Smooth scroll track for all 5 cards */
+  height: 440vh; /* Smooth scroll track for all 6 cards */
 }
 
 .packages-sticky-stage {
@@ -1557,7 +1557,7 @@ input:focus, select:focus, textarea:focus { border-color: #a09080; box-shadow: 0
 
   /* Packages Stacking Section on Mobile */
   .packages-track {
-    height: 320vh;
+    height: 380vh;
   }
   .packages-sticky-stage {
     top: 56px;
