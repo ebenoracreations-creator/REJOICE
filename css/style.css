@@ -222,7 +222,7 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   padding: 0 12px;
 }
 .nav-inner {
-  max-width: 900px;
+  max-width: 980px;
   margin: 0 auto;
   background: rgba(255,255,255,0.96);
   backdrop-filter: blur(20px);
@@ -230,11 +230,11 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   border: 1px solid rgba(197, 160, 89, 0.3);
   border-radius: var(--radius-pill);
   box-shadow: 0 4px 20px rgba(0,0,0,0.08), 0 0 12px rgba(197, 160, 89, 0.1);
-  padding: 5px 16px;
+  padding: 6px 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 14px;
+  gap: 16px;
   transition: all 0.4s ease;
 }
 /* When scrolled DOWN → subtle frosted glass (keeps text readable) */
@@ -248,7 +248,7 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 .nav-logo {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 9px;
   text-decoration: none;
   flex-shrink: 0;
 }
@@ -273,27 +273,27 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 }
 .nav-logo-icon { width: 16px; height: 16px; color: var(--gold); flex-shrink: 0; transition: color 0.4s; }
 #navbar.scrolled .nav-logo-icon { color: var(--gold); }
-.nav-logo-text { display: flex; flex-direction: column; line-height: 1; }
+.nav-logo-text { display: flex; flex-direction: column; line-height: 1.15; }
 .nav-logo-name {
   font-family: var(--font-serif);
-  font-size: 14px;
+  font-size: 15px;
   letter-spacing: 0.16em;
   font-weight: 700;
   color: #1a1510 !important;
   transition: color 0.4s;
 }
 .nav-logo-sub {
-  font-size: 6px;
-  letter-spacing: 0.2em;
+  font-size: 7px;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--gold) !important;
-  font-weight: 600;
-  margin-top: 1px;
+  color: var(--gold-dark) !important;
+  font-weight: 700;
+  margin-top: 2px;
   transition: color 0.4s;
 }
 /* Scrolled state — keep text black (sections are light coloured) */
 #navbar.scrolled .nav-logo-name { color: #1a1510 !important; }
-#navbar.scrolled .nav-logo-sub { color: var(--gold) !important; }
+#navbar.scrolled .nav-logo-sub { color: var(--gold-dark) !important; }
 
 .nav-links {
   display: flex;
