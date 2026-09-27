@@ -37,8 +37,7 @@
 }
 
 .sphere,
-.item,
-.item__image {
+.item {
   transform-style: preserve-3d;
 }
 
@@ -107,9 +106,8 @@ main.sphere-main:active {
   margin-left: calc(var(--item-width) * var(--item-size-x) / -2);
   transform-origin: 50% 50%;
   backface-visibility: hidden;
-  transition: transform 300ms;
-  transform: rotateY(calc(var(--base-rot-y, 0deg) + var(--rot-y-delta, 0deg)))
-             rotateX(calc(var(--base-rot-x, 0deg) + var(--rot-x-delta, 0deg)))
+  transform: rotateY(var(--base-rot-y, 0deg))
+             rotateX(var(--base-rot-x, 0deg))
              translateZ(var(--radius, 520px));
 }
 
@@ -121,18 +119,17 @@ main.sphere-main:active {
   background: #18151f;
   overflow: hidden;
   backface-visibility: hidden;
-  transition: transform 300ms, box-shadow 300ms;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   pointer-events: auto;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
-.item__image:hover {
-  box-shadow: 0 8px 24px rgba(197, 160, 89, 0.45);
+@media (hover: hover) and (pointer: fine) {
+  .item__image:hover {
+    box-shadow: 0 8px 24px rgba(197, 160, 89, 0.45);
+  }
 }
 
 .item__image img {
@@ -142,78 +139,15 @@ main.sphere-main:active {
   pointer-events: none;
   backface-visibility: hidden;
   filter: brightness(1.04) contrast(1.02) saturate(1.05); /* Pure vibrant white-scale */
-  transition: transform 0.4s ease;
 }
 
-.item__image:hover img {
-  transform: scale(1.06);
-}
-
-.viewer {
-  position: absolute;
-  inset: 0;
-  z-index: 20;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--viewer-pad);
-}
-
-.viewer .frame {
-  height: 100%;
-  aspect-ratio: 1;
-  border-radius: var(--enlarge-radius, 28px);
-  display: flex;
-}
-
-@media (max-aspect-ratio: 1/1) {
-  .viewer .frame {
-    height: auto;
-    width: 100%;
+@media (hover: hover) and (pointer: fine) {
+  .item__image:hover img {
+    transform: scale(1.06);
+    transition: transform 0.4s ease;
   }
 }
 
-.viewer .scrim {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-  background: rgba(0, 0, 0, 0.65);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 400ms ease;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  cursor: pointer;
-}
-
-.sphere-root[data-enlarging='true'] .viewer .scrim {
-  opacity: 1;
-  pointer-events: all;
-}
-
-.viewer .enlarge {
-  position: absolute;
-  z-index: 30;
-  border-radius: var(--enlarge-radius, 28px);
-  overflow: hidden;
-  transition:
-    transform 400ms cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 400ms ease;
-  transform-origin: top left;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 0 1.5px rgba(197, 160, 89, 0.5);
-}
-
-.viewer .enlarge img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: var(--image-filter, none);
-}
-
-.sphere-root .enlarge-closing img {
-  filter: var(--image-filter, none);
-}
 
 .edge-fade {
   position: absolute;
@@ -239,46 +173,73 @@ main.sphere-main:active {
   position: fixed;
   inset: 0;
   z-index: 999999;
-  background: rgba(10, 8, 14, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(8, 6, 12, 0.95);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 24px 16px;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  touch-action: none;
 }
 
 .dome-lightbox.active {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
+}
+
+.dome-lightbox-close {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 1000000;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  font-size: 26px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s, transform 0.2s;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .dome-lightbox-close:hover {
+    background: rgba(197, 160, 89, 0.9);
+    transform: scale(1.08);
+  }
 }
 
 .dome-lightbox-content {
   position: relative;
   max-width: 92vw;
-  max-height: 85vh;
+  max-height: 82vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  transform: scale(0.9);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.dome-lightbox.active .dome-lightbox-content {
-  transform: scale(1);
+  justify-content: center;
 }
 
 .dome-lightbox-img {
   max-width: 90vw;
-  max-height: 72vh;
+  max-height: 68vh;
   object-fit: contain;
-  border-radius: 16px;
+  border-radius: 14px;
   border: 1px solid rgba(197, 160, 89, 0.5);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(197, 160, 89, 0.2);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.9), 0 0 25px rgba(197, 160, 89, 0.25);
+  background: #18151f;
+  display: block;
 }
 
 .dome-lightbox-caption {
@@ -289,42 +250,30 @@ main.sphere-main:active {
   font-weight: 500;
   letter-spacing: 0.03em;
   text-align: center;
-  max-width: 580px;
-  line-height: 1.5;
-}
-
-.dome-lightbox-close {
-  position: absolute;
-  top: -46px;
-  right: 0;
-  background: rgba(255, 255, 255, 0.16);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: #ffffff;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background 0.2s, transform 0.2s;
-  outline: none;
-}
-
-.dome-lightbox-close:hover {
-  background: rgba(197, 160, 89, 0.9);
-  transform: scale(1.08);
+  max-width: 540px;
+  line-height: 1.45;
+  padding: 0 8px;
 }
 
 @media (max-width: 768px) {
   .dome-gallery-viewport {
     height: 480px;
   }
+  .dome-lightbox-close {
+    top: 14px;
+    right: 14px;
+    width: 42px;
+    height: 42px;
+    background: rgba(30, 25, 38, 0.9);
+    border-color: rgba(197, 160, 89, 0.6);
+  }
   .dome-lightbox-img {
-    max-height: 65vh;
+    max-width: 92vw;
+    max-height: 62vh;
+    border-radius: 12px;
   }
   .dome-lightbox-caption {
     font-size: 12px;
+    margin-top: 10px;
   }
 }

@@ -194,11 +194,14 @@
       inertiaRAF = requestAnimationFrame(step);
     };
 
+    let isLightboxOpen = false;
+
     // Pointer / Touch / Drag Events
     let prevPointer = null;
     let velocity = { x: 0, y: 0 };
 
     main.addEventListener('pointerdown', e => {
+      if (isLightboxOpen) return;
       stopInertia();
       isDragging = true;
       hasMoved = false;
@@ -209,7 +212,7 @@
     });
 
     window.addEventListener('pointermove', e => {
-      if (!isDragging || !startPos) return;
+      if (isLightboxOpen || !isDragging || !startPos) return;
       const dx = e.clientX - startPos.x;
       const dy = e.clientY - startPos.y;
       const distSq = dx * dx + dy * dy;
@@ -269,8 +272,8 @@
       lightboxEl.setAttribute('aria-modal', 'true');
       lightboxEl.setAttribute('aria-label', 'Photo Preview');
       lightboxEl.innerHTML = `
+        <button type="button" class="dome-lightbox-close" aria-label="Close photo preview">&times;</button>
         <div class="dome-lightbox-content">
-          <button type="button" class="dome-lightbox-close" aria-label="Close photo preview">&times;</button>
           <img class="dome-lightbox-img" src="" alt="Celebration photo by Rejoice Events" />
           <div class="dome-lightbox-caption"></div>
         </div>
@@ -279,45 +282,102 @@
 
       const closeLb = () => {
         lightboxEl.classList.remove('active');
-        document.body.style.overflow = '';
+        isLightboxOpen = false;
+        clearTimeout(idleTimer);
+        idleTimer = setTimeout(() => {
+          isIdle = true;
+          requestAnimationFrame(startAmbient);
+        }, 1000);
       };
 
       const closeBtn = lightboxEl.querySelector('.dome-lightbox-close');
-      if (closeBtn) closeBtn.addEventListener('click', closeLb);
+      if (closeBtn) {
+        closeBtn.addEventListener('click', e => {
+          e.stopPropagation();
+          closeLb();
+        });
+        closeBtn.addEventListener('touchend', e => {
+          e.stopPropagation();
+          e.preventDefault();
+          closeLb();
+        });
+      }
+
       lightboxEl.addEventListener('click', e => {
-        if (e.target === lightboxEl) closeLb();
+        if (e.target === lightboxEl || e.target.classList.contains('dome-lightbox-content')) {
+          closeLb();
+        }
       });
+
+      // Prevent background scrolling without touching body overflow (zero layout jumps)
+      lightboxEl.addEventListener('touchmove', e => {
+        e.preventDefault();
+      }, { passive: false });
+      lightboxEl.addEventListener('wheel', e => {
+        e.preventDefault();
+      }, { passive: false });
+
       window.addEventListener('keydown', e => {
         if (e.key === 'Escape' && lightboxEl.classList.contains('active')) closeLb();
       });
     }
 
     const openLightbox = (src, alt) => {
-      if (!lightboxEl) return;
+      if (!lightboxEl || !src) return;
+      isLightboxOpen = true;
+      stopInertia();
+      isDragging = false;
+
       const img = lightboxEl.querySelector('.dome-lightbox-img');
       const caption = lightboxEl.querySelector('.dome-lightbox-caption');
+
       if (img) {
+        img.style.opacity = '0';
+        img.style.transition = 'opacity 0.25s ease';
         img.src = src;
         img.alt = alt || 'Rejoice Events Kerala';
+        img.onload = () => { img.style.opacity = '1'; };
+        if (img.complete) { img.style.opacity = '1'; }
       }
+
       if (caption) {
         caption.textContent = alt || 'Rejoice Events & Floral Studio · Kerala';
       }
+
       lightboxEl.classList.add('active');
-      document.body.style.overflow = 'hidden';
     };
 
-    // Attach click listener to each tile image
+    // Robust Mobile & Desktop Tap / Click Detection on Items
     mountEl.querySelectorAll('.item__image').forEach(itemEl => {
       const parent = itemEl.closest('.item');
       const src = parent ? parent.dataset.src : '';
       const imgEl = itemEl.querySelector('img');
       const alt = imgEl ? imgEl.alt : 'Rejoice Events Kerala';
 
+      let tapStartX = 0;
+      let tapStartY = 0;
+      let tapStartTime = 0;
+
+      itemEl.addEventListener('pointerdown', e => {
+        tapStartX = e.clientX;
+        tapStartY = e.clientY;
+        tapStartTime = performance.now();
+      });
+
+      itemEl.addEventListener('pointerup', e => {
+        const dx = e.clientX - tapStartX;
+        const dy = e.clientY - tapStartY;
+        const elapsed = performance.now() - tapStartTime;
+        // Clean intentional tap: finger moved < 12px and duration < 350ms
+        if (dx * dx + dy * dy < 144 && elapsed < 350) {
+          e.stopPropagation();
+          openLightbox(src, alt);
+        }
+      });
+
       itemEl.addEventListener('click', e => {
         e.stopPropagation();
-        if (hasMoved || dragMode === 'rotate') return;
-        if (performance.now() - lastDragEndAt < 80) return;
+        if (hasMoved) return;
         openLightbox(src, alt);
       });
     });
@@ -326,7 +386,7 @@
     let idleTimer = null;
     let isIdle = true;
     const startAmbient = () => {
-      if (!isIdle || isDragging || (lightboxEl && lightboxEl.classList.contains('active'))) return;
+      if (isLightboxOpen || !isIdle || isDragging) return;
       rotation.y = wrapAngleSigned(rotation.y + 0.08);
       applyTransform(rotation.x, rotation.y);
       requestAnimationFrame(startAmbient);
@@ -334,10 +394,12 @@
     requestAnimationFrame(startAmbient);
 
     main.addEventListener('pointerdown', () => {
+      if (isLightboxOpen) return;
       isIdle = false;
       clearTimeout(idleTimer);
     });
     main.addEventListener('pointerup', () => {
+      if (isLightboxOpen) return;
       idleTimer = setTimeout(() => { isIdle = true; requestAnimationFrame(startAmbient); }, 3000);
     });
   }
