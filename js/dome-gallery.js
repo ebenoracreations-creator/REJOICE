@@ -115,11 +115,6 @@
           <div class="overlay overlay--blur"></div>
           <div class="edge-fade edge-fade--top"></div>
           <div class="edge-fade edge-fade--bottom"></div>
-          <div class="viewer">
-            <div class="scrim"></div>
-            <div class="frame"></div>
-          </div>
-          <div class="dg-instructions">✨ Drag 3D Globe to Rotate · Click Any Photo to Enlarge</div>
         </main>
       </div>
     `;
@@ -127,21 +122,15 @@
     const root = mountEl.querySelector('.sphere-root');
     const main = mountEl.querySelector('.sphere-main');
     const sphere = mountEl.querySelector('.sphere');
-    const viewer = mountEl.querySelector('.viewer');
-    const scrim = mountEl.querySelector('.scrim');
-    const frame = mountEl.querySelector('.frame');
 
     let rotation = { x: 0, y: 0 };
     let startRot = { x: 0, y: 0 };
     let startPos = null;
     let isDragging = false;
     let hasMoved = false;
+    let dragMode = null; // 'rotate' | 'scroll' | null
     let inertiaRAF = null;
-    let isOpening = false;
-    let openStartedAt = 0;
     let lastDragEndAt = 0;
-    let focusedEl = null;
-    let originalTilePos = null;
 
     const applyTransform = (xDeg, yDeg) => {
       if (sphere) {
@@ -210,10 +199,10 @@
     let velocity = { x: 0, y: 0 };
 
     main.addEventListener('pointerdown', e => {
-      if (focusedEl) return;
       stopInertia();
       isDragging = true;
       hasMoved = false;
+      dragMode = null;
       startRot = { ...rotation };
       startPos = { x: e.clientX, y: e.clientY };
       prevPointer = { x: e.clientX, y: e.clientY, time: performance.now() };
@@ -223,153 +212,121 @@
       if (!isDragging || !startPos) return;
       const dx = e.clientX - startPos.x;
       const dy = e.clientY - startPos.y;
-      if (!hasMoved && (dx * dx + dy * dy > 16)) {
+      const distSq = dx * dx + dy * dy;
+
+      // On touch devices, detect if vertical scrolling or horizontal rotating
+      if (!dragMode && distSq > 36) {
+        if (e.pointerType === 'touch' && Math.abs(dy) > Math.abs(dx) * 1.15) {
+          // User intended vertical page scroll — yield to native browser scroll!
+          dragMode = 'scroll';
+          isDragging = false;
+          return;
+        } else {
+          dragMode = 'rotate';
+        }
+      }
+
+      if (distSq > 100) {
         hasMoved = true;
       }
-      const nextX = clamp(startRot.x - dy / DEFAULTS.dragSensitivity, -DEFAULTS.maxVerticalRotationDeg, DEFAULTS.maxVerticalRotationDeg);
-      const nextY = wrapAngleSigned(startRot.y + dx / DEFAULTS.dragSensitivity);
-      rotation = { x: nextX, y: nextY };
-      applyTransform(nextX, nextY);
 
-      const now = performance.now();
-      const dt = now - prevPointer.time;
-      if (dt > 10) {
-        velocity = {
-          x: (e.clientX - prevPointer.x) / dt,
-          y: (e.clientY - prevPointer.y) / dt
-        };
-        prevPointer = { x: e.clientX, y: e.clientY, time: now };
+      if (dragMode === 'rotate' || (!dragMode && e.pointerType !== 'touch')) {
+        const nextX = clamp(startRot.x - dy / DEFAULTS.dragSensitivity, -DEFAULTS.maxVerticalRotationDeg, DEFAULTS.maxVerticalRotationDeg);
+        const nextY = wrapAngleSigned(startRot.y + dx / DEFAULTS.dragSensitivity);
+        rotation = { x: nextX, y: nextY };
+        applyTransform(nextX, nextY);
+
+        const now = performance.now();
+        const dt = now - prevPointer.time;
+        if (dt > 10) {
+          velocity = {
+            x: (e.clientX - prevPointer.x) / dt,
+            y: (e.clientY - prevPointer.y) / dt
+          };
+          prevPointer = { x: e.clientX, y: e.clientY, time: now };
+        }
       }
     });
 
     window.addEventListener('pointerup', () => {
       if (!isDragging) return;
       isDragging = false;
-      if (hasMoved) {
+      if (hasMoved && dragMode === 'rotate') {
         lastDragEndAt = performance.now();
         startInertia(velocity.x, velocity.y);
       }
       hasMoved = false;
+      dragMode = null;
     });
 
-    // Open Tile Modal
-    const openTile = (el) => {
-      if (isOpening) return;
-      isOpening = true;
-      openStartedAt = performance.now();
-      focusedEl = el;
+    // ══════════ FULLSCREEN LIGHTBOX MODAL ══════════
+    let lightboxEl = document.getElementById('rejoiceDomeLightbox');
+    if (!lightboxEl) {
+      lightboxEl = document.createElement('div');
+      lightboxEl.id = 'rejoiceDomeLightbox';
+      lightboxEl.className = 'dome-lightbox';
+      lightboxEl.setAttribute('role', 'dialog');
+      lightboxEl.setAttribute('aria-modal', 'true');
+      lightboxEl.setAttribute('aria-label', 'Photo Preview');
+      lightboxEl.innerHTML = `
+        <div class="dome-lightbox-content">
+          <button type="button" class="dome-lightbox-close" aria-label="Close photo preview">&times;</button>
+          <img class="dome-lightbox-img" src="" alt="Celebration photo by Rejoice Events" />
+          <div class="dome-lightbox-caption"></div>
+        </div>
+      `;
+      document.body.appendChild(lightboxEl);
 
-      const parent = el.parentElement;
-      const offsetX = parseFloat(parent.dataset.offsetX);
-      const offsetY = parseFloat(parent.dataset.offsetY);
-      const sizeX = parseFloat(parent.dataset.sizeX);
-      const sizeY = parseFloat(parent.dataset.sizeY);
+      const closeLb = () => {
+        lightboxEl.classList.remove('active');
+        document.body.style.overflow = '';
+      };
 
-      const parentRot = computeItemBaseRotation(offsetX, offsetY, sizeX, sizeY, DEFAULTS.segments);
-      const parentY = normalizeAngle(parentRot.rotateY);
-      const globalY = normalizeAngle(rotation.y);
-      let rotY = -(parentY + globalY) % 360;
-      if (rotY < -180) rotY += 360;
-      const rotX = -parentRot.rotateX - rotation.x;
-
-      parent.style.setProperty('--rot-y-delta', `${rotY}deg`);
-      parent.style.setProperty('--rot-x-delta', `${rotX}deg`);
-
-      const refDiv = document.createElement('div');
-      refDiv.className = 'item__image item__image--reference';
-      refDiv.style.opacity = '0';
-      refDiv.style.transform = `rotateX(${-parentRot.rotateX}deg) rotateY(${-parentRot.rotateY}deg)`;
-      parent.appendChild(refDiv);
-
-      void refDiv.offsetHeight;
-
-      const tileR = refDiv.getBoundingClientRect();
-      const mainR = main.getBoundingClientRect();
-      const frameR = frame.getBoundingClientRect();
-
-      if (!mainR || !frameR || tileR.width <= 0) {
-        isOpening = false;
-        focusedEl = null;
-        if (refDiv.parentNode) parent.removeChild(refDiv);
-        return;
-      }
-
-      originalTilePos = { left: tileR.left, top: tileR.top, width: tileR.width, height: tileR.height };
-      el.style.visibility = 'hidden';
-
-      const overlay = document.createElement('div');
-      overlay.className = 'enlarge';
-      overlay.style.position = 'absolute';
-      overlay.style.left = (frameR.left - mainR.left) + 'px';
-      overlay.style.top = (frameR.top - mainR.top) + 'px';
-      overlay.style.width = frameR.width + 'px';
-      overlay.style.height = frameR.height + 'px';
-      overlay.style.opacity = '0';
-      overlay.style.transformOrigin = 'top left';
-
-      const img = document.createElement('img');
-      img.src = parent.dataset.src;
-      overlay.appendChild(img);
-      viewer.appendChild(overlay);
-
-      const tx0 = tileR.left - frameR.left;
-      const ty0 = tileR.top - frameR.top;
-      const sx0 = tileR.width / frameR.width;
-      const sy0 = tileR.height / frameR.height;
-
-      overlay.style.transform = `translate(${tx0}px, ${ty0}px) scale(${sx0}, ${sy0})`;
-
-      setTimeout(() => {
-        overlay.style.opacity = '1';
-        overlay.style.transform = 'translate(0px, 0px) scale(1, 1)';
-        root.setAttribute('data-enlarging', 'true');
-      }, 16);
-    };
-
-    // Close Tile
-    const closeTile = () => {
-      if (performance.now() - openStartedAt < 200) return;
-      if (!focusedEl) return;
-      const overlay = viewer.querySelector('.enlarge');
-      if (!overlay) return;
-
-      const parent = focusedEl.parentElement;
-      const refDiv = parent.querySelector('.item__image--reference');
-      if (refDiv) refDiv.remove();
-
-      overlay.style.opacity = '0';
-      overlay.style.transform = 'scale(0.85)';
-      root.removeAttribute('data-enlarging');
-
-      setTimeout(() => {
-        overlay.remove();
-        parent.style.setProperty('--rot-y-delta', '0deg');
-        parent.style.setProperty('--rot-x-delta', '0deg');
-        focusedEl.style.visibility = '';
-        focusedEl = null;
-        isOpening = false;
-      }, DEFAULTS.enlargeTransitionMs);
-    };
-
-    // Click on tile handler
-    mountEl.querySelectorAll('.item__image').forEach(itemEl => {
-      itemEl.addEventListener('click', (e) => {
-        if (isDragging || hasMoved) return;
-        if (performance.now() - lastDragEndAt < 80) return;
-        openTile(e.currentTarget);
+      const closeBtn = lightboxEl.querySelector('.dome-lightbox-close');
+      if (closeBtn) closeBtn.addEventListener('click', closeLb);
+      lightboxEl.addEventListener('click', e => {
+        if (e.target === lightboxEl) closeLb();
       });
-    });
+      window.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && lightboxEl.classList.contains('active')) closeLb();
+      });
+    }
 
-    scrim.addEventListener('click', closeTile);
-    window.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeTile();
+    const openLightbox = (src, alt) => {
+      if (!lightboxEl) return;
+      const img = lightboxEl.querySelector('.dome-lightbox-img');
+      const caption = lightboxEl.querySelector('.dome-lightbox-caption');
+      if (img) {
+        img.src = src;
+        img.alt = alt || 'Rejoice Events Kerala';
+      }
+      if (caption) {
+        caption.textContent = alt || 'Rejoice Events & Floral Studio · Kerala';
+      }
+      lightboxEl.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    };
+
+    // Attach click listener to each tile image
+    mountEl.querySelectorAll('.item__image').forEach(itemEl => {
+      const parent = itemEl.closest('.item');
+      const src = parent ? parent.dataset.src : '';
+      const imgEl = itemEl.querySelector('img');
+      const alt = imgEl ? imgEl.alt : 'Rejoice Events Kerala';
+
+      itemEl.addEventListener('click', e => {
+        e.stopPropagation();
+        if (hasMoved || dragMode === 'rotate') return;
+        if (performance.now() - lastDragEndAt < 80) return;
+        openLightbox(src, alt);
+      });
     });
 
     // Auto slow continuous ambient spin when idle
     let idleTimer = null;
     let isIdle = true;
     const startAmbient = () => {
-      if (!isIdle || isDragging || focusedEl) return;
+      if (!isIdle || isDragging || (lightboxEl && lightboxEl.classList.contains('active'))) return;
       rotation.y = wrapAngleSigned(rotation.y + 0.08);
       applyTransform(rotation.x, rotation.y);
       requestAnimationFrame(startAmbient);

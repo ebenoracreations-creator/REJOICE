@@ -1,7 +1,9 @@
 /**
- * Rejoice Events — Bend Gallery (3D Infinite Looping Folding Column)
- * Based on React Bits Pro BendGallery
- * Infinite 3D looping for: Weddings, Baptisms, Birthdays, Funerals
+ * Rejoice Events — Bend Gallery (Finite 4-Card 3D Stepper)
+ * Cards: Weddings -> Baptisms -> Birthdays -> Funerals
+ * When Funeral is reached, scrolling down seamlessly scrolls the page!
+ * When Wedding is reached, scrolling up seamlessly scrolls the page!
+ * All cards open checklists on click/tap across mobile and desktop.
  */
 
 (function () {
@@ -85,12 +87,12 @@
     const mountEl = document.getElementById(containerId);
     if (!mountEl) return;
 
-    // Render Markup
+    // Render Markup (Strictly 4 Cards, no instruction pill)
     mountEl.innerHTML = `
-      <div class="bend-gallery-viewport" id="bendViewport" role="region" aria-label="Interactive 3D Package Gallery">
+      <div class="bend-gallery-viewport" id="bendViewport" role="region" aria-label="Curated Event Packages">
         <div class="bend-stage" id="bendStage">
           ${PACKAGES.map((pkg, idx) => `
-            <a href="${pkg.url}" class="bend-card-item" data-index="${idx}" aria-label="Explore ${pkg.title} Checklist">
+            <a href="${pkg.url}" class="bend-card-item" data-index="${idx}" aria-label="Open ${pkg.title} Checklist">
               <div class="bend-card-media">
                 <img src="${pkg.image}" alt="${pkg.alt}" loading="lazy" />
               </div>
@@ -126,7 +128,6 @@
         </div>
         <button type="button" class="bend-btn-arrow" id="bendNextBtn" aria-label="Next Package">&#8595;</button>
       </div>
-      <p class="bend-instructions">↕ Swipe, Drag or Scroll to Loop Packages · Click Any Card for Checklist</p>
     `;
 
     const viewport = mountEl.querySelector('#bendViewport');
@@ -136,163 +137,214 @@
     const nextBtn = mountEl.querySelector('#bendNextBtn');
 
     const totalCount = PACKAGES.length; // 4
-    let targetOffset = 0;
-    let currentOffset = 0;
-    let isDragging = false;
-    let startY = 0;
-    let startOffset = 0;
-    let movedDistance = 0;
-    let velocityY = 0;
-    let lastTime = 0;
-    let rafId = null;
+    let activeIndex = 0; // Current card: 0 = Wedding, 1 = Baptism, 2 = Birthday, 3 = Funeral
+    let currentPos = 0;  // Smooth float position
+    let targetPos = 0;
+    let isAnimating = false;
+    let wheelCooldown = false;
 
     const getItemSpacing = () => {
-      return window.innerWidth <= 768 ? 390 : 430;
+      return window.innerWidth <= 768 ? 440 : 420;
     };
 
     const getParams = () => ({
-      bendAngle: 62,      // rotation in degrees at top and bottom edge
-      bendCurve: 0.78,    // curvature
-      depth: 560,         // sinking in Z space
-      lift: 0.28,         // vertical compression
-      fadeCurve: 2.8      // opacity fade curve
+      bendAngle: 58,
+      bendCurve: 0.8,
+      depth: 540,
+      lift: 0.25,
+      fadeCurve: 2.6
     });
 
+    // Render 3D transforms for the 4 discrete cards
     const updateRender = () => {
       const itemSpacing = getItemSpacing();
-      const totalCycle = totalCount * itemSpacing;
       const vh = viewport.offsetHeight || 560;
       const params = getParams();
 
       cards.forEach((card, i) => {
-        // Compute wrapped distance from current offset
-        let dist = (i * itemSpacing - currentOffset) % totalCycle;
-        if (dist < -totalCycle / 2) dist += totalCycle;
-        if (dist > totalCycle / 2) dist -= totalCycle;
-
-        const normY = dist / (vh * 0.44);
+        // Distance relative to current smooth position
+        const dist = (i - currentPos) * itemSpacing;
+        const normY = dist / (vh * 0.46);
         const absNorm = Math.abs(normY);
 
-        // 3D Bend calculations
+        if (absNorm > 2.2) {
+          card.style.opacity = '0';
+          card.style.pointerEvents = 'none';
+          return;
+        }
+
         const rotateX = -normY * params.bendAngle;
-        const translateZ = -Math.pow(Math.min(1.5, absNorm), params.bendCurve) * params.depth;
+        const translateZ = -Math.pow(Math.min(1.4, absNorm), params.bendCurve) * params.depth;
         const translateY = dist - normY * absNorm * (itemSpacing * params.lift);
         const scale = Math.max(0.68, 1 - absNorm * 0.16);
-        const opacity = Math.max(0, 1 - Math.pow(Math.min(1.6, absNorm) / 1.45, params.fadeCurve));
-        const zIndex = Math.round(100 - absNorm * 50);
+        const opacity = Math.max(0, 1 - Math.pow(Math.min(1.5, absNorm) / 1.4, params.fadeCurve));
+        const zIndex = Math.round(100 - absNorm * 30);
 
         card.style.transform = `translate(-50%, -50%) translateY(${translateY}px) translateZ(${translateZ}px) rotateX(${rotateX}deg) scale(${scale})`;
         card.style.opacity = opacity.toFixed(3);
         card.style.zIndex = zIndex;
-        card.style.pointerEvents = absNorm > 0.85 ? 'none' : 'auto';
+        // Only the active card (closest to center) is interactive
+        card.style.pointerEvents = absNorm < 0.4 ? 'auto' : 'none';
       });
 
-      // Active Dot Calculation
-      const rawActive = Math.round(currentOffset / itemSpacing);
-      const activeIdx = ((rawActive % totalCount) + totalCount) % totalCount;
+      // Update dots
+      const activeDot = Math.round(currentPos);
       dots.forEach((dot, idx) => {
-        dot.classList.toggle('active', idx === activeIdx);
+        dot.classList.toggle('active', idx === activeDot);
       });
     };
 
-    // Animation Loop with Smooth Damping
-    const animate = (time) => {
-      const diff = targetOffset - currentOffset;
-      if (Math.abs(diff) > 0.1) {
-        currentOffset += diff * 0.14;
+    // Smooth Animation Frame
+    const animate = () => {
+      const diff = targetPos - currentPos;
+      if (Math.abs(diff) > 0.005) {
+        currentPos += diff * 0.16;
+        updateRender();
+        requestAnimationFrame(animate);
       } else {
-        currentOffset = targetOffset;
+        currentPos = targetPos;
+        updateRender();
+        isAnimating = false;
       }
-      updateRender();
-      rafId = requestAnimationFrame(animate);
-    };
-    rafId = requestAnimationFrame(animate);
-
-    // Pointer Drag & Swipe
-    viewport.addEventListener('pointerdown', (e) => {
-      isDragging = true;
-      startY = e.clientY;
-      startOffset = targetOffset;
-      movedDistance = 0;
-      velocityY = 0;
-      lastTime = performance.now();
-      viewport.setPointerCapture(e.pointerId);
-    });
-
-    viewport.addEventListener('pointermove', (e) => {
-      if (!isDragging) return;
-      const dy = e.clientY - startY;
-      movedDistance = Math.abs(dy);
-      const now = performance.now();
-      const dt = now - lastTime;
-      if (dt > 8) {
-        velocityY = -dy / dt;
-        lastTime = now;
-      }
-      targetOffset = startOffset - dy * 1.25;
-    });
-
-    const onPointerUp = () => {
-      if (!isDragging) return;
-      isDragging = false;
-      const itemSpacing = getItemSpacing();
-
-      // Inertia throw
-      if (Math.abs(velocityY) > 0.3) {
-        targetOffset += velocityY * 180;
-      }
-
-      // Snap gently to nearest card
-      targetOffset = Math.round(targetOffset / itemSpacing) * itemSpacing;
     };
 
-    viewport.addEventListener('pointerup', onPointerUp);
-    viewport.addEventListener('pointercancel', onPointerUp);
+    const goToIndex = (idx) => {
+      const clamped = Math.max(0, Math.min(totalCount - 1, idx));
+      if (clamped !== targetPos) {
+        targetPos = clamped;
+        activeIndex = clamped;
+        if (!isAnimating) {
+          isAnimating = true;
+          requestAnimationFrame(animate);
+        }
+      }
+    };
 
-    // Prevent navigation if dragged
-    cards.forEach(card => {
-      card.addEventListener('click', (e) => {
-        if (movedDistance > 8) {
+    // ── WHEEL SCROLL HANDLING (Finite Step, No Infinite Loop) ──
+    viewport.addEventListener('wheel', (e) => {
+      const deltaY = e.deltaY;
+
+      // If scrolling down
+      if (deltaY > 0) {
+        if (activeIndex < totalCount - 1) {
+          // Advance to next card and prevent page scroll
           e.preventDefault();
+          if (!wheelCooldown) {
+            wheelCooldown = true;
+            goToIndex(activeIndex + 1);
+            setTimeout(() => { wheelCooldown = false; }, 420);
+          }
+        } else {
+          // Reached FUNERALS (last card)!
+          // DO NOT preventDefault! Let page scroll naturally down!
+        }
+      } else if (deltaY < 0) {
+        // If scrolling up
+        if (activeIndex > 0) {
+          // Go back to previous card and prevent page scroll
+          e.preventDefault();
+          if (!wheelCooldown) {
+            wheelCooldown = true;
+            goToIndex(activeIndex - 1);
+            setTimeout(() => { wheelCooldown = false; }, 420);
+          }
+        } else {
+          // Reached WEDDINGS (first card)!
+          // DO NOT preventDefault! Let page scroll naturally up!
+        }
+      }
+    }, { passive: false });
+
+    // ── TOUCH GESTURES (Mobile-friendly, Natural Boundary Scrolling) ──
+    let touchStartY = 0;
+    let touchStartX = 0;
+    let touchMoved = false;
+
+    viewport.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        touchStartY = e.touches[0].clientY;
+        touchStartX = e.touches[0].clientX;
+        touchMoved = false;
+      }
+    }, { passive: true });
+
+    viewport.addEventListener('touchmove', (e) => {
+      if (e.touches.length !== 1) return;
+      const currentY = e.touches[0].clientY;
+      const currentX = e.touches[0].clientX;
+      const diffY = touchStartY - currentY;
+      const diffX = touchStartX - currentX;
+
+      // If primarily vertical swipe
+      if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 10) {
+        touchMoved = true;
+        // If at Funeral and swiping up (scrolling down the page) -> let native page scroll happen!
+        if (diffY > 0 && activeIndex === totalCount - 1) {
+          return; // Native scroll continues down
+        }
+        // If at Wedding and swiping down (scrolling up the page) -> let native page scroll happen!
+        if (diffY < 0 && activeIndex === 0) {
+          return; // Native scroll continues up
+        }
+      }
+    }, { passive: true });
+
+    viewport.addEventListener('touchend', (e) => {
+      if (!touchMoved) return;
+      const touchEndY = e.changedTouches[0].clientY;
+      const diffY = touchStartY - touchEndY;
+
+      // Significant swipe threshold
+      if (Math.abs(diffY) > 40) {
+        if (diffY > 0 && activeIndex < totalCount - 1) {
+          goToIndex(activeIndex + 1);
+        } else if (diffY < 0 && activeIndex > 0) {
+          goToIndex(activeIndex - 1);
+        }
+      }
+      touchMoved = false;
+    }, { passive: true });
+
+    // ── CARD CLICKING & NAVIGATION ──
+    cards.forEach((card) => {
+      // Ensure click on card or button reliably navigates to checklist
+      card.addEventListener('click', function (e) {
+        // If user tapped a card that is not the active center card, bring it to center first!
+        const cardIdx = parseInt(this.dataset.index, 10);
+        if (cardIdx !== activeIndex) {
+          e.preventDefault();
+          goToIndex(cardIdx);
+          return;
+        }
+
+        // Active card: direct navigation!
+        const targetUrl = this.getAttribute('href');
+        if (targetUrl) {
+          window.location.href = targetUrl;
         }
       });
     });
 
-    // Mouse Wheel
-    viewport.addEventListener('wheel', (e) => {
-      e.preventDefault();
-      const itemSpacing = getItemSpacing();
-      const delta = Math.sign(e.deltaY) * itemSpacing;
-      targetOffset = Math.round((targetOffset + delta) / itemSpacing) * itemSpacing;
-    }, { passive: false });
-
-    // Buttons
+    // Prev / Next arrow buttons
     if (prevBtn) {
       prevBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        const itemSpacing = getItemSpacing();
-        targetOffset = (Math.round(targetOffset / itemSpacing) - 1) * itemSpacing;
+        goToIndex(activeIndex - 1);
       });
     }
 
     if (nextBtn) {
       nextBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        const itemSpacing = getItemSpacing();
-        targetOffset = (Math.round(targetOffset / itemSpacing) + 1) * itemSpacing;
+        goToIndex(activeIndex + 1);
       });
     }
 
-    // Dots Click
+    // Dot indicators
     dots.forEach(dot => {
       dot.addEventListener('click', () => {
         const dotIdx = parseInt(dot.dataset.dot, 10);
-        const itemSpacing = getItemSpacing();
-        const currentIdx = ((Math.round(targetOffset / itemSpacing) % totalCount) + totalCount) % totalCount;
-        let diff = dotIdx - currentIdx;
-        if (diff > 2) diff -= 4;
-        if (diff < -2) diff += 4;
-        targetOffset += diff * itemSpacing;
+        goToIndex(dotIdx);
       });
     });
 

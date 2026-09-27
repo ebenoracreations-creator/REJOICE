@@ -386,6 +386,7 @@ function bookPackageWhatsApp(packageName) {
 
   function dismissIntro() {
     if (!introOverlay) return;
+    try { sessionStorage.setItem('rejoice_intro_seen', 'true'); } catch(e) {}
     introOverlay.classList.add('dismissed');
     if (introVideo) {
       try { introVideo.pause(); } catch(e) {}
@@ -395,7 +396,16 @@ function bookPackageWhatsApp(packageName) {
     }, 700);
   }
 
-  if (window.innerWidth <= 768 && introOverlay && introVideo) {
+  // Check if user has already seen the intro or is navigating back to a section (hash)
+  let hasSeenIntro = false;
+  try {
+    hasSeenIntro = sessionStorage.getItem('rejoice_intro_seen') === 'true';
+  } catch(e) {}
+
+  const hasHashTarget = Boolean(window.location.hash && window.location.hash !== '#home');
+
+  if (window.innerWidth <= 768 && introOverlay && introVideo && !hasSeenIntro && !hasHashTarget) {
+    try { sessionStorage.setItem('rejoice_intro_seen', 'true'); } catch(e) {}
     introVideo.volume = 0.45;
     introVideo.muted = false;
     const p = introVideo.play();
