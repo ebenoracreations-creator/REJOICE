@@ -31,7 +31,7 @@
   perspective: 950px;
   perspective-origin: 50% 50%;
   overflow: hidden;
-  touch-action: pan-y;
+  touch-action: none;
   user-select: none;
   -webkit-user-select: none;
   cursor: grab;
@@ -314,6 +314,9 @@
   }
   .bend-card-content {
     padding: 16px 18px 18px;
+  }
+  .bend-badge {
+    display: none !important;
   }
   .bend-title {
     font-size: 24px;

@@ -13,7 +13,7 @@
     {
       id: 'wedding',
       title: 'Weddings',
-      badge: 'Complete Celebration',
+      badge: '',
       badgeClass: '',
       sub: 'Sacred traditions, modern grandeur & bespoke floral styling',
       checkTitle: 'Package Checklist:',
@@ -98,7 +98,7 @@
               </div>
               <div class="bend-card-content">
                 <div>
-                  <span class="bend-badge ${pkg.badgeClass}">${pkg.badge}</span>
+                  ${pkg.badge ? `<span class="bend-badge ${pkg.badgeClass}">${pkg.badge}</span>` : ''}
                   <h3 class="bend-title">${pkg.title}</h3>
                   <p class="bend-sub">${pkg.sub}</p>
                   <div class="bend-checklist">
@@ -208,11 +208,18 @@
       }
     };
 
+    const packagesSection = document.getElementById('packages');
+
     const goToIndex = (idx) => {
       const clamped = Math.max(0, Math.min(totalCount - 1, idx));
       if (clamped !== targetPos) {
         targetPos = clamped;
         activeIndex = clamped;
+        if (activeIndex === totalCount - 1) {
+          viewport.style.touchAction = 'pan-y';
+        } else {
+          viewport.style.touchAction = 'none';
+        }
         if (!isAnimating) {
           isAnimating = true;
           requestAnimationFrame(animate);
@@ -220,90 +227,118 @@
       }
     };
 
-    // ── WHEEL SCROLL HANDLING (Finite Step, No Infinite Loop) ──
-    viewport.addEventListener('wheel', (e) => {
+    // ── WHEEL SCROLL HANDLING (Lock scroll, lock up scroll, unlock at funerals) ──
+    const handleWheel = (e) => {
       const deltaY = e.deltaY;
 
-      // If scrolling down
+      // Scrolling DOWN
       if (deltaY > 0) {
         if (activeIndex < totalCount - 1) {
-          // Advance to next card and prevent page scroll
+          // Card has NOT reached Funerals yet -> LOCK PAGE SCROLL & STEP CARDS
           e.preventDefault();
           if (!wheelCooldown) {
             wheelCooldown = true;
             goToIndex(activeIndex + 1);
-            setTimeout(() => { wheelCooldown = false; }, 420);
+            setTimeout(() => { wheelCooldown = false; }, 400);
           }
         } else {
-          // Reached FUNERALS (last card)!
+          // Reached FUNERALS (last card) -> UNLOCK SCROLL!
           // DO NOT preventDefault! Let page scroll naturally down!
         }
       } else if (deltaY < 0) {
-        // If scrolling up
+        // Scrolling UP
         if (activeIndex > 0) {
-          // Go back to previous card and prevent page scroll
+          // Step back to previous card and prevent page scroll
           e.preventDefault();
           if (!wheelCooldown) {
             wheelCooldown = true;
             goToIndex(activeIndex - 1);
-            setTimeout(() => { wheelCooldown = false; }, 420);
+            setTimeout(() => { wheelCooldown = false; }, 400);
           }
         } else {
-          // Reached WEDDINGS (first card)!
-          // DO NOT preventDefault! Let page scroll naturally up!
+          // Reached WEDDINGS (card 0) -> "the up scroll should be locked"
+          e.preventDefault(); // STRICTLY LOCK UP SCROLL!
         }
       }
-    }, { passive: false });
+    };
 
-    // ── TOUCH GESTURES (Mobile-friendly, Natural Boundary Scrolling) ──
+    viewport.addEventListener('wheel', handleWheel, { passive: false });
+    if (packagesSection) {
+      packagesSection.addEventListener('wheel', handleWheel, { passive: false });
+    }
+
+    // ── TOUCH GESTURES (Lock scroll, lock up scroll, unlock at funerals) ──
     let touchStartY = 0;
     let touchStartX = 0;
-    let touchMoved = false;
+    let touchSwiping = false;
+    let touchCooldown = false;
 
-    viewport.addEventListener('touchstart', (e) => {
+    const handleTouchStart = (e) => {
       if (e.touches.length === 1) {
         touchStartY = e.touches[0].clientY;
         touchStartX = e.touches[0].clientX;
-        touchMoved = false;
+        touchSwiping = true;
       }
-    }, { passive: true });
+    };
 
-    viewport.addEventListener('touchmove', (e) => {
-      if (e.touches.length !== 1) return;
+    const handleTouchMove = (e) => {
+      if (!touchSwiping || e.touches.length !== 1) return;
       const currentY = e.touches[0].clientY;
       const currentX = e.touches[0].clientX;
-      const diffY = touchStartY - currentY;
+      const diffY = touchStartY - currentY; // positive = swiping up (scrolling down)
       const diffX = touchStartX - currentX;
 
-      // If primarily vertical swipe
-      if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 10) {
-        touchMoved = true;
-        // If at Funeral and swiping up (scrolling down the page) -> let native page scroll happen!
-        if (diffY > 0 && activeIndex === totalCount - 1) {
-          return; // Native scroll continues down
-        }
-        // If at Wedding and swiping down (scrolling up the page) -> let native page scroll happen!
-        if (diffY < 0 && activeIndex === 0) {
-          return; // Native scroll continues up
-        }
-      }
-    }, { passive: true });
+      // If gesture is predominantly horizontal, ignore vertical card stepping
+      if (Math.abs(diffX) > Math.abs(diffY) * 1.5) return;
 
-    viewport.addEventListener('touchend', (e) => {
-      if (!touchMoved) return;
-      const touchEndY = e.changedTouches[0].clientY;
-      const diffY = touchStartY - touchEndY;
-
-      // Significant swipe threshold
-      if (Math.abs(diffY) > 40) {
-        if (diffY > 0 && activeIndex < totalCount - 1) {
-          goToIndex(activeIndex + 1);
-        } else if (diffY < 0 && activeIndex > 0) {
-          goToIndex(activeIndex - 1);
-        }
+      // When reaching Funerals and user swipes UP (scrolling DOWN the page)
+      if (activeIndex === totalCount - 1 && diffY > 0) {
+        // SCROLL IS UNLOCKED! Allow native page scroll to continue downwards
+        return;
       }
-      touchMoved = false;
-    }, { passive: true });
+
+      // In all other cases: STRICTLY LOCK PAGE SCROLL!
+      if (e.cancelable) {
+        e.preventDefault();
+      }
+
+      // Step cards when threshold reached
+      if (!touchCooldown && Math.abs(diffY) > 28) {
+        if (diffY > 0) {
+          // Swiping up -> scroll down -> advance card
+          if (activeIndex < totalCount - 1) {
+            touchCooldown = true;
+            goToIndex(activeIndex + 1);
+            setTimeout(() => { touchCooldown = false; }, 360);
+          }
+        } else if (diffY < 0) {
+          // Swiping down -> scroll up -> go back
+          if (activeIndex > 0) {
+            touchCooldown = true;
+            goToIndex(activeIndex - 1);
+            setTimeout(() => { touchCooldown = false; }, 360);
+          } else {
+            // At Weddings (card 0): "the up scroll should be locked"
+            // Page scroll is already locked with e.preventDefault()!
+          }
+        }
+        touchStartY = currentY;
+      }
+    };
+
+    const handleTouchEnd = () => {
+      touchSwiping = false;
+    };
+
+    viewport.addEventListener('touchstart', handleTouchStart, { passive: true });
+    viewport.addEventListener('touchmove', handleTouchMove, { passive: false });
+    viewport.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    if (packagesSection) {
+      packagesSection.addEventListener('touchstart', handleTouchStart, { passive: true });
+      packagesSection.addEventListener('touchmove', handleTouchMove, { passive: false });
+      packagesSection.addEventListener('touchend', handleTouchEnd, { passive: true });
+    }
 
     // ── CARD CLICKING & NAVIGATION ──
     cards.forEach((card) => {
