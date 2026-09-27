@@ -271,11 +271,35 @@ function bookPackageWhatsApp(packageName) {
 (function initHeroMedia() {
   const video = document.getElementById('heroVideo');
   const slides = document.querySelectorAll('.hero-slide');
+  const soundBtn = document.getElementById('heroSoundToggle');
+
+  // Light sound volume (22% subtle background audio)
+  const LIGHT_VOLUME = 0.22;
+
+  function updateSoundUI(isMuted) {
+    if (!soundBtn) return;
+    const unmutedIcon = soundBtn.querySelector('.sound-icon-unmuted');
+    const mutedIcon = soundBtn.querySelector('.sound-icon-muted');
+    const label = soundBtn.querySelector('.sound-label');
+
+    if (isMuted) {
+      soundBtn.classList.remove('is-unmuted');
+      if (unmutedIcon) unmutedIcon.style.display = 'none';
+      if (mutedIcon) mutedIcon.style.display = 'inline-block';
+      if (label) label.textContent = 'Sound Off';
+    } else {
+      soundBtn.classList.add('is-unmuted');
+      if (unmutedIcon) unmutedIcon.style.display = 'inline-block';
+      if (mutedIcon) mutedIcon.style.display = 'none';
+      if (label) label.textContent = 'Sound On';
+    }
+  }
 
   function checkMedia() {
     const isDesktop = window.innerWidth >= 769;
     if (video) {
       if (isDesktop) {
+        video.volume = LIGHT_VOLUME;
         video.play().catch(() => {});
       } else {
         video.pause();
@@ -285,6 +309,34 @@ function bookPackageWhatsApp(packageName) {
 
   window.addEventListener('resize', checkMedia, { passive: true });
   checkMedia();
+
+  // Sound toggle button click handler
+  if (video && soundBtn) {
+    soundBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      video.volume = LIGHT_VOLUME;
+      video.muted = !video.muted;
+      if (!video.muted) {
+        video.play().catch(() => {});
+      }
+      updateSoundUI(video.muted);
+    });
+
+    // Start video with light sound on first user gesture anywhere on document
+    const enableSoundOnFirstGesture = () => {
+      if (window.innerWidth >= 769 && video && video.muted) {
+        video.volume = LIGHT_VOLUME;
+        video.muted = false;
+        video.play().catch(() => {});
+        updateSoundUI(false);
+      }
+      document.removeEventListener('click', enableSoundOnFirstGesture);
+      document.removeEventListener('keydown', enableSoundOnFirstGesture);
+    };
+    document.addEventListener('click', enableSoundOnFirstGesture, { once: true });
+    document.addEventListener('keydown', enableSoundOnFirstGesture, { once: true });
+  }
 
   // Mobile slideshow fallback rotation
   if (slides.length >= 2) {
