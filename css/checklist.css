@@ -79,6 +79,13 @@ body {
   text-decoration: none;
   color: var(--text);
 }
+.chk-brand-logo-img {
+  height: 38px;
+  width: auto;
+  max-width: 150px;
+  object-fit: contain;
+  display: block;
+}
 .chk-brand-icon {
   width: 18px;
   height: 18px;

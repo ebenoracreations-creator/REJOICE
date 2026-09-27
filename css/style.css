@@ -252,6 +252,25 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   text-decoration: none;
   flex-shrink: 0;
 }
+.nav-brand-img {
+  height: 38px;
+  width: auto;
+  max-width: 150px;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.3s ease;
+}
+.nav-logo:hover .nav-brand-img {
+  transform: scale(1.03);
+}
+.footer-brand-img {
+  height: 54px;
+  width: auto;
+  max-width: 190px;
+  object-fit: contain;
+  display: block;
+  margin-bottom: 8px;
+}
 .nav-logo-icon { width: 16px; height: 16px; color: var(--gold); flex-shrink: 0; transition: color 0.4s; }
 #navbar.scrolled .nav-logo-icon { color: var(--gold); }
 .nav-logo-text { display: flex; flex-direction: column; line-height: 1; }
