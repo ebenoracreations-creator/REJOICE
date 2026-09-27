@@ -35,13 +35,28 @@
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       const href = this.getAttribute('href');
-      if (!href || href === '#') return;
+      if (!href) return;
+      if (href === '#' || href === '#home') {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (history.pushState) {
+          history.pushState(null, null, '#home');
+        }
+        navLinks.forEach(link => link.classList.remove('active'));
+        document.querySelectorAll('.nav-link[href="#home"]').forEach(l => l.classList.add('active'));
+        closeMobileMenu();
+        return;
+      }
       const target = document.querySelector(href);
       if (target) {
         e.preventDefault();
         const offset = 80;
-        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        const targetTop = target.getBoundingClientRect().top + window.pageYOffset;
+        const top = Math.max(0, targetTop - offset);
         window.scrollTo({ top, behavior: 'smooth' });
+        if (history.pushState) {
+          history.pushState(null, null, href);
+        }
         closeMobileMenu();
       }
     });
@@ -251,15 +266,35 @@ function bookPackageWhatsApp(packageName) {
 }
 
 /* ══════════════════════════════════════════════════════════════
-   HERO PICTURE SLIDESHOW ROTATION
+   HERO VIDEO (DESKTOP) & PICTURE SLIDESHOW (MOBILE FALLBACK)
 ══════════════════════════════════════════════════════════════ */
-(function initHeroSlider() {
+(function initHeroMedia() {
+  const video = document.getElementById('heroVideo');
   const slides = document.querySelectorAll('.hero-slide');
-  if (slides.length < 2) return;
-  let activeIndex = 0;
-  setInterval(() => {
-    slides[activeIndex].classList.remove('active');
-    activeIndex = (activeIndex + 1) % slides.length;
-    slides[activeIndex].classList.add('active');
-  }, 5500);
+
+  function checkMedia() {
+    const isDesktop = window.innerWidth >= 769;
+    if (video) {
+      if (isDesktop) {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    }
+  }
+
+  window.addEventListener('resize', checkMedia, { passive: true });
+  checkMedia();
+
+  // Mobile slideshow fallback rotation
+  if (slides.length >= 2) {
+    let activeIndex = 0;
+    setInterval(() => {
+      if (window.innerWidth < 769) {
+        slides[activeIndex].classList.remove('active');
+        activeIndex = (activeIndex + 1) % slides.length;
+        slides[activeIndex].classList.add('active');
+      }
+    }, 5500);
+  }
 })();

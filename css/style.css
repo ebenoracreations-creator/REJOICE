@@ -338,6 +338,31 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   justify-content: center;
   overflow: hidden;
 }
+/* ── HERO VIDEO (LAPTOP / DESKTOP VIEW) ── */
+.hero-video-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+  display: none; /* hidden on mobile screens */
+}
+
+.hero-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+}
+
 .hero-slider {
   position: absolute;
   inset: 0;
@@ -439,6 +464,44 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   box-shadow: 0 25px 60px rgba(0,0,0,0.1), inset 0 2px 2px rgba(255,255,255,0.9), inset 0 -1px 1px rgba(255,255,255,0.3);
   animation: heroRollUp 1.25s cubic-bezier(0.16, 1, 0.3, 1) both;
   will-change: transform, opacity;
+}
+
+/* ── DESKTOP & LAPTOP VIEW: Video active & Glass Card aligned to Right Side ── */
+@media (min-width: 769px) {
+  .hero-video-wrap {
+    display: block;
+  }
+  .hero-slider {
+    display: none;
+  }
+  .hero-content {
+    justify-content: flex-end;
+    padding: 120px 48px 80px;
+    max-width: 1300px;
+  }
+  .hero-glass-card {
+    margin-left: auto;
+    margin-right: 0;
+    border-radius: 120px 40px 40px 40px;
+    background: rgba(255, 255, 255, 0.32);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    border: 1.5px solid rgba(255, 255, 255, 0.72);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.16), inset 0 2px 2px rgba(255, 255, 255, 0.95);
+  }
+  .hero-quote {
+    left: 48px;
+    right: auto;
+    bottom: 32px;
+    text-align: left;
+    font-size: 8.5px;
+    letter-spacing: 0.2em;
+    opacity: 0.85;
+  }
+  .hero-overlay {
+    background: linear-gradient(to right, rgba(0,0,0,0.01) 0%, rgba(0,0,0,0.04) 45%, rgba(0,0,0,0.2) 100%),
+                linear-gradient(to bottom, rgba(0,0,0,0.18) 0%, transparent 35%, rgba(0,0,0,0.25) 100%);
+  }
 }
 .hero-quote {
   animation: heroRollUp 1.4s 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -1275,6 +1338,12 @@ input:focus, select:focus, textarea:focus { border-color: #a09080; box-shadow: 0
   }
 
   /* Hero Section */
+  .hero-video-wrap {
+    display: none !important;
+  }
+  .hero-slider {
+    display: block !important;
+  }
   .hero {
     min-height: 100svh;
     align-items: center;
@@ -1283,6 +1352,7 @@ input:focus, select:focus, textarea:focus { border-color: #a09080; box-shadow: 0
   .hero-content {
     padding: 95px 16px 40px;
     width: 100%;
+    justify-content: center !important;
   }
   .hero-glass-card {
     padding: 24px 20px;
@@ -1290,6 +1360,7 @@ input:focus, select:focus, textarea:focus { border-color: #a09080; box-shadow: 0
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
+    margin: 0 auto !important;
   }
   .hero-breadcrumb {
     font-size: 8.5px;
