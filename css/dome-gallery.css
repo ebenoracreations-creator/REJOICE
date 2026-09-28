@@ -97,13 +97,13 @@ main.sphere-main:active {
 }
 
 .item {
-  width: calc(var(--item-width) * var(--item-size-x));
-  height: calc(var(--item-height) * var(--item-size-y));
+  width: var(--item-w, calc(var(--item-width) * var(--item-size-x)));
+  height: var(--item-h, calc(var(--item-height) * var(--item-size-y)));
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-top: calc(var(--item-height) * var(--item-size-y) / -2);
-  margin-left: calc(var(--item-width) * var(--item-size-x) / -2);
+  margin-top: calc(var(--item-h, calc(var(--item-height) * var(--item-size-y))) / -2);
+  margin-left: calc(var(--item-w, calc(var(--item-width) * var(--item-size-x))) / -2);
   transform-origin: 50% 50%;
   backface-visibility: hidden;
   transform: rotateY(var(--base-rot-y, 0deg))

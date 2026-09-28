@@ -24,7 +24,7 @@
         'Live Fusion & Sound Engineering',
         'Center Carpet, Pathway & Ramp Styling'
       ],
-      image: 'images/packages/wedding-card.png',
+      image: 'images/packages/wedding-card.jpg',
       alt: 'Luxury Kerala Wedding Stage Decor by Rejoice Events',
       url: 'wedding-checklist.html'
     },
@@ -42,7 +42,7 @@
         'Sound, Music, Mic & Welcome Board',
         'Baptism Basket, Tiara, Candle & Church Altar'
       ],
-      image: 'images/packages/baptism-card.png',
+      image: 'images/packages/baptism-card.jpg',
       alt: 'Bespoke Angel Wing Baptism Setup by Rejoice Events',
       url: 'baptism-checklist.html'
     },
@@ -60,7 +60,7 @@
         'Return Gifts & its Display Table or Stand',
         'Sound, Music, Mic & Welcome Board Setting'
       ],
-      image: 'images/packages/birthday-card.png',
+      image: 'images/packages/birthday-card.jpg',
       alt: 'Enchanted Fairy Birthday Garden Setup by Rejoice Events',
       url: 'birthday-checklist.html'
     },

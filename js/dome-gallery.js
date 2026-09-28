@@ -1,33 +1,34 @@
 /**
  * Rejoice Events — 3D Dome Gallery Engine (The Globe)
  * Native Vanilla JS implementation of React Bits DomeGallery.
+ * Supports exact N-picture frames with ZERO repeats (e.g., 24 frames for 24 pictures, 50 frames for 50 pictures).
+ * Fully touch-optimized with smooth inertia and glitch-free mobile lightbox preview.
  */
 
 (function () {
   'use strict';
 
   const DEFAULT_IMAGES = [
-    { src: 'images/packages/wedding-card.png', alt: 'Luxury Kerala Wedding Stage Decor by Rejoice' },
-    { src: 'images/packages/baptism-card.png', alt: 'Bespoke Angel Wing Baptism Setup by Rejoice' },
-    { src: 'images/packages/birthday-card.png', alt: 'Enchanted Fairy Birthday Garden Setup by Rejoice' },
+    { src: 'images/packages/wedding-card.jpg', alt: 'Luxury Kerala Wedding Stage Decor by Rejoice' },
+    { src: 'images/packages/baptism-card.jpg', alt: 'Bespoke Angel Wing Baptism Setup by Rejoice' },
+    { src: 'images/packages/birthday-card.jpg', alt: 'Enchanted Fairy Birthday Garden Setup by Rejoice' },
     { src: 'images/packages/funeral-card.jpeg', alt: 'Sacred Floral Altar Memorial Tribute by Rejoice' },
+    { src: 'images/packages/flower-1.jpg', alt: 'Grand Mandap Floral Arch by Rejoice Studio' },
+    { src: 'images/packages/flower-2.jpg', alt: 'Bespoke Luxury Bridal Bouquet' },
+    { src: 'images/packages/flower-3.jpg', alt: 'Exquisite Fresh Floral Tablescapes' },
+    { src: 'images/packages/flower-4.jpg', alt: 'Celebration Grand Entrance Gateway' },
     { src: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=85', alt: 'Grand Gala Banquet by Rejoice Events Kerala' },
     { src: 'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=800&q=85', alt: 'Rejoice Floral Studio Cascading Mandap' },
-    { src: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=800&q=85', alt: 'Handcrafted Luxury Bridal Bouquet' },
-    { src: 'https://images.unsplash.com/photo-1527061011665-3652c757a4d4?auto=format&fit=crop&w=800&q=85', alt: 'Atmospheric Tablescapes with Fresh Florals' },
-    { src: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=800&q=85', alt: 'Sculptural Ceremony Floral Gateway' },
     { src: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=85', alt: 'Luxury Banquet Hall Lighting & Production' },
-    { src: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=800&q=85', alt: 'Vibrant Celebration Jubilee Setup' },
     { src: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=85', alt: 'Traditional Kerala Wedding Ceremony by Rejoice' }
   ];
 
   const DEFAULTS = {
-    maxVerticalRotationDeg: 7,
+    maxVerticalRotationDeg: 8,
     dragSensitivity: 18,
     enlargeTransitionMs: 350,
-    segments: 35,
     fit: 0.55,
-    minRadius: 550,
+    minRadius: 360,
     maxRadius: 1800,
     padFactor: 0.2,
     overlayBlurColor: '#100d14',
@@ -38,52 +39,99 @@
   };
 
   const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
-  const normalizeAngle = d => ((d % 360) + 360) % 360;
   const wrapAngleSigned = deg => (((deg + 180) % 360) + 360) % 360 - 180;
 
-  function buildItems(pool, seg) {
-    const xCols = Array.from({ length: seg }, (_, i) => -37 + i * 2);
-    const evenYs = [-4, -2, 0, 2, 4];
-    const oddYs = [-3, -1, 1, 3, 5];
-
-    const coords = xCols.flatMap((x, c) => {
-      const ys = c % 2 === 0 ? evenYs : oddYs;
-      return ys.map(y => ({ x, y, sizeX: 2, sizeY: 2 }));
-    });
-
-    const totalSlots = coords.length;
+  /**
+   * Build exactly N unique frames for N images — NO REPETITIONS.
+   * Staggers frames into balanced spherical latitude rings.
+   */
+  function buildItems(pool) {
     const normalizedImages = pool.map(image => {
-      if (typeof image === 'string') return { src: image, alt: 'Rejoice Events' };
-      return { src: image.src || '', alt: image.alt || 'Rejoice Events' };
+      if (typeof image === 'string') return { src: image, alt: 'Rejoice Events Kerala' };
+      return { src: image.src || '', alt: image.alt || 'Rejoice Events Kerala' };
     });
 
-    const usedImages = Array.from({ length: totalSlots }, (_, i) => normalizedImages[i % normalizedImages.length]);
+    const N = normalizedImages.length;
+    if (N === 0) return { items: [], maxCols: 1, numRows: 1 };
 
-    for (let i = 1; i < usedImages.length; i++) {
-      if (usedImages[i].src === usedImages[i - 1].src) {
-        for (let j = i + 1; j < usedImages.length; j++) {
-          if (usedImages[j].src !== usedImages[i].src) {
-            const tmp = usedImages[i];
-            usedImages[i] = usedImages[j];
-            usedImages[j] = tmp;
-            break;
-          }
+    // Determine optimal number of latitude rows (rings) based on picture count N
+    let numRows;
+    if (N <= 8) numRows = 2;
+    else if (N <= 18) numRows = 3;
+    else if (N <= 35) numRows = 4;
+    else if (N <= 65) numRows = 5;
+    else numRows = 6;
+
+    // Symmetrical elevation angles (latitudes)
+    const maxLat = numRows <= 3 ? 18 : 25;
+    const latitudes = [];
+    if (numRows === 1) {
+      latitudes.push(0);
+    } else {
+      const step = (maxLat * 2) / (numRows - 1);
+      for (let r = 0; r < numRows; r++) {
+        latitudes.push(-maxLat + r * step);
+      }
+    }
+
+    // Weight capacity of each row by cos(latitude)
+    const weights = latitudes.map(lat => Math.cos((lat * Math.PI) / 180));
+    const totalWeight = weights.reduce((a, b) => a + b, 0);
+
+    // Initial item counts per row
+    let rowCounts = weights.map(w => Math.max(1, Math.round((w / totalWeight) * N)));
+    let currentTotal = rowCounts.reduce((a, b) => a + b, 0);
+
+    // Fine-tune to match exactly N items
+    while (currentTotal !== N) {
+      if (currentTotal < N) {
+        const mid = Math.floor(numRows / 2);
+        rowCounts[mid]++;
+        currentTotal++;
+      } else {
+        let maxIdx = 0;
+        for (let i = 1; i < numRows; i++) {
+          if (rowCounts[i] > rowCounts[maxIdx]) maxIdx = i;
+        }
+        if (rowCounts[maxIdx] > 1) {
+          rowCounts[maxIdx]--;
+          currentTotal--;
+        } else {
+          break;
         }
       }
     }
 
-    return coords.map((c, i) => ({
-      ...c,
-      src: usedImages[i].src,
-      alt: usedImages[i].alt
-    }));
-  }
+    const maxCols = Math.max(...rowCounts);
 
-  function computeItemBaseRotation(offsetX, offsetY, sizeX, sizeY, segments) {
-    const unit = 360 / segments / 2;
-    const rotateY = unit * (offsetX + (sizeX - 1) / 2);
-    const rotateX = unit * (offsetY - (sizeY - 1) / 2);
-    return { rotateX, rotateY };
+    // Place each unique image into its row and column
+    const items = [];
+    let imgIdx = 0;
+
+    for (let r = 0; r < numRows; r++) {
+      const k = rowCounts[r];
+      const lat = latitudes[r];
+      const stepY = 360 / k;
+      // Stagger odd rows by half a slot for natural honeycomb brickwork
+      const stagger = r % 2 === 1 ? stepY / 2 : 0;
+
+      for (let c = 0; c < k; c++) {
+        if (imgIdx >= N) break;
+        const rotateY = wrapAngleSigned(c * stepY + stagger);
+        const rotateX = lat;
+        items.push({
+          src: normalizedImages[imgIdx].src,
+          alt: normalizedImages[imgIdx].alt,
+          rotateX,
+          rotateY,
+          row: r,
+          col: c
+        });
+        imgIdx++;
+      }
+    }
+
+    return { items, maxCols, numRows };
   }
 
   function initDomeGallery(containerId, userImages) {
@@ -91,24 +139,21 @@
     if (!mountEl) return;
 
     const images = userImages && userImages.length > 0 ? userImages : DEFAULT_IMAGES;
-    const items = buildItems(images, DEFAULTS.segments);
+    const { items, maxCols, numRows } = buildItems(images);
 
     // Build DOM structure
     mountEl.innerHTML = `
-      <div class="sphere-root" style="--segments-x:${DEFAULTS.segments};--segments-y:${DEFAULTS.segments};--overlay-blur-color:${DEFAULTS.overlayBlurColor};--tile-radius:${DEFAULTS.imageBorderRadius};--enlarge-radius:${DEFAULTS.openedImageBorderRadius};">
+      <div class="sphere-root" style="--overlay-blur-color:${DEFAULTS.overlayBlurColor};--tile-radius:${DEFAULTS.imageBorderRadius};--enlarge-radius:${DEFAULTS.openedImageBorderRadius};">
         <main class="sphere-main">
           <div class="stage">
             <div class="sphere">
-              ${items.map((it, i) => {
-                const base = computeItemBaseRotation(it.x, it.y, it.sizeX, it.sizeY, DEFAULTS.segments);
-                return `
-                <div class="item" data-index="${i}" data-src="${it.src}" data-offset-x="${it.x}" data-offset-y="${it.y}" data-size-x="${it.sizeX}" data-size-y="${it.sizeY}" style="--base-rot-x:${base.rotateX.toFixed(3)}deg;--base-rot-y:${base.rotateY.toFixed(3)}deg;--offset-x:${it.x};--offset-y:${it.y};--item-size-x:${it.sizeX};--item-size-y:${it.sizeY};">
+              ${items.map((it, i) => `
+                <div class="item" data-index="${i}" data-src="${it.src}" style="--base-rot-x:${it.rotateX.toFixed(3)}deg;--base-rot-y:${it.rotateY.toFixed(3)}deg;">
                   <div class="item__image" role="button" tabindex="0" aria-label="${it.alt}">
-                    <img src="${it.src}" draggable="false" alt="${it.alt}" loading="lazy" />
+                    <img src="${it.src}" draggable="false" alt="${it.alt}" loading="lazy" decoding="async" />
                   </div>
                 </div>
-              `;
-              }).join('')}
+              `).join('')}
             </div>
           </div>
           <div class="overlay"></div>
@@ -130,7 +175,6 @@
     let hasMoved = false;
     let dragMode = null; // 'rotate' | 'scroll' | null
     let inertiaRAF = null;
-    let lastDragEndAt = 0;
 
     const applyTransform = (xDeg, yDeg) => {
       if (sphere) {
@@ -138,7 +182,7 @@
       }
     };
 
-    // Resize Observer for sphere radius
+    // Resize Observer for sphere radius and responsive card dimensions
     const ro = new ResizeObserver(entries => {
       const cr = entries[0].contentRect;
       const w = Math.max(1, cr.width);
@@ -153,6 +197,15 @@
       const viewerPad = Math.max(8, Math.round(minDim * DEFAULTS.padFactor));
       root.style.setProperty('--radius', `${Math.round(radius)}px`);
       root.style.setProperty('--viewer-pad', `${viewerPad}px`);
+
+      // Compute dynamic width and height tailored to the frame count
+      const wFactor = Math.min(0.36, Math.max(0.18, 2.2 / maxCols));
+      const hFactor = wFactor * 0.72;
+      const tileW = Math.round(clamp(radius * wFactor, 105, 240));
+      const tileH = Math.round(clamp(radius * hFactor, 76, 175));
+      root.style.setProperty('--item-w', `${tileW}px`);
+      root.style.setProperty('--item-h', `${tileH}px`);
+
       applyTransform(rotation.x, rotation.y);
     });
     ro.observe(root);
@@ -220,7 +273,7 @@
       // On touch devices, detect if vertical scrolling or horizontal rotating
       if (!dragMode && distSq > 36) {
         if (e.pointerType === 'touch' && Math.abs(dy) > Math.abs(dx) * 1.15) {
-          // User intended vertical page scroll — yield to native browser scroll!
+          // User intended vertical page scroll — yield to native browser scroll
           dragMode = 'scroll';
           isDragging = false;
           return;
@@ -229,7 +282,7 @@
         }
       }
 
-      if (distSq > 100) {
+      if (distSq > 64) {
         hasMoved = true;
       }
 
@@ -255,15 +308,18 @@
       if (!isDragging) return;
       isDragging = false;
       if (hasMoved && dragMode === 'rotate') {
-        lastDragEndAt = performance.now();
         startInertia(velocity.x, velocity.y);
       }
-      hasMoved = false;
-      dragMode = null;
+      setTimeout(() => {
+        hasMoved = false;
+        dragMode = null;
+      }, 50);
     });
 
     // ══════════ FULLSCREEN LIGHTBOX MODAL ══════════
     let lightboxEl = document.getElementById('rejoiceDomeLightbox');
+    let lightboxOpenedAt = 0;
+
     if (!lightboxEl) {
       lightboxEl = document.createElement('div');
       lightboxEl.id = 'rejoiceDomeLightbox';
@@ -304,12 +360,14 @@
       }
 
       lightboxEl.addEventListener('click', e => {
+        // Prevent synthesized ghost clicks right after modal opens from immediately closing it
+        if (performance.now() - lightboxOpenedAt < 400) return;
         if (e.target === lightboxEl || e.target.classList.contains('dome-lightbox-content')) {
           closeLb();
         }
       });
 
-      // Prevent background scrolling without touching body overflow (zero layout jumps)
+      // Prevent background scrolling while modal is open
       lightboxEl.addEventListener('touchmove', e => {
         e.preventDefault();
       }, { passive: false });
@@ -325,6 +383,7 @@
     const openLightbox = (src, alt) => {
       if (!lightboxEl || !src) return;
       isLightboxOpen = true;
+      lightboxOpenedAt = performance.now();
       stopInertia();
       isDragging = false;
 
@@ -332,12 +391,9 @@
       const caption = lightboxEl.querySelector('.dome-lightbox-caption');
 
       if (img) {
-        img.style.opacity = '0';
-        img.style.transition = 'opacity 0.25s ease';
         img.src = src;
         img.alt = alt || 'Rejoice Events Kerala';
-        img.onload = () => { img.style.opacity = '1'; };
-        if (img.complete) { img.style.opacity = '1'; }
+        img.style.opacity = '1';
       }
 
       if (caption) {
@@ -347,7 +403,7 @@
       lightboxEl.classList.add('active');
     };
 
-    // Robust Mobile & Desktop Tap / Click Detection on Items
+    // Mobile & Desktop Tap / Click Handling (Ghost-Click Proof)
     mountEl.querySelectorAll('.item__image').forEach(itemEl => {
       const parent = itemEl.closest('.item');
       const src = parent ? parent.dataset.src : '';
@@ -356,28 +412,25 @@
 
       let tapStartX = 0;
       let tapStartY = 0;
-      let tapStartTime = 0;
+      let tapDistMoved = 0;
 
       itemEl.addEventListener('pointerdown', e => {
         tapStartX = e.clientX;
         tapStartY = e.clientY;
-        tapStartTime = performance.now();
+        tapDistMoved = 0;
       });
 
-      itemEl.addEventListener('pointerup', e => {
+      itemEl.addEventListener('pointermove', e => {
         const dx = e.clientX - tapStartX;
         const dy = e.clientY - tapStartY;
-        const elapsed = performance.now() - tapStartTime;
-        // Clean intentional tap: finger moved < 12px and duration < 350ms
-        if (dx * dx + dy * dy < 144 && elapsed < 350) {
-          e.stopPropagation();
-          openLightbox(src, alt);
-        }
+        tapDistMoved = Math.max(tapDistMoved, dx * dx + dy * dy);
       });
 
       itemEl.addEventListener('click', e => {
         e.stopPropagation();
-        if (hasMoved) return;
+        e.preventDefault();
+        // Discard click if finger moved to drag or rotate
+        if (tapDistMoved > 49 || hasMoved) return;
         openLightbox(src, alt);
       });
     });
@@ -404,7 +457,7 @@
     });
   }
 
-  // Expose global init
+  // Expose global init function
   window.initRejoiceDomeGallery = initDomeGallery;
 
   // Auto initialize on DOM ready
