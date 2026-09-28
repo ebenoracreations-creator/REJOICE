@@ -31,7 +31,7 @@
   perspective: 950px;
   perspective-origin: 50% 50%;
   overflow: hidden;
-  touch-action: none;
+  touch-action: pan-y;
   user-select: none;
   -webkit-user-select: none;
   cursor: grab;
