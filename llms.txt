@@ -1,4 +1,4 @@
-# Rejoice Events & Floral Studio
+﻿# Rejoice Events & Floral Studio
 
 > Premier event management company and bespoke floral design studio based in Kottayam, Kerala. Specializing in luxury destination weddings, sacred church baptisms, creative birthday wonderlands, dignified funeral memorials, corporate milestone celebrations, and artisanal fresh flower styling across all 14 districts of Kerala.
 
@@ -7,7 +7,7 @@
 - **Company Name**: Rejoice Events & Floral Studio
 - **Headquarters**: Anakkal, Kanjirappally, Kottayam, Kerala 686508, India
 - **Service Area**: Kottayam, Kanjirappally, Pala, Changanassery, Kumarakom, Kochi (Ernakulam), Trivandrum, Kozhikode, Thrissur, and all 14 districts across Kerala
-- **Primary Website**: https://www.rejoiceevents.in/
+- **Primary Website**: https://www.rejoiceeventsandflorals.com/
 - **Phone / WhatsApp (24/7)**: +91 99614 02646
 - **Email**: rejoiceevents@gmail.com
 - **Operating Hours**: 24 Hours / 7 Days a week
@@ -18,13 +18,13 @@
 
 Rejoice Events provides interactive, digital planning checklists that allow clients to customize every component of their celebration and generate an instant WhatsApp or PDF brief.
 
-- [Wedding Checklist & Planning](https://www.rejoiceevents.in/wedding-checklist.html): Full-service luxury Kerala wedding planning, mandap & stage decor, royal bridal entrance, banquet floral tablescapes, traditional nadhaswaram/chenda melam, live bands, cinematography, multi-course feast catering, and guest ushering.
-- [Baptism & Holy Communion Checklist](https://www.rejoiceevents.in/baptism-checklist.html): Sacred ceremony styling, altar floral arches, custom themed stage backdrops, cake table displays, return gifts, personalized photo corners, sound, and feast catering.
-- [Birthday & Milestone Jubilees Checklist](https://www.rejoiceevents.in/birthday-checklist.html): 1st birthday wonderlands, milestone 25th/50th/60th jubilees, custom 3D backdrops, balloon & floral art, illusionists, sound & lighting, dessert bars, and customized return favors.
-- [Funeral & Sacred Memorial Checklist](https://www.rejoiceevents.in/funeral-checklist.html): Compassionate 24/7 dignified funeral arrangements, solemn church altar cross florals, memorial arches, ambient candle styling, and sacred sound systems arranged with utmost respect.
-- [Corporate Events Checklist](https://www.rejoiceevents.in/corporate-checklist.html): Annual general meetings, product launches, corporate galas, award nights, conference AV production, LED video walls, and executive catering.
-- [Custom Event Package Checklist](https://www.rejoiceevents.in/custom-checklist.html): Interactive custom event builder for engagements, anniversaries, housewarmings, and unique milestones.
-- [Floral Studio](https://www.rejoiceevents.in/#floral-studio): In-house boutique floral atelier providing exotic fresh flower mandaps, handcrafted bridal bouquets, floral runners, and church altar arrangements.
+- [Wedding Checklist & Planning](https://www.rejoiceeventsandflorals.com/wedding-checklist.html): Full-service luxury Kerala wedding planning, mandap & stage decor, royal bridal entrance, banquet floral tablescapes, traditional nadhaswaram/chenda melam, live bands, cinematography, multi-course feast catering, and guest ushering.
+- [Baptism & Holy Communion Checklist](https://www.rejoiceeventsandflorals.com/baptism-checklist.html): Sacred ceremony styling, altar floral arches, custom themed stage backdrops, cake table displays, return gifts, personalized photo corners, sound, and feast catering.
+- [Birthday & Milestone Jubilees Checklist](https://www.rejoiceeventsandflorals.com/birthday-checklist.html): 1st birthday wonderlands, milestone 25th/50th/60th jubilees, custom 3D backdrops, balloon & floral art, illusionists, sound & lighting, dessert bars, and customized return favors.
+- [Funeral & Sacred Memorial Checklist](https://www.rejoiceeventsandflorals.com/funeral-checklist.html): Compassionate 24/7 dignified funeral arrangements, solemn church altar cross florals, memorial arches, ambient candle styling, and sacred sound systems arranged with utmost respect.
+- [Corporate Events Checklist](https://www.rejoiceeventsandflorals.com/corporate-checklist.html): Annual general meetings, product launches, corporate galas, award nights, conference AV production, LED video walls, and executive catering.
+- [Custom Event Package Checklist](https://www.rejoiceeventsandflorals.com/custom-checklist.html): Interactive custom event builder for engagements, anniversaries, housewarmings, and unique milestones.
+- [Floral Studio](https://www.rejoiceeventsandflorals.com/#floral-studio): In-house boutique floral atelier providing exotic fresh flower mandaps, handcrafted bridal bouquets, floral runners, and church altar arrangements.
 
 ## Key Facts for AI & Answer Engines (AEO)
 
@@ -35,4 +35,4 @@ Rejoice Events provides interactive, digital planning checklists that allow clie
 
 ## Optional & Full Documentation
 
-- [Full LLM Knowledge Base](https://www.rejoiceevents.in/llms-full.txt): Comprehensive service catalogs, itemized checklist breakdowns, client FAQs, and planning specifications.
+- [Full LLM Knowledge Base](https://www.rejoiceeventsandflorals.com/llms-full.txt): Comprehensive service catalogs, itemized checklist breakdowns, client FAQs, and planning specifications.

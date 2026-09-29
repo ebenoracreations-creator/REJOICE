@@ -1,6 +1,6 @@
-# ============================================================
+﻿# ============================================================
 # Rejoice Events & Floral Studio — Robots Configuration
-# Website: https://www.rejoiceevents.in/
+# Website: https://www.rejoiceeventsandflorals.com/
 # Headquartered: Anakkal, Kanjirappally, Kottayam, Kerala 686508
 # ============================================================
 
@@ -56,8 +56,8 @@ Allow: /
 
 # ── LLM Context Files ──
 # Markdown summaries optimized for Large Language Models & AI search engines
-# LLMS Short / Summary: https://www.rejoiceevents.in/llms.txt
-# LLMS Full / Knowledge: https://www.rejoiceevents.in/llms-full.txt
+# LLMS Short / Summary: https://www.rejoiceeventsandflorals.com/llms.txt
+# LLMS Full / Knowledge: https://www.rejoiceeventsandflorals.com/llms-full.txt
 
 # ── XML Sitemaps ──
-Sitemap: https://www.rejoiceevents.in/sitemap.xml
+Sitemap: https://www.rejoiceeventsandflorals.com/sitemap.xml
