@@ -1236,20 +1236,7 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   transform: scale(1.08);
 }
 .floral-pill-tag {
-  position: absolute;
-  bottom: 12px;
-  left: 12px;
-  background: rgba(18, 15, 12, 0.78);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: #d4af5f;
-  font-size: 9.5px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 5px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(197, 160, 89, 0.45);
+  display: none !important;
 }
 .floral-item-content {
   padding: 22px 20px 24px;
@@ -1769,7 +1756,8 @@ input:focus, select:focus, textarea:focus { border-color: #a09080; box-shadow: 0
 
 
   /* Floral Studio Section */
-  .floral-studio-painted {
+  .floral-studio-painted,
+  .floral-studio-section {
     padding: 60px 0;
   }
   .floral-header {
@@ -2146,58 +2134,16 @@ input:focus, select:focus, textarea:focus { border-color: #a09080; box-shadow: 0
 }
 
 /* ══════════════════════════════════════════════
-   FLORAL STUDIO — PAINTED FLOWERS BACKGROUND
+   FLORAL STUDIO SECTION — LUXURY CLEAN BACKGROUND
 ══════════════════════════════════════════════ */
-.floral-studio-painted {
+.floral-studio-section {
   position: relative;
-  padding: 110px 0;
-  overflow: hidden;
+  background: var(--bg);
+  padding: 100px 0;
 }
-.floral-painted-bg {
-  position: absolute;
-  inset: 0;
-  background-image: url('../images/packages/flower-bg.jpg');
-  background-size: cover;
-  background-position: center center;
-  background-attachment: fixed;
-  z-index: 0;
-}
+.floral-painted-bg,
 .floral-painted-scrim {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(250,248,245,0.78) 0%,
-    rgba(250,248,245,0.48) 30%,
-    rgba(250,248,245,0.54) 70%,
-    rgba(250,248,245,0.84) 100%
-  );
-  z-index: 1;
-}
-.floral-painted-container {
-  position: relative;
-  z-index: 2;
-}
-
-/* Glass-style floral cards when on painted background */
-.floral-glass-card {
-  background: rgba(255,255,255,0.78) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  border: 1px solid rgba(197,160,89,0.35) !important;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.08), inset 0 1px 1px rgba(255,255,255,0.9) !important;
-}
-@media (hover: hover) and (pointer: fine) {
-  .floral-glass-card:hover {
-    background: rgba(255,255,255,0.92) !important;
-    transform: translateY(-8px) !important;
-    box-shadow: 0 20px 50px rgba(158,121,53,0.16), inset 0 1px 1px rgba(255,255,255,0.9) !important;
-    border-color: var(--gold) !important;
-  }
-}
-
-@media (max-width: 768px) {
-  .floral-painted-bg { background-attachment: scroll; }
+  display: none !important;
 }
 
 /* ── Keyframe animations ── */
