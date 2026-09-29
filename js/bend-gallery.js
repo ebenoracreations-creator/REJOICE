@@ -180,11 +180,11 @@
         const opacity = Math.max(0, 1 - Math.pow(Math.min(1.5, absNorm) / 1.4, params.fadeCurve));
         const zIndex = Math.round(100 - absNorm * 30);
 
-        card.style.transform = `translate(-50%, -50%) translateY(${translateY}px) translateZ(${translateZ}px) rotateX(${rotateX}deg) scale(${scale})`;
+        card.style.transform = `translateY(${translateY}px) translateZ(${translateZ}px) rotateX(${rotateX}deg) scale(${scale})`;
         card.style.opacity = opacity.toFixed(3);
         card.style.zIndex = zIndex;
-        // Only the active card (closest to center) is interactive
-        card.style.pointerEvents = absNorm < 0.4 ? 'auto' : 'none';
+        // Visible cards are interactive
+        card.style.pointerEvents = absNorm < 1.4 ? 'auto' : 'none';
       });
 
       // Update dots
@@ -316,6 +316,9 @@
       const diffY = touchStartY - currentY; // positive = swipe UP (scroll DOWN)
       const diffX = touchStartX - currentX;
 
+      // Micro-jitter guard: ignore tiny finger shifts during a tap so default tap/click events are not cancelled
+      if (Math.abs(diffY) <= 10 && Math.abs(diffX) <= 10) return;
+
       // Predominantly horizontal swipe: ignore vertical card stepping
       if (Math.abs(diffX) > Math.abs(diffY) * 1.4) return;
 
@@ -395,17 +398,38 @@
 
     // ── CARD CLICKING & NAVIGATION ──
     cards.forEach((card) => {
-      // Ensure click on card or button reliably navigates to checklist
-      card.addEventListener('click', function (e) {
-        // If user tapped a card that is not the active center card, bring it to center first!
-        const cardIdx = parseInt(this.dataset.index, 10);
-        if (cardIdx !== activeIndex) {
-          e.preventDefault();
-          goToIndex(cardIdx);
-          return;
-        }
+      let cardTouchStartX = 0;
+      let cardTouchStartY = 0;
+      let cardTouchStartTime = 0;
 
-        // Active card: direct navigation!
+      // Direct tap handling for touch devices (iOS Safari / Android Chrome)
+      card.addEventListener('touchstart', (e) => {
+        if (e.touches && e.touches.length === 1) {
+          cardTouchStartX = e.touches[0].clientX;
+          cardTouchStartY = e.touches[0].clientY;
+          cardTouchStartTime = Date.now();
+        }
+      }, { passive: true });
+
+      card.addEventListener('touchend', (e) => {
+        if (e.changedTouches && e.changedTouches.length === 1) {
+          const dx = e.changedTouches[0].clientX - cardTouchStartX;
+          const dy = e.changedTouches[0].clientY - cardTouchStartY;
+          const elapsed = Date.now() - cardTouchStartTime;
+
+          // If quick tap with minimal movement (< 20px threshold), navigate to checklist
+          if (dx * dx + dy * dy < 400 && elapsed < 600) {
+            const targetUrl = card.getAttribute('href');
+            if (targetUrl) {
+              e.preventDefault();
+              window.location.href = targetUrl;
+            }
+          }
+        }
+      }, { passive: false });
+
+      // Click fallback for desktop mouse or assistive devices
+      card.addEventListener('click', function (e) {
         const targetUrl = this.getAttribute('href');
         if (targetUrl) {
           window.location.href = targetUrl;
