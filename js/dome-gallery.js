@@ -92,116 +92,68 @@
   ];
 
   const DEFAULTS = {
-    maxVerticalRotationDeg: 24,
+    maxVerticalRotationDeg: 8,
     dragSensitivity: 18,
     enlargeTransitionMs: 350,
-    fit: 0.62,
-    minRadius: 380,
+    segments: 35,
+    fit: 0.55,
+    minRadius: 550,
     maxRadius: 1800,
-    padFactor: 0.15,
+    padFactor: 0.2,
     overlayBlurColor: '#100d14',
     dragDampening: 2,
-    imageBorderRadius: '15px',
-    openedImageBorderRadius: '20px',
+    imageBorderRadius: '16px',
+    openedImageBorderRadius: '24px',
     grayscale: false
   };
 
   const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
   const wrapAngleSigned = deg => (((deg + 180) % 360) + 360) % 360 - 180;
 
-  /**
-   * Build exactly N unique frames for N images — NO REPETITIONS.
-   * Staggers frames into balanced spherical latitude rings.
-   */
-  function buildItems(pool) {
+  function buildItems(pool, seg) {
+    const xCols = Array.from({ length: seg }, (_, i) => -37 + i * 2);
+    const evenYs = [-4, -2, 0, 2, 4];
+    const oddYs = [-3, -1, 1, 3, 5];
+
+    const coords = xCols.flatMap((x, c) => {
+      const ys = c % 2 === 0 ? evenYs : oddYs;
+      return ys.map(y => ({ x, y, sizeX: 2, sizeY: 2 }));
+    });
+
+    const totalSlots = coords.length;
     const normalizedImages = pool.map(image => {
       if (typeof image === 'string') return { src: image, alt: 'Rejoice Events Kerala' };
       return { src: image.src || '', alt: image.alt || 'Rejoice Events Kerala' };
     });
 
-    const N = normalizedImages.length;
-    if (N === 0) return { items: [], maxCols: 1, numRows: 1, maxLat: 0 };
+    const usedImages = Array.from({ length: totalSlots }, (_, i) => normalizedImages[i % normalizedImages.length]);
 
-    // Determine optimal number of latitude rows (rings) based on picture count N
-    let numRows;
-    if (N <= 8) numRows = 2;
-    else if (N <= 18) numRows = 3;
-    else if (N <= 35) numRows = 4;
-    else if (N <= 65) numRows = 5;
-    else if (N <= 90) numRows = 6;
-    else numRows = 7;
-
-    // Symmetrical elevation angles (latitudes)
-    // To achieve zero vertical gap, latitude span covers the sphere seamlessly
-    const maxLat = numRows <= 3 ? 24 : (numRows <= 5 ? 36 : 46);
-    const latitudes = [];
-    if (numRows === 1) {
-      latitudes.push(0);
-    } else {
-      const step = (maxLat * 2) / (numRows - 1);
-      for (let r = 0; r < numRows; r++) {
-        latitudes.push(-maxLat + r * step);
-      }
-    }
-
-    // Weight capacity of each row by cos(latitude)
-    const weights = latitudes.map(lat => Math.cos((lat * Math.PI) / 180));
-    const totalWeight = weights.reduce((a, b) => a + b, 0);
-
-    // Initial item counts per row
-    let rowCounts = weights.map(w => Math.max(1, Math.round((w / totalWeight) * N)));
-    let currentTotal = rowCounts.reduce((a, b) => a + b, 0);
-
-    // Fine-tune to match exactly N items
-    while (currentTotal !== N) {
-      if (currentTotal < N) {
-        const mid = Math.floor(numRows / 2);
-        rowCounts[mid]++;
-        currentTotal++;
-      } else {
-        let maxIdx = 0;
-        for (let i = 1; i < numRows; i++) {
-          if (rowCounts[i] > rowCounts[maxIdx]) maxIdx = i;
-        }
-        if (rowCounts[maxIdx] > 1) {
-          rowCounts[maxIdx]--;
-          currentTotal--;
-        } else {
-          break;
+    // Ensure adjacent slots never repeat the same image
+    for (let i = 1; i < usedImages.length; i++) {
+      if (usedImages[i].src === usedImages[i - 1].src) {
+        for (let j = i + 1; j < usedImages.length; j++) {
+          if (usedImages[j].src !== usedImages[i].src) {
+            const tmp = usedImages[i];
+            usedImages[i] = usedImages[j];
+            usedImages[j] = tmp;
+            break;
+          }
         }
       }
     }
 
-    const maxCols = Math.max(...rowCounts);
+    return coords.map((c, i) => ({
+      ...c,
+      src: usedImages[i].src,
+      alt: usedImages[i].alt
+    }));
+  }
 
-    // Place each unique image into its row and column
-    const items = [];
-    let imgIdx = 0;
-
-    for (let r = 0; r < numRows; r++) {
-      const k = rowCounts[r];
-      const lat = latitudes[r];
-      const stepY = 360 / k;
-      // Stagger odd rows by half a slot for natural honeycomb brickwork
-      const stagger = r % 2 === 1 ? stepY / 2 : 0;
-
-      for (let c = 0; c < k; c++) {
-        if (imgIdx >= N) break;
-        const rotateY = wrapAngleSigned(c * stepY + stagger);
-        const rotateX = lat;
-        items.push({
-          src: normalizedImages[imgIdx].src,
-          alt: normalizedImages[imgIdx].alt,
-          rotateX,
-          rotateY,
-          row: r,
-          col: c
-        });
-        imgIdx++;
-      }
-    }
-
-    return { items, maxCols, numRows, maxLat };
+  function computeItemBaseRotation(offsetX, offsetY, sizeX, sizeY, segments) {
+    const unit = 360 / segments / 2;
+    const rotateY = unit * (offsetX + (sizeX - 1) / 2);
+    const rotateX = unit * (offsetY - (sizeY - 1) / 2);
+    return { rotateX, rotateY };
   }
 
   function initDomeGallery(containerId, userImages) {
@@ -209,21 +161,24 @@
     if (!mountEl) return;
 
     const images = userImages && userImages.length > 0 ? userImages : DEFAULT_IMAGES;
-    const { items, maxCols, numRows, maxLat } = buildItems(images);
+    const items = buildItems(images, DEFAULTS.segments);
 
     // Build DOM structure
     mountEl.innerHTML = `
-      <div class="sphere-root" style="--overlay-blur-color:${DEFAULTS.overlayBlurColor};--tile-radius:${DEFAULTS.imageBorderRadius};--enlarge-radius:${DEFAULTS.openedImageBorderRadius};">
+      <div class="sphere-root" style="--segments-x:${DEFAULTS.segments};--segments-y:${DEFAULTS.segments};--overlay-blur-color:${DEFAULTS.overlayBlurColor};--tile-radius:${DEFAULTS.imageBorderRadius};--enlarge-radius:${DEFAULTS.openedImageBorderRadius};">
         <main class="sphere-main">
           <div class="stage">
             <div class="sphere">
-              ${items.map((it, i) => `
-                <div class="item" data-index="${i}" data-src="${it.src}" style="--base-rot-x:${it.rotateX.toFixed(3)}deg;--base-rot-y:${it.rotateY.toFixed(3)}deg;">
+              ${items.map((it, i) => {
+                const base = computeItemBaseRotation(it.x, it.y, it.sizeX, it.sizeY, DEFAULTS.segments);
+                return `
+                <div class="item" data-index="${i}" data-src="${it.src}" data-offset-x="${it.x}" data-offset-y="${it.y}" data-size-x="${it.sizeX}" data-size-y="${it.sizeY}" style="--base-rot-x:${base.rotateX.toFixed(3)}deg;--base-rot-y:${base.rotateY.toFixed(3)}deg;--offset-x:${it.x};--offset-y:${it.y};--item-size-x:${it.sizeX};--item-size-y:${it.sizeY};">
                   <div class="item__image" role="button" tabindex="0" aria-label="${it.alt}">
                     <img src="${it.src}" draggable="false" alt="${it.alt}" loading="lazy" decoding="async" />
                   </div>
                 </div>
-              `).join('')}
+              `;
+              }).join('')}
             </div>
           </div>
           <div class="overlay"></div>
@@ -252,7 +207,7 @@
       }
     };
 
-    // Resize Observer for sphere radius and seamless gapless card dimensions
+    // Resize Observer for sphere radius
     const ro = new ResizeObserver(entries => {
       const cr = entries[0].contentRect;
       const w = Math.max(1, cr.width);
@@ -261,25 +216,12 @@
       const aspect = w / h;
       const basis = aspect >= 1.3 ? w : minDim;
       let radius = basis * DEFAULTS.fit;
-      radius = Math.min(radius, h * 1.45);
+      radius = Math.min(radius, h * 1.35);
       radius = clamp(radius, DEFAULTS.minRadius, DEFAULTS.maxRadius);
 
       const viewerPad = Math.max(8, Math.round(minDim * DEFAULTS.padFactor));
       root.style.setProperty('--radius', `${Math.round(radius)}px`);
       root.style.setProperty('--viewer-pad', `${viewerPad}px`);
-
-      // Zero-gap exact arc coverage:
-      // Width spans each column with 2.5% overlap margin to eliminate any black seam
-      const wFactor = (2 * Math.PI / maxCols) * 1.025;
-      // Height spans each latitude ring with 3% overlap margin to eliminate any black seam
-      const rowStepRad = (numRows > 1) ? ((maxLat * 2 * Math.PI) / (180 * (numRows - 1))) : 0.35;
-      const hFactor = rowStepRad * 1.03;
-
-      const tileW = Math.round(radius * wFactor);
-      const tileH = Math.round(radius * hFactor);
-      root.style.setProperty('--item-w', `${tileW}px`);
-      root.style.setProperty('--item-h', `${tileH}px`);
-
       applyTransform(rotation.x, rotation.y);
     });
     ro.observe(root);

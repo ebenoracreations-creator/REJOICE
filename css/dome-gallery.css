@@ -97,13 +97,13 @@ main.sphere-main:active {
 }
 
 .item {
-  width: var(--item-w, calc(var(--item-width) * var(--item-size-x)));
-  height: var(--item-h, calc(var(--item-height) * var(--item-size-y)));
+  width: calc(var(--item-width) * var(--item-size-x));
+  height: calc(var(--item-height) * var(--item-size-y));
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-top: calc(var(--item-h, calc(var(--item-height) * var(--item-size-y))) / -2);
-  margin-left: calc(var(--item-w, calc(var(--item-width) * var(--item-size-x))) / -2);
+  margin-top: calc(var(--item-height) * var(--item-size-y) / -2);
+  margin-left: calc(var(--item-width) * var(--item-size-x) / -2);
   transform-origin: 50% 50%;
   backface-visibility: hidden;
   transform: rotateY(var(--base-rot-y, 0deg))
@@ -114,23 +114,22 @@ main.sphere-main:active {
 .item__image {
   position: absolute;
   display: block;
-  inset: 0;
-  border-radius: var(--tile-radius, 15px);
-  background: #100d14;
+  inset: 5px;
+  border-radius: var(--tile-radius, 16px);
+  background: #18151f;
   overflow: hidden;
   backface-visibility: hidden;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   pointer-events: auto;
-  box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .item__image:hover {
-    z-index: 10;
-    box-shadow: 0 0 24px rgba(197, 160, 89, 0.65), inset 0 0 0 1.5px rgba(197, 160, 89, 0.9);
+    box-shadow: 0 8px 24px rgba(197, 160, 89, 0.45);
   }
 }
 
