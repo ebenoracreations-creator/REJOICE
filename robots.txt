@@ -1,17 +1,63 @@
+# ============================================================
+# Rejoice Events & Floral Studio — Robots Configuration
+# Website: https://www.rejoiceevents.in/
+# Headquartered: Anakkal, Kanjirappally, Kottayam, Kerala 686508
+# ============================================================
+
 User-agent: *
 Allow: /
 
-Sitemap: https://www.rejoiceevents.in/sitemap.xml
+# ── General Search Engine Crawlers ──
+User-agent: Googlebot
+Allow: /
 
-# Block AI training crawlers
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# ── AI Search & Answer Engine Crawlers (AEO / GEO) ──
 User-agent: GPTBot
-Disallow: /
+Allow: /
 
-User-agent: CCBot
-Disallow: /
+User-agent: ChatGPT-User
+Allow: /
 
-User-agent: anthropic-ai
-Disallow: /
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
 
 User-agent: Google-Extended
 Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+# ── LLM Context Files ──
+# Markdown summaries optimized for Large Language Models & AI search engines
+# LLMS Short / Summary: https://www.rejoiceevents.in/llms.txt
+# LLMS Full / Knowledge: https://www.rejoiceevents.in/llms-full.txt
+
+# ── XML Sitemaps ──
+Sitemap: https://www.rejoiceevents.in/sitemap.xml
