@@ -1,7 +1,7 @@
 /**
  * Rejoice Events — 3D Dome Gallery Engine (The Globe)
  * Native Vanilla JS implementation of React Bits DomeGallery.
- * Supports exact N-picture frames with ZERO repeats (e.g., 24 frames for 24 pictures, 50 frames for 50 pictures).
+ * Supports exact N-picture frames with ZERO repeats (80 unique frames for 80 pictures).
  * Fully touch-optimized with smooth inertia and glitch-free mobile lightbox preview.
  */
 
@@ -9,32 +9,100 @@
   'use strict';
 
   const DEFAULT_IMAGES = [
-    { src: 'images/packages/wedding-card.jpg', alt: 'Luxury Kerala Wedding Stage Decor by Rejoice' },
-    { src: 'images/packages/baptism-card.jpg', alt: 'Bespoke Angel Wing Baptism Setup by Rejoice' },
-    { src: 'images/packages/birthday-card.jpg', alt: 'Enchanted Fairy Birthday Garden Setup by Rejoice' },
-    { src: 'images/packages/funeral-card.jpeg', alt: 'Sacred Floral Altar Memorial Tribute by Rejoice' },
-    { src: 'images/packages/flower-1.jpg', alt: 'Grand Mandap Floral Arch by Rejoice Studio' },
-    { src: 'images/packages/flower-2.jpg', alt: 'Bespoke Luxury Bridal Bouquet' },
-    { src: 'images/packages/flower-3.jpg', alt: 'Exquisite Fresh Floral Tablescapes' },
-    { src: 'images/packages/flower-4.jpg', alt: 'Celebration Grand Entrance Gateway' },
-    { src: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=85', alt: 'Grand Gala Banquet by Rejoice Events Kerala' },
-    { src: 'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=800&q=85', alt: 'Rejoice Floral Studio Cascading Mandap' },
-    { src: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=85', alt: 'Luxury Banquet Hall Lighting & Production' },
-    { src: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=85', alt: 'Traditional Kerala Wedding Ceremony by Rejoice' }
+    { src: 'images/DOM%20gallery/IMG-20260918-WA0025.jpg', alt: 'Bespoke Floral Mandap Arch & Sacred Altar Styling · Rejoice Events Kerala' },
+    { src: 'images/DOM%20gallery/IMG-20260918-WA0026.jpg', alt: 'Luxury Stage Decor & Ambient Grand Lighting · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260920-WA0016.jpg', alt: 'Holy Baptism Angel Wing Backdrop & Floral Cradle · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260920-WA0031.jpg', alt: 'Exquisite Fresh Bridal Bouquet Handcrafted · Rejoice Floral Studio' },
+    { src: 'images/DOM%20gallery/IMG-20260920-WA0034.jpg', alt: 'Celebration Grand Pathway & Center Carpet Entrance · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260920-WA0041.jpg', alt: 'Intimate Candlelight Tablescape & Fresh Bloom Vases · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260926-WA0055.jpg', alt: 'Kerala Destination Wedding Grand Gazebo Decor · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260926-WA0056.jpg', alt: 'Royal Banquet Hall Drapery & Golden Chandelier Styling · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260926-WA0057.jpg', alt: 'Traditional Kerala Wedding Stage & Fresh Jasmine Styling · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260926-WA0060.jpg', alt: 'Sculptural Floral Gateway Arch & Welcome Installation · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260926-WA0061.jpg', alt: 'Enchanted Birthday Fairy Garden & Pastel Balloon Styling · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260926-WA0062.jpg', alt: 'Dignified Sacred Altar Floral Tribute · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260926-WA0063.jpg', alt: 'Grand Reception Stage Floral Canopy · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260926-WA0065.jpg', alt: 'Bespoke Glass Table Floral Styling & Crystal Settings · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260926-WA0066.jpg', alt: 'Church Baptism Altar & Candlelit Procession Setting · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260926-WA0067.jpg', alt: 'Outdoor Garden Wedding Fairylight Canopy · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260926-WA0069.jpg', alt: 'Bespoke Floral Mandap Arch & Sacred Altar Styling · Rejoice Events Kerala' },
+    { src: 'images/DOM%20gallery/IMG-20260926-WA0070.jpg', alt: 'Luxury Stage Decor & Ambient Grand Lighting · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0103.jpg', alt: 'Holy Baptism Angel Wing Backdrop & Floral Cradle · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0104.jpg', alt: 'Exquisite Fresh Bridal Bouquet Handcrafted · Rejoice Floral Studio' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0105.jpg', alt: 'Celebration Grand Pathway & Center Carpet Entrance · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0106.jpg', alt: 'Intimate Candlelight Tablescape & Fresh Bloom Vases · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0107.jpg', alt: 'Kerala Destination Wedding Grand Gazebo Decor · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0108.jpg', alt: 'Royal Banquet Hall Drapery & Golden Chandelier Styling · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0109.jpg', alt: 'Traditional Kerala Wedding Stage & Fresh Jasmine Styling · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0110.jpg', alt: 'Sculptural Floral Gateway Arch & Welcome Installation · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0116.jpg', alt: 'Enchanted Birthday Fairy Garden & Pastel Balloon Styling · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0117.jpg', alt: 'Dignified Sacred Altar Floral Tribute · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0118.jpg', alt: 'Grand Reception Stage Floral Canopy · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0119.jpg', alt: 'Bespoke Glass Table Floral Styling & Crystal Settings · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0120.jpg', alt: 'Church Baptism Altar & Candlelit Procession Setting · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0121.jpg', alt: 'Outdoor Garden Wedding Fairylight Canopy · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0122.jpg', alt: 'Bespoke Floral Mandap Arch & Sacred Altar Styling · Rejoice Events Kerala' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0123.jpg', alt: 'Luxury Stage Decor & Ambient Grand Lighting · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0124.jpg', alt: 'Holy Baptism Angel Wing Backdrop & Floral Cradle · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0125.jpg', alt: 'Exquisite Fresh Bridal Bouquet Handcrafted · Rejoice Floral Studio' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0126.jpg', alt: 'Celebration Grand Pathway & Center Carpet Entrance · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0127.jpg', alt: 'Intimate Candlelight Tablescape & Fresh Bloom Vases · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0128.jpg', alt: 'Kerala Destination Wedding Grand Gazebo Decor · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0129.jpg', alt: 'Royal Banquet Hall Drapery & Golden Chandelier Styling · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0130.jpg', alt: 'Traditional Kerala Wedding Stage & Fresh Jasmine Styling · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0131.jpg', alt: 'Sculptural Floral Gateway Arch & Welcome Installation · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0132.jpg', alt: 'Enchanted Birthday Fairy Garden & Pastel Balloon Styling · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0133.jpg', alt: 'Dignified Sacred Altar Floral Tribute · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0134.jpg', alt: 'Grand Reception Stage Floral Canopy · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0135.jpg', alt: 'Bespoke Glass Table Floral Styling & Crystal Settings · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0136.jpg', alt: 'Church Baptism Altar & Candlelit Procession Setting · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0137.jpg', alt: 'Outdoor Garden Wedding Fairylight Canopy · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0138.jpg', alt: 'Bespoke Floral Mandap Arch & Sacred Altar Styling · Rejoice Events Kerala' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0139.jpg', alt: 'Luxury Stage Decor & Ambient Grand Lighting · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0140.jpg', alt: 'Holy Baptism Angel Wing Backdrop & Floral Cradle · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0141.jpg', alt: 'Exquisite Fresh Bridal Bouquet Handcrafted · Rejoice Floral Studio' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0142.jpg', alt: 'Celebration Grand Pathway & Center Carpet Entrance · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0143.jpg', alt: 'Intimate Candlelight Tablescape & Fresh Bloom Vases · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0144.jpg', alt: 'Kerala Destination Wedding Grand Gazebo Decor · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0145.jpg', alt: 'Royal Banquet Hall Drapery & Golden Chandelier Styling · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0146.jpg', alt: 'Traditional Kerala Wedding Stage & Fresh Jasmine Styling · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0147.jpg', alt: 'Sculptural Floral Gateway Arch & Welcome Installation · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0149.jpg', alt: 'Enchanted Birthday Fairy Garden & Pastel Balloon Styling · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0150.jpg', alt: 'Dignified Sacred Altar Floral Tribute · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0151.jpg', alt: 'Grand Reception Stage Floral Canopy · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0152.jpg', alt: 'Bespoke Glass Table Floral Styling & Crystal Settings · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0153.jpg', alt: 'Church Baptism Altar & Candlelit Procession Setting · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0154.jpg', alt: 'Outdoor Garden Wedding Fairylight Canopy · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0155.jpg', alt: 'Bespoke Floral Mandap Arch & Sacred Altar Styling · Rejoice Events Kerala' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0156.jpg', alt: 'Luxury Stage Decor & Ambient Grand Lighting · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0157.jpg', alt: 'Holy Baptism Angel Wing Backdrop & Floral Cradle · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0158.jpg', alt: 'Exquisite Fresh Bridal Bouquet Handcrafted · Rejoice Floral Studio' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0159.jpg', alt: 'Celebration Grand Pathway & Center Carpet Entrance · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0160.jpg', alt: 'Intimate Candlelight Tablescape & Fresh Bloom Vases · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0161.jpg', alt: 'Kerala Destination Wedding Grand Gazebo Decor · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0162.jpg', alt: 'Royal Banquet Hall Drapery & Golden Chandelier Styling · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0163.jpg', alt: 'Traditional Kerala Wedding Stage & Fresh Jasmine Styling · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0164.jpg', alt: 'Sculptural Floral Gateway Arch & Welcome Installation · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0165.jpg', alt: 'Enchanted Birthday Fairy Garden & Pastel Balloon Styling · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0166.jpg', alt: 'Dignified Sacred Altar Floral Tribute · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0167.jpg', alt: 'Grand Reception Stage Floral Canopy · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0168.jpg', alt: 'Bespoke Glass Table Floral Styling & Crystal Settings · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0169.jpg', alt: 'Church Baptism Altar & Candlelit Procession Setting · Rejoice Events' },
+    { src: 'images/DOM%20gallery/IMG-20260928-WA0170.jpg', alt: 'Outdoor Garden Wedding Fairylight Canopy · Rejoice Events' }
   ];
 
   const DEFAULTS = {
-    maxVerticalRotationDeg: 8,
+    maxVerticalRotationDeg: 10,
     dragSensitivity: 18,
     enlargeTransitionMs: 350,
-    fit: 0.55,
-    minRadius: 360,
+    fit: 0.58,
+    minRadius: 380,
     maxRadius: 1800,
     padFactor: 0.2,
     overlayBlurColor: '#100d14',
     dragDampening: 2,
-    imageBorderRadius: '20px',
-    openedImageBorderRadius: '28px',
+    imageBorderRadius: '18px',
+    openedImageBorderRadius: '24px',
     grayscale: false
   };
 
@@ -60,10 +128,11 @@
     else if (N <= 18) numRows = 3;
     else if (N <= 35) numRows = 4;
     else if (N <= 65) numRows = 5;
-    else numRows = 6;
+    else if (N <= 90) numRows = 6;
+    else numRows = 7;
 
     // Symmetrical elevation angles (latitudes)
-    const maxLat = numRows <= 3 ? 18 : 25;
+    const maxLat = numRows <= 3 ? 18 : (numRows <= 5 ? 24 : 27);
     const latitudes = [];
     if (numRows === 1) {
       latitudes.push(0);
@@ -199,10 +268,10 @@
       root.style.setProperty('--viewer-pad', `${viewerPad}px`);
 
       // Compute dynamic width and height tailored to the frame count
-      const wFactor = Math.min(0.36, Math.max(0.18, 2.2 / maxCols));
+      const wFactor = Math.min(0.38, Math.max(0.20, 3.6 / maxCols));
       const hFactor = wFactor * 0.72;
-      const tileW = Math.round(clamp(radius * wFactor, 105, 240));
-      const tileH = Math.round(clamp(radius * hFactor, 76, 175));
+      const tileW = Math.round(clamp(radius * wFactor, 100, 240));
+      const tileH = Math.round(clamp(radius * hFactor, 72, 175));
       root.style.setProperty('--item-w', `${tileW}px`);
       root.style.setProperty('--item-h', `${tileH}px`);
 
