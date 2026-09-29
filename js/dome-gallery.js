@@ -101,7 +101,7 @@
     padFactor: 0.15,
     overlayBlurColor: '#100d14',
     dragDampening: 2,
-    imageBorderRadius: '0px',
+    imageBorderRadius: '15px',
     openedImageBorderRadius: '20px',
     grayscale: false
   };

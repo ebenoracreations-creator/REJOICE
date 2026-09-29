@@ -115,7 +115,7 @@ main.sphere-main:active {
   position: absolute;
   display: block;
   inset: 0;
-  border-radius: var(--tile-radius, 0px);
+  border-radius: var(--tile-radius, 15px);
   background: #100d14;
   overflow: hidden;
   backface-visibility: hidden;
@@ -138,6 +138,7 @@ main.sphere-main:active {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: inherit;
   pointer-events: none;
   backface-visibility: hidden;
   filter: brightness(1.04) contrast(1.02) saturate(1.05); /* Pure vibrant white-scale */
