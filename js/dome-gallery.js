@@ -92,17 +92,17 @@
   ];
 
   const DEFAULTS = {
-    maxVerticalRotationDeg: 10,
+    maxVerticalRotationDeg: 24,
     dragSensitivity: 18,
     enlargeTransitionMs: 350,
-    fit: 0.58,
+    fit: 0.62,
     minRadius: 380,
     maxRadius: 1800,
-    padFactor: 0.2,
+    padFactor: 0.15,
     overlayBlurColor: '#100d14',
     dragDampening: 2,
-    imageBorderRadius: '18px',
-    openedImageBorderRadius: '24px',
+    imageBorderRadius: '0px',
+    openedImageBorderRadius: '20px',
     grayscale: false
   };
 
@@ -120,7 +120,7 @@
     });
 
     const N = normalizedImages.length;
-    if (N === 0) return { items: [], maxCols: 1, numRows: 1 };
+    if (N === 0) return { items: [], maxCols: 1, numRows: 1, maxLat: 0 };
 
     // Determine optimal number of latitude rows (rings) based on picture count N
     let numRows;
@@ -132,7 +132,8 @@
     else numRows = 7;
 
     // Symmetrical elevation angles (latitudes)
-    const maxLat = numRows <= 3 ? 18 : (numRows <= 5 ? 24 : 27);
+    // To achieve zero vertical gap, latitude span covers the sphere seamlessly
+    const maxLat = numRows <= 3 ? 24 : (numRows <= 5 ? 36 : 46);
     const latitudes = [];
     if (numRows === 1) {
       latitudes.push(0);
@@ -200,7 +201,7 @@
       }
     }
 
-    return { items, maxCols, numRows };
+    return { items, maxCols, numRows, maxLat };
   }
 
   function initDomeGallery(containerId, userImages) {
@@ -208,7 +209,7 @@
     if (!mountEl) return;
 
     const images = userImages && userImages.length > 0 ? userImages : DEFAULT_IMAGES;
-    const { items, maxCols, numRows } = buildItems(images);
+    const { items, maxCols, numRows, maxLat } = buildItems(images);
 
     // Build DOM structure
     mountEl.innerHTML = `
@@ -251,7 +252,7 @@
       }
     };
 
-    // Resize Observer for sphere radius and responsive card dimensions
+    // Resize Observer for sphere radius and seamless gapless card dimensions
     const ro = new ResizeObserver(entries => {
       const cr = entries[0].contentRect;
       const w = Math.max(1, cr.width);
@@ -260,18 +261,22 @@
       const aspect = w / h;
       const basis = aspect >= 1.3 ? w : minDim;
       let radius = basis * DEFAULTS.fit;
-      radius = Math.min(radius, h * 1.35);
+      radius = Math.min(radius, h * 1.45);
       radius = clamp(radius, DEFAULTS.minRadius, DEFAULTS.maxRadius);
 
       const viewerPad = Math.max(8, Math.round(minDim * DEFAULTS.padFactor));
       root.style.setProperty('--radius', `${Math.round(radius)}px`);
       root.style.setProperty('--viewer-pad', `${viewerPad}px`);
 
-      // Compute dynamic width and height tailored to the frame count
-      const wFactor = Math.min(0.38, Math.max(0.20, 3.6 / maxCols));
-      const hFactor = wFactor * 0.72;
-      const tileW = Math.round(clamp(radius * wFactor, 100, 240));
-      const tileH = Math.round(clamp(radius * hFactor, 72, 175));
+      // Zero-gap exact arc coverage:
+      // Width spans each column with 2.5% overlap margin to eliminate any black seam
+      const wFactor = (2 * Math.PI / maxCols) * 1.025;
+      // Height spans each latitude ring with 3% overlap margin to eliminate any black seam
+      const rowStepRad = (numRows > 1) ? ((maxLat * 2 * Math.PI) / (180 * (numRows - 1))) : 0.35;
+      const hFactor = rowStepRad * 1.03;
+
+      const tileW = Math.round(radius * wFactor);
+      const tileH = Math.round(radius * hFactor);
       root.style.setProperty('--item-w', `${tileW}px`);
       root.style.setProperty('--item-h', `${tileH}px`);
 
