@@ -908,18 +908,68 @@ body {
 /* ── CHECKLIST FOOTER & ATTRIBUTION ── */
 .chk-footer {
   text-align: center;
-  padding: 24px 16px 12px;
+  padding: 30px 16px 16px;
   font-size: 12px;
   color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 }
-.chk-footer .creations-link {
-  color: var(--gold);
-  text-decoration: underline;
-  text-underline-offset: 2px;
+.chk-footer-text {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  margin: 0;
+}
+.footer-creations-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.footer-creations-prefix {
+  font-size: 14px;
+  color: var(--text-muted);
   font-weight: 500;
-  transition: opacity 0.2s, color 0.2s;
+  letter-spacing: 0.02em;
 }
-.chk-footer .creations-link:hover {
-  color: var(--text);
-  opacity: 0.85;
+.footer-creations-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  background: linear-gradient(135deg, rgba(197, 160, 89, 0.16) 0%, rgba(197, 160, 89, 0.06) 100%);
+  border: 1.5px solid rgba(197, 160, 89, 0.5);
+  border-radius: 999px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 10px rgba(197, 160, 89, 0.12);
+}
+.footer-creations-badge:hover {
+  background: var(--gold-gradient);
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(197, 160, 89, 0.4);
+}
+.footer-creations-badge .creations-highlight {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--gold-dark, #8a6c32);
+  letter-spacing: 0.02em;
+  transition: color 0.25s ease;
+}
+.footer-creations-badge:hover .creations-highlight {
+  color: #ffffff;
+}
+.footer-creations-badge .creations-arrow {
+  font-size: 14px;
+  color: var(--gold);
+  font-weight: 700;
+  transition: all 0.25s ease;
+  display: inline-block;
+}
+.footer-creations-badge:hover .creations-arrow {
+  color: #ffffff;
+  transform: translate(2px, -2px);
 }

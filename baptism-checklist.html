@@ -3,6 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+  <script>
+    if (location.protocol === 'http:' || location.hostname === 'rejoiceeventsandflorals.com') {
+      location.replace('https://www.rejoiceeventsandflorals.com' + location.pathname + location.search + location.hash);
+    }
+  </script>
 
   <!-- ══════════ PRIMARY SEO ══════════ -->
   <title>Baptism &amp; Holy Communion Event Checklist Kerala — Rejoice Events Kottayam</title>
@@ -433,7 +439,14 @@
 
     <!-- Footer Attribution -->
     <footer class="chk-footer">
-      <p>&copy; 2026 Rejoice Events &amp; Floral Studio. All rights reserved. &bull; Creations by <a href="https://www.ebenoracreations.com" target="_blank" rel="noopener noreferrer" class="creations-link">Ebenora creations</a></p>
+      <div class="footer-creations-wrap">
+        <span class="footer-creations-prefix">Creations by</span>
+        <a href="https://www.ebenoracreations.com" target="_blank" rel="noopener noreferrer" class="footer-creations-badge">
+          <span class="creations-highlight">Ebenora creations</span>
+          <span class="creations-arrow">&#8599;</span>
+        </a>
+      </div>
+      <p class="chk-footer-text">&copy; 2026 Rejoice Events &amp; Floral Studio. All rights reserved.</p>
     </footer>
   </main>
 

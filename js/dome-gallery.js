@@ -298,7 +298,7 @@
         }
       }
 
-      if (distSq > 64) {
+      if (distSq > 324 && dragMode === 'rotate') {
         hasMoved = true;
       }
 
@@ -348,6 +348,9 @@
         <div class="dome-lightbox-content">
           <img class="dome-lightbox-img" src="" alt="Celebration photo by Rejoice Events" />
           <div class="dome-lightbox-caption"></div>
+          <div class="dome-lightbox-actions" style="margin-top: 14px; text-align: center;">
+            <a href="#packages" class="btn-pill btn-gold dome-lightbox-btn" style="padding: 9px 22px; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">View Packages &amp; Checklists &#8594;</a>
+          </div>
         </div>
       `;
       document.body.appendChild(lightboxEl);
@@ -445,8 +448,8 @@
       itemEl.addEventListener('click', e => {
         e.stopPropagation();
         e.preventDefault();
-        // Discard click if finger moved to drag or rotate
-        if (tapDistMoved > 49 || hasMoved) return;
+        // Discard click only if finger deliberately dragged to rotate (> 22px movement)
+        if (tapDistMoved > 484 || (hasMoved && dragMode === 'rotate')) return;
         openLightbox(src, alt);
       });
     });

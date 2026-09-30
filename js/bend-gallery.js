@@ -417,8 +417,8 @@
           const dy = e.changedTouches[0].clientY - cardTouchStartY;
           const elapsed = Date.now() - cardTouchStartTime;
 
-          // If quick tap with minimal movement (< 20px threshold), navigate to checklist
-          if (dx * dx + dy * dy < 400 && elapsed < 600) {
+          // If quick tap with minimal movement (< 28px threshold), navigate to checklist
+          if (dx * dx + dy * dy < 784 && elapsed < 800) {
             const targetUrl = card.getAttribute('href');
             if (targetUrl) {
               e.preventDefault();
