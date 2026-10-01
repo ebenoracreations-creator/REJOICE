@@ -20,7 +20,7 @@
       bullets: [
         'Stage Decor & Mandap Styling',
         'Premium Cake & Wine Setting',
-        'Premium Car Groom & Wedding Car Decor',
+        'Premium car for groom and bride and wedding car decor',
         'Live Fusion & Sound Engineering',
         'Center Carpet, Pathway & Ramp Styling'
       ],
