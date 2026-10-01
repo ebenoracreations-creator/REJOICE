@@ -422,34 +422,52 @@
       lightboxEl.classList.add('active');
     };
 
-    // Mobile & Desktop Tap / Click Handling (Ghost-Click Proof)
+    // Mobile Phone & Desktop Click/Touch Handling
     mountEl.querySelectorAll('.item__image').forEach(itemEl => {
       const parent = itemEl.closest('.item');
       const src = parent ? parent.dataset.src : '';
       const imgEl = itemEl.querySelector('img');
       const alt = imgEl ? imgEl.alt : 'Rejoice Events Kerala';
 
-      let tapStartX = 0;
-      let tapStartY = 0;
-      let tapDistMoved = 0;
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let touchStartTime = 0;
+      let touchMoved = false;
 
-      itemEl.addEventListener('pointerdown', e => {
-        tapStartX = e.clientX;
-        tapStartY = e.clientY;
-        tapDistMoved = 0;
-      });
+      // Native touch events for mobile phones (Brave, Chrome, Safari, Samsung Internet)
+      itemEl.addEventListener('touchstart', e => {
+        if (e.touches && e.touches.length === 1) {
+          touchStartX = e.touches[0].clientX;
+          touchStartY = e.touches[0].clientY;
+          touchStartTime = performance.now();
+          touchMoved = false;
+        }
+      }, { passive: true });
 
-      itemEl.addEventListener('pointermove', e => {
-        const dx = e.clientX - tapStartX;
-        const dy = e.clientY - tapStartY;
-        tapDistMoved = Math.max(tapDistMoved, dx * dx + dy * dy);
-      });
+      itemEl.addEventListener('touchmove', e => {
+        if (e.touches && e.touches.length === 1) {
+          const dx = e.touches[0].clientX - touchStartX;
+          const dy = e.touches[0].clientY - touchStartY;
+          if (dx * dx + dy * dy > 400) {
+            touchMoved = true;
+          }
+        }
+      }, { passive: true });
 
+      itemEl.addEventListener('touchend', e => {
+        const elapsed = performance.now() - touchStartTime;
+        // If quick tap on phone screen (< 600ms and minimal movement), OPEN LIGHTBOX!
+        if (!touchMoved && elapsed < 650 && (!hasMoved || dragMode !== 'rotate')) {
+          e.preventDefault();
+          e.stopPropagation();
+          openLightbox(src, alt);
+        }
+      }, { passive: false });
+
+      // Click event for laptop & desktop mouse
       itemEl.addEventListener('click', e => {
         e.stopPropagation();
         e.preventDefault();
-        // Discard click only if finger deliberately dragged to rotate (> 22px movement)
-        if (tapDistMoved > 484 || (hasMoved && dragMode === 'rotate')) return;
         openLightbox(src, alt);
       });
     });

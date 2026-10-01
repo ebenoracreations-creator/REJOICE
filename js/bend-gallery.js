@@ -26,7 +26,7 @@
       ],
       image: 'images/packages/wedding-card.jpg',
       alt: 'Luxury Kerala Wedding Stage Decor by Rejoice Events',
-      url: 'wedding-checklist.html'
+      url: 'wedding.html'
     },
     {
       id: 'baptism',
@@ -44,7 +44,7 @@
       ],
       image: 'images/packages/baptism-card.jpg',
       alt: 'Bespoke Angel Wing Baptism Setup by Rejoice Events',
-      url: 'baptism-checklist.html'
+      url: 'baptism.html'
     },
     {
       id: 'birthday',
@@ -62,7 +62,7 @@
       ],
       image: 'images/packages/birthday-card.jpg',
       alt: 'Enchanted Fairy Birthday Garden Setup by Rejoice Events',
-      url: 'birthday-checklist.html'
+      url: 'birthday.html'
     },
     {
       id: 'funeral',
@@ -79,7 +79,25 @@
       ],
       image: 'images/packages/funeral-card.jpeg',
       alt: 'Sacred Floral Altar Memorial Tribute by Rejoice Events',
-      url: 'funeral-checklist.html'
+      url: 'funeral.html'
+    },
+    {
+      id: 'custom',
+      title: 'Custom Celebrations',
+      badge: 'Bespoke Vision',
+      badgeClass: '',
+      sub: 'Engagements, jubilees, housewarmings & tailor-made concepts',
+      checkTitle: 'Custom Checklist:',
+      bullets: [
+        'Tailored Stage Concepts & Theme Architecture',
+        'Bespoke Fresh Floral Art & Entrance Arches',
+        'Special Effects, LED Walls & Pyrotechnics',
+        'Gourmet Multi-Course Feast Catering Coordination',
+        'Dedicated Master of Ceremonies & Live Artists'
+      ],
+      image: 'images/packages/engagements.png',
+      alt: 'Bespoke Custom Celebration Planning by Rejoice Events Kerala',
+      url: 'custom.html'
     }
   ];
 

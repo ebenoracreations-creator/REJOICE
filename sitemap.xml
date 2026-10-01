@@ -1,10 +1,11 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <!-- 1. Home Page -->
   <url>
     <loc>https://www.rejoiceeventsandflorals.com/</loc>
-    <lastmod>2026-09-29</lastmod>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -12,9 +13,11 @@
       <image:title>Best Event Management Planners in Kerala &amp; Kottayam — Rejoice Events</image:title>
     </image:image>
   </url>
+
+  <!-- 2. Wedding Planning & Floral Checklist -->
   <url>
-    <loc>https://www.rejoiceeventsandflorals.com/wedding-checklist.html</loc>
-    <lastmod>2026-09-29</lastmod>
+    <loc>https://www.rejoiceeventsandflorals.com/wedding.html</loc>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -22,9 +25,11 @@
       <image:title>Kerala Wedding Planning Checklist &amp; Cost Estimator — Rejoice Events</image:title>
     </image:image>
   </url>
+
+  <!-- 3. Baptism & Holy Communion Checklist -->
   <url>
-    <loc>https://www.rejoiceeventsandflorals.com/baptism-checklist.html</loc>
-    <lastmod>2026-09-29</lastmod>
+    <loc>https://www.rejoiceeventsandflorals.com/baptism.html</loc>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -32,9 +37,11 @@
       <image:title>Baptism &amp; Holy Communion Event Checklist — Rejoice Events</image:title>
     </image:image>
   </url>
+
+  <!-- 4. Birthday & Milestone Jubilees Checklist -->
   <url>
-    <loc>https://www.rejoiceeventsandflorals.com/birthday-checklist.html</loc>
-    <lastmod>2026-09-29</lastmod>
+    <loc>https://www.rejoiceeventsandflorals.com/birthday.html</loc>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -42,9 +49,11 @@
       <image:title>Birthday &amp; Milestone Jubilee Celebration Checklist — Rejoice Events</image:title>
     </image:image>
   </url>
+
+  <!-- 5. Compassionate Funeral & Sacred Memorial Services -->
   <url>
-    <loc>https://www.rejoiceeventsandflorals.com/funeral-checklist.html</loc>
-    <lastmod>2026-09-29</lastmod>
+    <loc>https://www.rejoiceeventsandflorals.com/funeral.html</loc>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -52,16 +61,20 @@
       <image:title>Compassionate Funeral &amp; Memorial Service Checklist — Rejoice Events</image:title>
     </image:image>
   </url>
+
+  <!-- 6. Custom Bespoke Event Checklist -->
   <url>
-    <loc>https://www.rejoiceeventsandflorals.com/custom-checklist.html</loc>
-    <lastmod>2026-09-29</lastmod>
+    <loc>https://www.rejoiceeventsandflorals.com/custom.html</loc>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
+
+  <!-- 7. Privacy Policy -->
   <url>
-    <loc>https://www.rejoiceeventsandflorals.com/corporate-checklist.html</loc>
-    <lastmod>2026-09-29</lastmod>
+    <loc>https://www.rejoiceeventsandflorals.com/privacy-policy.html</loc>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.5</priority>
   </url>
 </urlset>
