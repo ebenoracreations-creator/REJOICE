@@ -21,10 +21,6 @@
     }
   </script>
 
-  <!-- html2canvas and html2pdf for direct mobile & desktop PNG/PDF downloads with custom filenames -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
   <style>
     :root {
       --gold: #c59d42;
@@ -439,25 +435,53 @@
       transform: scale(0.97);
     }
 
-    .btn-pdf {
-      background: #dc2626;
+    .btn-action-print {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
       color: #fff;
     }
 
-    .btn-png {
-      background: #2563eb;
+    .btn-action-wa {
+      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
       color: #fff;
     }
 
-    .btn-print {
-      background: #4b5563;
-      color: #fff;
+    /* Prominent Action Bar directly at bottom of sheet */
+    .sheet-bottom-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      width: 100%;
+      max-width: 760px;
+      margin-top: 18px;
     }
 
-    .btn-whatsapp-share {
-      background: #16a34a;
-      color: #fff;
-      grid-column: span 2;
+    @media (max-width: 600px) {
+      .sheet-bottom-actions {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-top: 14px;
+        padding-bottom: 30px;
+      }
+    }
+
+    .btn-primary-action {
+      padding: 15px 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 15px;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: transform 0.15s, filter 0.15s;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+    }
+
+    .btn-primary-action:active {
+      transform: scale(0.98);
+      filter: brightness(0.9);
     }
 
     /* ══════════ RIGHT PANEL: LUXURY DOCUMENT SHEET ══════════ */
@@ -1004,7 +1028,7 @@
         color: #000000 !important;
       }
 
-      #lockScreen, .top-nav, .controls-panel, .btn-add-table-row, .btn-row-del, th.th-act, td.td-act {
+      #lockScreen, .top-nav, .controls-panel, .btn-add-table-row, .btn-row-del, th.th-act, td.td-act, .sheet-bottom-actions {
         display: none !important;
       }
 
@@ -1145,33 +1169,18 @@
         </div>
       </div>
 
-      <!-- Save & Export Actions -->
+      <!-- Quick Actions (Print & WhatsApp) -->
       <div class="c-card">
-        <div class="c-card-title">Download &amp; Share</div>
-        <div class="f-group">
-          <label class="f-label" for="customFileName">Custom Export File Name:</label>
-          <input type="text" id="customFileName" class="f-input" placeholder="e.g. Rejoice_Bill_Daniel_Arun" />
-        </div>
-
+        <div class="c-card-title">Quick Actions</div>
         <div class="export-grid">
-          <button type="button" class="btn-action btn-pdf" onclick="downloadAsPDF()">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-            <span>Save PDF</span>
-          </button>
-
-          <button type="button" class="btn-action btn-png" onclick="downloadAsPNG()">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-            <span>Save PNG</span>
-          </button>
-
-          <button type="button" class="btn-action btn-print" onclick="window.print()">
+          <button type="button" class="btn-action btn-action-print" onclick="window.print()">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-            <span>Print A4</span>
+            <span>Print A4 / Save PDF</span>
           </button>
 
-          <button type="button" class="btn-action btn-whatsapp-share" onclick="shareViaWhatsApp()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.698.084-2.112-.505-1.785-.746-2.91-2.585-3-2.705-.089-.12-1.705-2.268-1.705-4.327 0-2.059 1.077-3.072 1.46-3.486.383-.414.834-.517 1.112-.517.278 0 .556.004.8.016.257.012.602-.098.941.716.35.842 1.196 2.923 1.303 3.139.106.216.178.468.035.753-.143.286-.214.464-.427.714-.213.25-.449.559-.642.75-.214.214-.438.448-.189.878.25.43 1.112 1.834 2.385 2.969 1.636 1.458 3.016 1.908 3.445 2.123.428.214.678.179.928-.108.25-.286 1.071-1.25 1.357-1.679.286-.428.571-.357.964-.214.393.143 2.499 1.179 2.927 1.393.428.214.714.321.821.5.107.179.107 1.036-.286 1.861z"/></svg>
-            <span>Send Formatted Quote on WhatsApp</span>
+          <button type="button" class="btn-action btn-action-wa" onclick="shareViaWhatsApp()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.698.084-2.112-.505-1.785-.746-2.91-2.585-3-2.705-.089-.12-1.705-2.268-1.705-4.327 0-2.059 1.077-3.072 1.46-3.486.383-.414.834-.517 1.112-.517.278 0 .556.004.8.016.257.012.602-.098.941.716.35.842 1.196 2.923 1.303 3.139.106.216.178.468.035.753-.143.286-.214.464-.427.714-.213.25-.449.559-.642.75-.214.214-.438.448-.189.878.25.43 1.112 1.834 2.385 2.969 1.636 1.458 3.016 1.908 3.445 2.123.428.214.678.179.928-.108.25-.286 1.071-1.25 1.357-1.679.286-.428.571-.357.964-.214.393.143 2.499 1.179 2.927 1.393.428.214.714.321.821.5.107.179.107 1.036-.286 1.861z"/></svg>
+            <span>Send on WhatsApp</span>
           </button>
         </div>
       </div>
@@ -1310,6 +1319,18 @@
           Rejoice Events &amp; Floral Studio • Anakkal, Kanjirappally, Kottayam • Premium Wedding &amp; Event Planners
         </footer>
 
+      </div>
+
+      <!-- Action buttons positioned directly at bottom of sheet for convenient mobile access -->
+      <div class="sheet-bottom-actions">
+        <button type="button" class="btn-primary-action btn-action-print" onclick="window.print()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          <span>Print / Save PDF</span>
+        </button>
+        <button type="button" class="btn-primary-action btn-action-wa" onclick="shareViaWhatsApp()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.698.084-2.112-.505-1.785-.746-2.91-2.585-3-2.705-.089-.12-1.705-2.268-1.705-4.327 0-2.059 1.077-3.072 1.46-3.486.383-.414.834-.517 1.112-.517.278 0 .556.004.8.016.257.012.602-.098.941.716.35.842 1.196 2.923 1.303 3.139.106.216.178.468.035.753-.143.286-.214.464-.427.714-.213.25-.449.559-.642.75-.214.214-.438.448-.189.878.25.43 1.112 1.834 2.385 2.969 1.636 1.458 3.016 1.908 3.445 2.123.428.214.678.179.928-.108.25-.286 1.071-1.25 1.357-1.679.286-.428.571-.357.964-.214.393.143 2.499 1.179 2.927 1.393.428.214.714.321.821.5.107.179.107 1.036-.286 1.861z"/></svg>
+          <span>Send on WhatsApp</span>
+        </button>
       </div>
     </div>
 
@@ -1583,70 +1604,14 @@
     }
 
     function updateDefaultFileName() {
-      const client = document.getElementById('dispClientName').value.trim().replace(/[^a-zA-Z0-9]/g, '_');
-      const date = new Date().toISOString().slice(0, 10);
+      const client = (document.getElementById('dispClientName')?.value || 'Client').trim().replace(/[^a-zA-Z0-9]/g, '_');
       const prefix = currentMode === 'quote' ? 'Rejoice_Quotation' : 'Rejoice_Bill';
-      document.getElementById('customFileName').value = `${prefix}_${client || 'Client'}_${date}`;
-      document.title = `${prefix} — ${client || 'Client'}`;
+      document.title = `${prefix}_${client}`;
     }
 
     function escapeHtml(str) {
       if (!str) return '';
       return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    }
-
-    /* ══════════════════════════════════════════════════════════
-       EXPORT TO PDF (NO CUT-OFF, TERMS & TOTALS FIT ON 1 PAGE)
-       ══════════════════════════════════════════════════════════ */
-    function downloadAsPDF() {
-      const sheet = document.getElementById('printSheet');
-      const fileNameInput = document.getElementById('customFileName').value.trim();
-      const fileName = (fileNameInput || 'Rejoice_Event_Document') + '.pdf';
-
-      // Enter exporting state to remove UI buttons and borders
-      sheet.classList.add('is-exporting');
-
-      const opt = {
-        margin: [6, 6, 6, 6],
-        filename: fileName,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, logging: false },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-      };
-
-      html2pdf().set(opt).from(sheet).save().then(() => {
-        sheet.classList.remove('is-exporting');
-      }).catch(err => {
-        console.error(err);
-        sheet.classList.remove('is-exporting');
-      });
-    }
-
-    /* ══════════════════════════════════════════════════════════
-       EXPORT TO PNG (HIGH RES IMAGE FOR WHATSAPP)
-       ══════════════════════════════════════════════════════════ */
-    function downloadAsPNG() {
-      const sheet = document.getElementById('printSheet');
-      const fileNameInput = document.getElementById('customFileName').value.trim();
-      const fileName = (fileNameInput || 'Rejoice_Event_Document') + '.png';
-
-      sheet.classList.add('is-exporting');
-
-      html2canvas(sheet, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: '#ffffff'
-      }).then(canvas => {
-        sheet.classList.remove('is-exporting');
-        const link = document.createElement('a');
-        link.download = fileName;
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-      }).catch(err => {
-        console.error(err);
-        sheet.classList.remove('is-exporting');
-      });
     }
 
     /* ══════════════════════════════════════════════════════════
