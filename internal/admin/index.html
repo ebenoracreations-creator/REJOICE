@@ -81,13 +81,12 @@
     }
 
     .lock-logo {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      border: 2px solid var(--gold);
+      height: 54px;
+      width: auto;
+      max-width: 150px;
       margin: 0 auto 16px;
-      object-fit: cover;
-      background: #000;
+      object-fit: contain;
+      display: block;
     }
 
     .lock-title {
@@ -175,10 +174,9 @@
     }
 
     .nav-brand img {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: 1.5px solid var(--gold);
+      height: 34px;
+      width: auto;
+      object-fit: contain;
     }
 
     .nav-brand-title {
@@ -233,7 +231,7 @@
       padding: 16px;
       width: 100%;
       display: grid;
-      grid-template-columns: 380px 1fr;
+      grid-template-columns: 360px 1fr;
       gap: 20px;
       flex: 1;
     }
@@ -313,7 +311,7 @@
     /* WhatsApp Quick-Paste Textarea */
     .wa-paste-area {
       width: 100%;
-      height: 130px;
+      height: 120px;
       background: #090c10;
       border: 1.5px dashed var(--gold);
       border-radius: 10px;
@@ -353,44 +351,6 @@
       color: #000;
     }
 
-    /* Form Fields */
-    .f-group {
-      margin-bottom: 12px;
-    }
-
-    .f-label {
-      display: block;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 5px;
-    }
-
-    .f-input, .f-select {
-      width: 100%;
-      height: 38px;
-      background: #0d1219;
-      border: 1px solid var(--border-dark);
-      border-radius: 8px;
-      padding: 0 10px;
-      color: #fff;
-      font-size: 13px;
-      outline: none;
-      font-family: inherit;
-    }
-
-    .f-input:focus, .f-select:focus {
-      border-color: var(--gold);
-    }
-
-    .f-grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-
     /* Quick Preset Buttons */
     .preset-chips {
       display: flex;
@@ -423,6 +383,37 @@
     }
 
     /* Action Buttons in Left Panel */
+    .f-group {
+      margin-bottom: 12px;
+    }
+
+    .f-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 5px;
+    }
+
+    .f-input {
+      width: 100%;
+      height: 38px;
+      background: #0d1219;
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      padding: 0 10px;
+      color: #fff;
+      font-size: 13px;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .f-input:focus {
+      border-color: var(--gold);
+    }
+
     .export-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -489,27 +480,55 @@
       }
     }
 
-    /* The Real A4 Sheet (Standard 210mm x 297mm proportional) */
+    /* The Real A4 Sheet: Calibrated to fit 1 page comfortably */
     .doc-sheet {
       background: #ffffff;
       color: #111827;
       width: 100%;
-      max-width: 800px;
-      min-height: 1050px;
-      padding: 40px 48px;
+      max-width: 760px;
+      min-height: auto;
+      padding: 28px 32px 24px;
       box-shadow: 0 15px 40px rgba(0,0,0,0.45);
       border-radius: 4px;
       position: relative;
       display: flex;
       flex-direction: column;
-      font-size: 13px;
+      font-size: 12.5px;
+      overflow: hidden;
     }
 
     @media (max-width: 768px) {
       .doc-sheet {
-        padding: 24px 16px;
-        min-height: auto;
+        padding: 20px 14px;
       }
+    }
+
+    /* ══════════ WATERMARK BEHIND TABLE ══════════ */
+    .doc-watermark {
+      position: absolute;
+      top: 54%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 320px;
+      height: 320px;
+      opacity: 0.05;
+      pointer-events: none;
+      z-index: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .doc-watermark img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* Content layers above watermark */
+    .doc-header, .doc-info-strip, .doc-table-wrap, .doc-calc-grid, .doc-footer {
+      position: relative;
+      z-index: 1;
     }
 
     /* Document Header */
@@ -518,28 +537,31 @@
       align-items: center;
       justify-content: space-between;
       border-bottom: 2px solid #111827;
-      padding-bottom: 20px;
-      margin-bottom: 20px;
+      padding-bottom: 14px;
+      margin-bottom: 16px;
     }
 
     .doc-brand {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
     }
 
+    /* Clean transparent logo directly on white background */
     .doc-logo-img {
-      width: 68px;
-      height: 68px;
-      border-radius: 50%;
-      border: 2px solid #c59d42;
-      object-fit: cover;
-      background: #000;
+      height: 52px;
+      width: auto;
+      max-width: 140px;
+      object-fit: contain;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      display: block;
     }
 
     .doc-brand-name {
       font-family: var(--font-display);
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 800;
       color: #0c1017;
       letter-spacing: 0.06em;
@@ -547,7 +569,7 @@
     }
 
     .doc-brand-sub {
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 700;
       color: #9e7a2b;
       letter-spacing: 0.12em;
@@ -556,10 +578,10 @@
     }
 
     .doc-brand-addr {
-      font-size: 11px;
+      font-size: 10.5px;
       color: #4b5563;
-      margin-top: 4px;
-      line-height: 1.4;
+      margin-top: 3px;
+      line-height: 1.35;
     }
 
     .doc-meta {
@@ -569,24 +591,53 @@
     .doc-type-badge {
       display: inline-block;
       font-family: var(--font-display);
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 800;
       color: #9e7a2b;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
-    .doc-number {
+    .doc-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 6px;
+      margin-top: 2px;
+      font-size: 11.5px;
+    }
+
+    .doc-meta-label {
+      color: #6b7280;
+      font-weight: 600;
+    }
+
+    /* Fully Editable Inputs inside the Document */
+    .doc-meta-input {
+      border: 1px solid transparent;
+      border-radius: 4px;
+      background: transparent;
+      font-family: inherit;
       font-size: 12px;
       font-weight: 700;
       color: #111827;
+      padding: 2px 4px;
+      outline: none;
+      transition: all 0.15s;
     }
 
-    .doc-date {
-      font-size: 11.5px;
-      color: #6b7280;
-      margin-top: 2px;
+    .doc-meta-input:hover, .doc-meta-input:focus {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+
+    .text-right {
+      text-align: right;
+    }
+
+    .text-left {
+      text-align: left;
     }
 
     /* Client & Event Info Strip */
@@ -597,76 +648,81 @@
       background: #f9fafb;
       border: 1px solid #e5e7eb;
       border-radius: 6px;
-      padding: 14px 18px;
-      margin-bottom: 22px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
     }
 
     @media (max-width: 600px) {
       .doc-info-strip {
         grid-template-columns: 1fr;
-        gap: 10px;
-        padding: 12px;
+        gap: 8px;
+        padding: 10px;
       }
     }
 
     .info-block-title {
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       color: #9e7a2b;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       border-bottom: 1px solid #e5e7eb;
-      padding-bottom: 3px;
+      padding-bottom: 2px;
     }
 
     .info-row {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      margin-bottom: 4px;
-      font-size: 12px;
+      margin-bottom: 2px;
+      font-size: 11.5px;
     }
 
     .info-label {
       color: #6b7280;
-      font-weight: 500;
-    }
-
-    .info-val {
-      font-weight: 700;
-      color: #111827;
-      text-align: right;
+      font-weight: 600;
+      white-space: nowrap;
+      margin-right: 8px;
     }
 
     /* Items Table */
+    .doc-table-wrap {
+      margin-bottom: 12px;
+    }
+
     .doc-table {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 20px;
+      page-break-inside: auto;
+    }
+
+    .doc-table tr {
+      page-break-inside: avoid;
     }
 
     .doc-table th {
       background: #0f141d;
       color: #ffffff;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      padding: 9px 10px;
+      padding: 7px 8px;
       text-align: left;
     }
 
-    .doc-table th.th-num { width: 38px; text-align: center; }
-    .doc-table th.th-qty { width: 55px; text-align: center; }
-    .doc-table th.th-rate { width: 110px; text-align: right; }
-    .doc-table th.th-amt { width: 120px; text-align: right; }
-    .doc-table th.th-act { width: 44px; text-align: center; }
+    .doc-table th.th-num { width: 34px; text-align: center; }
+    .doc-table th.th-qty { width: 48px; text-align: center; }
+    .doc-table th.th-rate { width: 100px; text-align: right; }
+    .doc-table th.th-amt { width: 110px; text-align: right; }
+    .doc-table th.th-act { width: 36px; text-align: center; }
 
     .doc-table td {
-      padding: 8px 10px;
+      padding: 6px 8px;
       border-bottom: 1px solid #e5e7eb;
       vertical-align: middle;
-      font-size: 12.5px;
+      font-size: 12px;
     }
 
     .doc-table tr:nth-child(even) td {
@@ -677,15 +733,15 @@
       text-align: center;
       font-weight: 600;
       color: #6b7280;
-      font-size: 11.5px;
+      font-size: 11px;
     }
 
     .item-name-input {
       width: 100%;
       border: 1px solid transparent;
-      padding: 4px 6px;
+      padding: 3px 5px;
       border-radius: 4px;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 600;
       color: #111827;
       background: transparent;
@@ -699,11 +755,11 @@
     }
 
     .item-qty-input {
-      width: 48px;
+      width: 44px;
       border: 1px solid transparent;
-      padding: 4px;
+      padding: 3px;
       text-align: center;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 600;
       color: #111827;
       border-radius: 4px;
@@ -717,14 +773,14 @@
     }
 
     .item-rate-input {
-      width: 100px;
-      border: 1.5px solid #cbd5e1;
-      padding: 5px 8px;
+      width: 90px;
+      border: 1px solid #cbd5e1;
+      padding: 4px 6px;
       text-align: right;
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 700;
       color: #0f172a;
-      border-radius: 6px;
+      border-radius: 5px;
       background: #f8fafc;
       outline: none;
       font-family: inherit;
@@ -740,8 +796,8 @@
       text-align: right;
       font-weight: 700;
       color: #0f172a;
-      font-size: 13px;
-      padding-right: 12px;
+      font-size: 12.5px;
+      padding-right: 8px;
     }
 
     .btn-row-del {
@@ -750,7 +806,7 @@
       color: #94a3b8;
       cursor: pointer;
       font-size: 16px;
-      padding: 2px 6px;
+      padding: 2px 5px;
       border-radius: 4px;
     }
 
@@ -763,15 +819,16 @@
       background: #f1f5f9;
       border: 1px dashed #cbd5e1;
       color: #475569;
-      padding: 7px 14px;
+      padding: 6px 12px;
       border-radius: 6px;
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 700;
       cursor: pointer;
-      margin-bottom: 20px;
+      margin-top: 6px;
+      margin-bottom: 12px;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
 
     .btn-add-table-row:hover {
@@ -779,13 +836,14 @@
       color: #0f172a;
     }
 
-    /* Financial Calculation Box */
+    /* Financial Calculation & Terms Grid */
     .doc-calc-grid {
       display: grid;
-      grid-template-columns: 1fr 300px;
-      gap: 20px;
-      margin-top: auto;
-      margin-bottom: 20px;
+      grid-template-columns: 1fr 270px;
+      gap: 16px;
+      margin-top: 4px;
+      margin-bottom: 14px;
+      page-break-inside: avoid;
     }
 
     @media (max-width: 600px) {
@@ -797,30 +855,36 @@
     .terms-box {
       border: 1px solid #e5e7eb;
       border-radius: 6px;
-      padding: 12px 14px;
+      padding: 10px 12px;
       background: #fafbfc;
+      display: flex;
+      flex-direction: column;
     }
 
     .terms-title {
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 800;
       color: #9e7a2b;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
 
     .terms-textarea {
       width: 100%;
-      height: 75px;
+      height: 70px;
       border: none;
       background: transparent;
-      font-size: 11px;
-      line-height: 1.5;
+      font-size: 10.5px;
+      line-height: 1.45;
       color: #4b5563;
       resize: none;
       outline: none;
       font-family: inherit;
+    }
+
+    .terms-textarea:focus {
+      background: #fff;
     }
 
     .totals-box {
@@ -833,8 +897,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 9px 14px;
-      font-size: 12.5px;
+      padding: 7px 12px;
+      font-size: 12px;
       border-bottom: 1px solid #e5e7eb;
     }
 
@@ -842,13 +906,13 @@
       background: #0f141d;
       color: #ffffff;
       font-weight: 800;
-      font-size: 14px;
+      font-size: 13.5px;
       border-bottom: none;
     }
 
     .tot-row.grand-total .tot-val {
       color: #facc15;
-      font-size: 16px;
+      font-size: 15px;
     }
 
     .tot-row.advance-row {
@@ -861,50 +925,79 @@
       background: #f0fdf4;
       color: #166534;
       font-weight: 800;
-      font-size: 14px;
+      font-size: 13.5px;
       border-bottom: none;
     }
 
     .advance-input {
-      width: 105px;
-      border: 1.5px solid #f59e0b;
+      width: 95px;
+      border: 1px solid #f59e0b;
       background: #ffffff;
-      border-radius: 5px;
-      padding: 4px 6px;
+      border-radius: 4px;
+      padding: 3px 6px;
       text-align: right;
       font-weight: 800;
-      font-size: 13px;
+      font-size: 12.5px;
       color: #92400e;
       outline: none;
     }
 
-    /* Paid in Full Green Stamp for Billing Mode */
+    /* Paid in Full Stamp */
     .paid-stamp {
       display: none;
-      border: 3px solid #16a34a;
+      border: 2px solid #16a34a;
       color: #16a34a;
       font-family: var(--font-display);
-      font-size: 18px;
+      font-size: 14px;
       font-weight: 800;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      padding: 4px 14px;
-      border-radius: 8px;
-      transform: rotate(-5deg);
+      padding: 3px 10px;
+      border-radius: 6px;
+      transform: rotate(-3deg);
       text-align: center;
-      margin: 10px auto 0;
+      margin-top: 6px;
     }
 
     .doc-footer {
       border-top: 1px solid #e5e7eb;
-      padding-top: 14px;
+      padding-top: 10px;
       text-align: center;
-      font-size: 10.5px;
+      font-size: 10px;
       color: #9ca3af;
       letter-spacing: 0.05em;
     }
 
-    /* ══════════ PRINT STYLESHEET (A4 CLEAN EXPORT) ══════════ */
+    /* ══════════ EXPORTING / CLEAN PDF & PNG RENDERING ══════════ */
+    /* Applied programmatically before html2pdf/html2canvas captures the sheet */
+    .is-exporting {
+      box-shadow: none !important;
+      border: none !important;
+      padding: 24px 28px !important;
+    }
+
+    .is-exporting .btn-row-del,
+    .is-exporting .btn-add-table-row,
+    .is-exporting th.th-act,
+    .is-exporting td.td-act {
+      display: none !important;
+    }
+
+    .is-exporting .doc-meta-input,
+    .is-exporting .item-name-input,
+    .is-exporting .item-qty-input,
+    .is-exporting .item-rate-input,
+    .is-exporting .advance-input,
+    .is-exporting .terms-textarea {
+      border: none !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      appearance: none !important;
+      -webkit-appearance: none !important;
+    }
+
+    /* ══════════ BROWSER PRINT STYLESHEET ══════════ */
     @media print {
       body {
         background: #ffffff !important;
@@ -933,11 +1026,11 @@
         border: none !important;
         max-width: 100% !important;
         min-height: auto !important;
-        padding: 10mm 12mm !important;
+        padding: 8mm 10mm !important;
         margin: 0 !important;
       }
 
-      .item-name-input, .item-qty-input, .item-rate-input, .advance-input, .terms-textarea {
+      .doc-meta-input, .item-name-input, .item-qty-input, .item-rate-input, .advance-input, .terms-textarea {
         border: none !important;
         background: transparent !important;
         padding: 0 !important;
@@ -946,7 +1039,7 @@
 
       @page {
         size: A4 portrait;
-        margin: 8mm;
+        margin: 6mm;
       }
     }
   </style>
@@ -1025,7 +1118,7 @@
         <textarea 
           id="waInput" 
           class="wa-paste-area" 
-          placeholder="Paste client's WhatsApp message here (e.g. Client Name: Rohan &amp; Co., Phone: ..., Venue: ..., Services: stage, cradle, cake setting, AC seating...)"
+          placeholder="Paste client's WhatsApp message here (e.g. Client Name: Daniel / Elizabeth &amp; Arun, Phone: ..., Date: ..., Venue: ..., Services: stage, cradle, cake setting, AC seating...)"
         ></textarea>
         <button type="button" class="btn-parse" onclick="parseWhatsAppMessage()">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
@@ -1057,7 +1150,7 @@
         <div class="c-card-title">Download &amp; Share</div>
         <div class="f-group">
           <label class="f-label" for="customFileName">Custom Export File Name:</label>
-          <input type="text" id="customFileName" class="f-input" placeholder="e.g. Rejoice-Quote-Rohan-Nov2026" />
+          <input type="text" id="customFileName" class="f-input" placeholder="e.g. Rejoice_Bill_Daniel_Arun" />
         </div>
 
         <div class="export-grid">
@@ -1089,9 +1182,15 @@
     <div class="sheet-wrapper">
       <div id="printSheet" class="doc-sheet">
 
+        <!-- Watermark behind Table -->
+        <div class="doc-watermark" aria-hidden="true">
+          <img src="../../images/logo.png" alt="" onerror="this.src='/images/logo.png'" />
+        </div>
+
         <!-- Document Letterhead -->
         <header class="doc-header">
           <div class="doc-brand">
+            <!-- Clean logo on white background, no circle, no black background -->
             <img src="../../images/logo.png" alt="Rejoice Events Logo" class="doc-logo-img" onerror="this.src='/images/logo.png'" />
             <div>
               <div class="doc-brand-name">REJOICE EVENTS</div>
@@ -1105,26 +1204,32 @@
 
           <div class="doc-meta">
             <div id="docHeaderType" class="doc-type-badge">OFFICIAL QUOTATION</div>
-            <div class="doc-number">Ref: <span id="docRefNum">REJ-QT-2026-101</span></div>
-            <div class="doc-date">Date: <span id="docCurrentDate">19 Oct 2026</span></div>
+            <div class="doc-meta-row">
+              <span class="doc-meta-label">Ref:</span>
+              <input type="text" id="docRefNum" class="doc-meta-input text-right" value="REJ-QT-2026-101" style="width: 130px;" />
+            </div>
+            <div class="doc-meta-row">
+              <span class="doc-meta-label">Date:</span>
+              <input type="text" id="docCurrentDate" class="doc-meta-input text-right" value="19 Oct 2026" style="width: 100px;" />
+            </div>
           </div>
         </header>
 
-        <!-- Client & Event Info Box -->
+        <!-- Client & Event Info Box (All Fields Fully Editable) -->
         <section class="doc-info-strip">
           <div>
             <div class="info-block-title">Prepared For (Client Details)</div>
             <div class="info-row">
               <span class="info-label">Client Name:</span>
-              <span id="dispClientName" class="info-val">Rohan and Co.</span>
+              <input type="text" id="dispClientName" class="doc-meta-input text-right" value="Daniel / Elizabeth &amp; Arun" style="flex:1;" oninput="updateDefaultFileName()" />
             </div>
             <div class="info-row">
               <span class="info-label">Phone / WhatsApp:</span>
-              <span id="dispClientPhone" class="info-val">+91 99614 02646</span>
+              <input type="text" id="dispClientPhone" class="doc-meta-input text-right" value="+16476274318" style="flex:1;" />
             </div>
             <div class="info-row">
               <span class="info-label">Approx Guests:</span>
-              <span id="dispClientGuests" class="info-val">250 Guests</span>
+              <input type="text" id="dispClientGuests" class="doc-meta-input text-right" value="200 Guests" style="flex:1;" />
             </div>
           </div>
 
@@ -1132,50 +1237,51 @@
             <div class="info-block-title">Event &amp; Venue Details</div>
             <div class="info-row">
               <span class="info-label">Event Type:</span>
-              <span id="dispEventType" class="info-val">Baptism &amp; Holy Communion</span>
+              <input type="text" id="dispEventType" class="doc-meta-input text-right" value="Baptism &amp; Holy Communion" style="flex:1;" />
             </div>
             <div class="info-row">
               <span class="info-label">Event Date:</span>
-              <span id="dispEventDate" class="info-val">25 Nov 2026</span>
+              <input type="text" id="dispEventDate" class="doc-meta-input text-right" value="25 Dec 2026" style="flex:1;" />
             </div>
             <div class="info-row">
               <span class="info-label">Venue / City:</span>
-              <span id="dispEventVenue" class="info-val">Kottayam, Kerala</span>
+              <input type="text" id="dispEventVenue" class="doc-meta-input text-right" value="Periyar Pavilion, Aluva" style="flex:1;" />
             </div>
           </div>
         </section>
 
         <!-- Selected Services & Pricing Table -->
-        <table class="doc-table">
-          <thead>
-            <tr>
-              <th class="th-num">#</th>
-              <th>Service / Requirement Description</th>
-              <th class="th-qty">Qty</th>
-              <th class="th-rate">Rate (₹)</th>
-              <th class="th-amt">Amount (₹)</th>
-              <th class="th-act"></th>
-            </tr>
-          </thead>
-          <tbody id="tableBody">
-            <!-- Dynamic Rows will be inserted here -->
-          </tbody>
-        </table>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead>
+              <tr>
+                <th class="th-num">#</th>
+                <th>Service / Requirement Description</th>
+                <th class="th-qty">Qty</th>
+                <th class="th-rate">Rate (₹)</th>
+                <th class="th-amt">Amount (₹)</th>
+                <th class="th-act"></th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              <!-- Dynamic Rows will be inserted here -->
+            </tbody>
+          </table>
+        </div>
 
-        <!-- Add Row Button (Hidden during print/PDF) -->
+        <!-- Add Row Button (Hidden during print/PDF export) -->
         <div>
           <button type="button" class="btn-add-table-row" onclick="addNewItemRow('', 1, '')">
             <span>+ Add Service Row</span>
           </button>
         </div>
 
-        <!-- Calculations & Terms Grid -->
+        <!-- Calculations & Terms Grid (Keep together on 1 page) -->
         <div class="doc-calc-grid">
           <!-- Terms & Conditions (Editable) -->
           <div class="terms-box">
             <div class="terms-title">Terms &amp; Conditions</div>
-            <textarea id="termsText" class="terms-textarea">
-• A minimum advance payment is required for official date lock and booking confirmation.
+            <textarea id="termsText" class="terms-textarea">• A minimum advance payment is required for official date lock and booking confirmation.
 • The remaining balance must be cleared prior to event commencement.</textarea>
             <div id="paidBadge" class="paid-stamp">PAID IN FULL</div>
           </div>
@@ -1263,13 +1369,13 @@
         btnQuote.classList.add('active');
         btnBill.classList.remove('active');
         docHeaderType.textContent = 'OFFICIAL QUOTATION';
-        docRefNum.textContent = `REJ-QT-${currentYear}-${quoteSeq}`;
+        docRefNum.value = `REJ-QT-${currentYear}-${quoteSeq}`;
         lblAdvance.textContent = 'Advance (Date Lock):';
       } else {
         btnBill.classList.add('active');
         btnQuote.classList.remove('active');
         docHeaderType.textContent = 'EVENT BILL & RECEIPT';
-        docRefNum.textContent = `REJ-BILL-${currentYear}-${quoteSeq}`;
+        docRefNum.value = `REJ-BILL-${currentYear}-${quoteSeq}`;
         lblAdvance.textContent = 'Advance Received:';
       }
       updateDefaultFileName();
@@ -1310,7 +1416,6 @@
       calculateTotals();
       reindexRows();
 
-      // Focus rate input if name is already populated
       if (name && !rate) {
         const rateInp = tr.querySelector('.item-rate-input');
         if (rateInp) rateInp.focus();
@@ -1364,7 +1469,6 @@
       document.getElementById('dispTotalAmt').textContent = formatINR(subtotal);
       document.getElementById('dispBalanceDue').textContent = formatINR(balance);
 
-      // Paid Stamp in billing mode
       const paidBadge = document.getElementById('paidBadge');
       if (currentMode === 'bill' && subtotal > 0 && balance === 0) {
         paidBadge.style.display = 'block';
@@ -1375,9 +1479,13 @@
 
     /* ══════════════════════════════════════════════════════════
        MAGIC WHATSAPP PARSER
-       Takes messages from checklist inquiries or casual text
-       and automatically populates client details & table items!
+       Cleans markdown asterisks and populates editable input fields
        ══════════════════════════════════════════════════════════ */
+    function cleanMarkdownVal(str) {
+      if (!str) return '';
+      return str.replace(/^[*\s_•–-]+|[*\s_•–-]+$/g, '').trim();
+    }
+
     function parseWhatsAppMessage() {
       const raw = document.getElementById('waInput').value;
       if (!raw || !raw.trim()) {
@@ -1387,73 +1495,72 @@
 
       const text = raw.replace(/\r\n/g, '\n');
 
-      // Helper regex extractors
       function extract(pattern) {
         const m = text.match(pattern);
-        return m ? m[1].trim() : '';
+        return m ? cleanMarkdownVal(m[1]) : '';
       }
 
       // 1. Client Name
       const name = extract(/(?:👤\s*Client Name|Client Name|Client|Name|Host Name)[^\n:]*[:\-–]\s*([^\n]+)/i);
       if (name) {
-        document.getElementById('dispClientName').textContent = name;
+        document.getElementById('dispClientName').value = name;
       }
 
       // 2. Phone
       const phone = extract(/(?:📞\s*Phone|WhatsApp|Phone Number|Mobile)[^\n:]*[:\-–]\s*([^\n]+)/i);
       if (phone) {
-        document.getElementById('dispClientPhone').textContent = phone;
+        document.getElementById('dispClientPhone').value = phone;
       }
 
       // 3. Date
       const date = extract(/(?:📅\s*Date|Date of Event|Event Date|Ceremony Date)[^\n:]*[:\-–]\s*([^\n]+)/i);
       if (date) {
-        document.getElementById('dispEventDate').textContent = date;
+        document.getElementById('dispEventDate').value = date;
       }
 
       // 4. Venue
       const venue = extract(/(?:📍\s*Venue|Venue \/ Location|Location|Address)[^\n:]*[:\-–]\s*([^\n]+)/i);
       if (venue) {
-        document.getElementById('dispEventVenue').textContent = venue;
+        document.getElementById('dispEventVenue').value = venue;
       }
 
       // 5. Guests
       const guests = extract(/(?:👥\s*Approx Guests|Guests|Approximate Guests)[^\n:]*[:\-–]\s*([^\n]+)/i);
       if (guests) {
-        document.getElementById('dispClientGuests').textContent = guests.includes('Guest') ? guests : guests + ' Guests';
+        document.getElementById('dispClientGuests').value = guests.toLowerCase().includes('guest') ? guests : guests + ' Guests';
       }
 
       // 6. Event Type
       const evtType = extract(/(?:Event Type|Celebration Type)[^\n:]*[:\-–]\s*([^\n]+)/i);
       if (evtType) {
-        document.getElementById('dispEventType').textContent = evtType;
+        document.getElementById('dispEventType').value = evtType;
       }
 
       // 7. Parse Services Items
       let itemsFound = [];
 
-      // Case A: Lines with checkmarks (✓ or - or •)
+      // Case A: Lines with checkmarks (✓ or - or • or *)
       const lines = text.split('\n');
       lines.forEach(line => {
         const trimmed = line.trim();
         const checkMatch = trimmed.match(/^(?:[✓✔•\-\*]|\d+\.)\s+(.+)$/);
         if (checkMatch) {
-          let item = checkMatch[1].replace(/\(CRITICAL\)/gi, '').trim();
-          if (item && !item.toLowerCase().includes('services requested')) {
+          let item = checkMatch[1].replace(/\(CRITICAL\)/gi, '');
+          item = cleanMarkdownVal(item);
+          if (item && !item.toLowerCase().includes('services requested') && !item.toLowerCase().includes('client name') && !item.toLowerCase().includes('phone') && !item.toLowerCase().includes('date') && !item.toLowerCase().includes('venue')) {
             itemsFound.push(item);
           }
         }
       });
 
-      // Case B: Casual text like "services they have selected: For stage, cradle, and cake setting..."
+      // Case B: Comma-separated strings
       if (itemsFound.length === 0) {
         const servicesMatch = text.match(/(?:services they have selected|selected items|services|requirements)[^\n:]*[:\-–]\s*([^\n]+)/i);
         if (servicesMatch) {
           const rawServices = servicesMatch[1];
-          // Split by commas and "and"
           const splitList = rawServices.split(/[,;\n]|(?:\band\b)/i);
           splitList.forEach(s => {
-            let clean = s.replace(/^(?:for|the)\s+/i, '').trim();
+            let clean = cleanMarkdownVal(s.replace(/^(?:for|the)\s+/i, ''));
             if (clean && clean.length > 2) {
               itemsFound.push(clean.charAt(0).toUpperCase() + clean.slice(1));
             }
@@ -1461,10 +1568,9 @@
         }
       }
 
-      // Populate Table Rows if items were detected
       if (itemsFound.length > 0) {
         const tbody = document.getElementById('tableBody');
-        tbody.innerHTML = ''; // Clear previous items
+        tbody.innerHTML = '';
         itemsFound.forEach(it => {
           addNewItemRow(it, 1, '');
         });
@@ -1473,16 +1579,15 @@
       updateDefaultFileName();
       calculateTotals();
 
-      // Clear input and show confirmation
-      alert(`Success! Imported client details and ${itemsFound.length} requested service items into the quotation table.`);
+      alert(`Success! Imported details and ${itemsFound.length} requested service items into the editable sheet.`);
     }
 
     function updateDefaultFileName() {
-      const client = document.getElementById('dispClientName').textContent.trim().replace(/[^a-zA-Z0-9]/g, '_');
+      const client = document.getElementById('dispClientName').value.trim().replace(/[^a-zA-Z0-9]/g, '_');
       const date = new Date().toISOString().slice(0, 10);
       const prefix = currentMode === 'quote' ? 'Rejoice_Quotation' : 'Rejoice_Bill';
-      document.getElementById('customFileName').value = `${prefix}_${client}_${date}`;
-      document.title = `${prefix} — ${client}`;
+      document.getElementById('customFileName').value = `${prefix}_${client || 'Client'}_${date}`;
+      document.title = `${prefix} — ${client || 'Client'}`;
     }
 
     function escapeHtml(str) {
@@ -1491,41 +1596,56 @@
     }
 
     /* ══════════════════════════════════════════════════════════
-       EXPORT TO PDF (WITH CUSTOM FILENAME)
+       EXPORT TO PDF (NO CUT-OFF, TERMS & TOTALS FIT ON 1 PAGE)
        ══════════════════════════════════════════════════════════ */
     function downloadAsPDF() {
       const sheet = document.getElementById('printSheet');
       const fileNameInput = document.getElementById('customFileName').value.trim();
-      const fileName = (fileNameInput || 'Rejoice_Event_Quotation') + '.pdf';
+      const fileName = (fileNameInput || 'Rejoice_Event_Document') + '.pdf';
+
+      // Enter exporting state to remove UI buttons and borders
+      sheet.classList.add('is-exporting');
 
       const opt = {
-        margin: [8, 8, 8, 8],
+        margin: [6, 6, 6, 6],
         filename: fileName,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2, useCORS: true, logging: false },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
       };
 
-      html2pdf().set(opt).from(sheet).save();
+      html2pdf().set(opt).from(sheet).save().then(() => {
+        sheet.classList.remove('is-exporting');
+      }).catch(err => {
+        console.error(err);
+        sheet.classList.remove('is-exporting');
+      });
     }
 
     /* ══════════════════════════════════════════════════════════
-       EXPORT TO PNG IMAGE (WITH CUSTOM FILENAME)
+       EXPORT TO PNG (HIGH RES IMAGE FOR WHATSAPP)
        ══════════════════════════════════════════════════════════ */
     function downloadAsPNG() {
       const sheet = document.getElementById('printSheet');
       const fileNameInput = document.getElementById('customFileName').value.trim();
-      const fileName = (fileNameInput || 'Rejoice_Event_Quotation') + '.png';
+      const fileName = (fileNameInput || 'Rejoice_Event_Document') + '.png';
+
+      sheet.classList.add('is-exporting');
 
       html2canvas(sheet, {
         scale: 2,
         useCORS: true,
         backgroundColor: '#ffffff'
       }).then(canvas => {
+        sheet.classList.remove('is-exporting');
         const link = document.createElement('a');
         link.download = fileName;
         link.href = canvas.toDataURL('image/png');
         link.click();
+      }).catch(err => {
+        console.error(err);
+        sheet.classList.remove('is-exporting');
       });
     }
 
@@ -1533,19 +1653,19 @@
        SEND VIA WHATSAPP (FORMATTED TEXT)
        ══════════════════════════════════════════════════════════ */
     function shareViaWhatsApp() {
-      const client = document.getElementById('dispClientName').textContent.trim();
-      const phone = document.getElementById('dispClientPhone').textContent.trim().replace(/[^0-9]/g, '');
-      const eventType = document.getElementById('dispEventType').textContent.trim();
-      const eventDate = document.getElementById('dispEventDate').textContent.trim();
-      const venue = document.getElementById('dispEventVenue').textContent.trim();
-      const refNum = document.getElementById('docRefNum').textContent.trim();
+      const client = document.getElementById('dispClientName').value.trim();
+      const phone = document.getElementById('dispClientPhone').value.trim().replace(/[^0-9]/g, '');
+      const eventType = document.getElementById('dispEventType').value.trim();
+      const eventDate = document.getElementById('dispEventDate').value.trim();
+      const venue = document.getElementById('dispEventVenue').value.trim();
+      const refNum = document.getElementById('docRefNum').value.trim();
 
       const isQuote = currentMode === 'quote';
       const title = isQuote ? 'OFFICIAL EVENT QUOTATION' : 'EVENT BILL & PAYMENT RECEIPT';
 
       let msg = `✨ *REJOICE EVENTS & FLORAL STUDIO* ✨\n`;
       msg += `*${title}*\n`;
-      msg += `Ref: ${refNum} | Date: ${new Date().toLocaleDateString('en-IN')}\n`;
+      msg += `Ref: ${refNum} | Date: ${document.getElementById('docCurrentDate').value.trim()}\n`;
       msg += `─────────────────────────\n`;
       msg += `👤 *Client:* ${client}\n`;
       msg += `🎉 *Event:* ${eventType}\n`;
@@ -1586,14 +1706,15 @@
     document.addEventListener('DOMContentLoaded', () => {
       checkAuth();
       const options = { day: '2-digit', month: 'short', year: 'numeric' };
-      document.getElementById('docCurrentDate').textContent = new Date().toLocaleDateString('en-GB', options);
+      document.getElementById('docCurrentDate').value = new Date().toLocaleDateString('en-GB', options);
 
       // Default sample items
       addNewItemRow('Stage Decor & Themed Backdrop', 1, '');
+      addNewItemRow('Cake Table Settings', 1, '');
       addNewItemRow('Cradle Styling & Fresh Florals', 1, '');
-      addNewItemRow('Cake Table Settings & Treats', 1, '');
+      addNewItemRow('Welcome Board Area Setting', 1, '');
+      addNewItemRow('Sound, Music & Mic Setup', 1, '');
       addNewItemRow('Air-Conditioned Seating & Hall Setup', 1, '');
-      addNewItemRow('Sound, Mic & Ambient Music', 1, '');
 
       updateDefaultFileName();
       calculateTotals();
