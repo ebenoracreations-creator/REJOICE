@@ -30,26 +30,26 @@
     },
     {
       id: 'baptism',
-      title: 'Baptisms',
-      badge: 'Sacred Milestone',
+      title: 'Baptism & Holy Communion',
+      badge: '',
       badgeClass: '',
-      sub: 'A pure and heavenly beginning with angel-wing styling',
+      sub: 'A pure and heavenly beginning with sacred floral styling',
       checkTitle: 'Package Checklist:',
       bullets: [
-        'Stage & Neon Backdrop',
-        'Cake Table Settings & Cradle Styling',
-        'Return Gifts & its Display Table or Stand',
-        'Sound, Music, Mic & Welcome Board',
-        'Baptism Basket, Tiara, Candle & Church Altar'
+        'Stage Decor',
+        'Front Arch & Welcome Board Area Settings',
+        'Cake Table Settings, Cakes & Treats',
+        'Family Table & Round Table Settings',
+        'Sound, Mic, Light & Music'
       ],
       image: 'images/packages/baptism-card.jpg',
-      alt: 'Bespoke Angel Wing Baptism Setup by Rejoice Events',
+      alt: 'Bespoke Baptism and Holy Communion Setup by Rejoice Events',
       url: 'baptism.html'
     },
     {
       id: 'birthday',
       title: 'Birthdays',
-      badge: 'Milestone Joy',
+      badge: '',
       badgeClass: '',
       sub: 'Vibrant themes, fairy wonderland & lifelong memories',
       checkTitle: 'Package Checklist:',
@@ -57,8 +57,8 @@
         'Custom Themed Stage & Backdrop',
         'Balloon & Floral Arch Installations',
         'Cake & Table Setting',
-        'Return Gifts & its Display Table or Stand',
-        'Sound, Music, Mic & Welcome Board Setting'
+        'Live Snack Stalls & Return Gifts',
+        'Sound, Mic, Dynamic Lighting & DJ Music'
       ],
       image: 'images/packages/birthday-card.jpg',
       alt: 'Enchanted Fairy Birthday Garden Setup by Rejoice Events',
@@ -67,15 +67,15 @@
     {
       id: 'funeral',
       title: 'Funerals',
-      badge: 'Sacred Memorial',
-      badgeClass: 'bend-badge-memorial',
+      badge: '',
+      badgeClass: '',
       sub: 'Dignified, peaceful & sacred compassionate tributes',
       checkTitle: 'Package Services:',
       bullets: [
-        'Compassionate, complete funeral services arranged with care',
-        'Sacred floral altar arches, cross decor & memorial styling',
-        'Ambient candle setting & solemn sound systems',
-        'Specific funeral arrangements provided at request'
+        'Pandal (Weatherproof Setup) & Mourning Chairs',
+        'Hearse Van (Mortuary Van) & Transit Logistics',
+        'Sound, Mic & Prayer Audio Systems',
+        'Sacred Floral Cross & Casket Spray Tributes'
       ],
       image: 'images/packages/funeral-card.jpeg',
       alt: 'Sacred Floral Altar Memorial Tribute by Rejoice Events',
@@ -84,7 +84,7 @@
     {
       id: 'custom',
       title: 'Custom Celebrations',
-      badge: 'Bespoke Vision',
+      badge: '',
       badgeClass: '',
       sub: 'Engagements, jubilees, housewarmings & tailor-made concepts',
       checkTitle: 'Custom Checklist:',
