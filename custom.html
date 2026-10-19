@@ -8,6 +8,14 @@
     if (location.protocol === 'http:' || location.hostname === 'rejoiceeventsandflorals.com') {
       location.replace('https://www.rejoiceeventsandflorals.com' + location.pathname + location.search + location.hash);
     }
+    // Clean URL: Strip index.html and .html from address bar
+    if (location.pathname.endsWith('/index.html') || location.pathname === '/index.html') {
+      var cleanPath = location.pathname.replace(/\/index\.html$/, '/') || '/';
+      history.replaceState(null, '', cleanPath + location.search + location.hash);
+    } else if (location.pathname.endsWith('.html')) {
+      var cleanPath = location.pathname.replace(/\.html$/, '/');
+      history.replaceState(null, '', cleanPath + location.search + location.hash);
+    }
   </script>
 
   <!-- ══════════ PRIMARY SEO ══════════ -->
@@ -16,7 +24,7 @@
   <meta name="keywords" content="Best Event Management in Kottayam, Best Event Management in Kerala, Custom Event Planners Kerala, Event Management Kottayam, Engagement Planners Kerala, Housewarming Event Decor Kottayam, Bespoke Event Management Kerala, Rejoice Events Custom" />
   <meta name="author" content="Rejoice Events &amp; Floral Studio" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-  <link rel="canonical" href="https://www.rejoiceeventsandflorals.com/custom.html" />
+  <link rel="canonical" href="https://www.rejoiceeventsandflorals.com/custom/" />
 
   <!-- ══════════ GEO / LOCAL SEO ══════════ -->
   <meta name="geo.region" content="IN-KL" />
@@ -29,7 +37,7 @@
   <meta property="og:site_name" content="Rejoice Events &amp; Floral Studio" />
   <meta property="og:title" content="Best Event Management in Kottayam, Kerala | Custom Event Package Checklist — Rejoice Events" />
   <meta property="og:description" content="Recognised as one of Kerala’s premium event planners, REJOICE EVENTS is based in Kottayam and serves clients across Kerala. Build your bespoke celebration package across Kerala." />
-  <meta property="og:url" content="https://www.rejoiceeventsandflorals.com/custom.html" />
+  <meta property="og:url" content="https://www.rejoiceeventsandflorals.com/custom/" />
   <meta property="og:image" content="https://www.rejoiceeventsandflorals.com/images/hero-bg.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="675" />
@@ -77,7 +85,7 @@
         "@type": "ListItem",
         "position": 3,
         "name": "Custom Event Checklist",
-        "item": "https://www.rejoiceeventsandflorals.com/custom.html"
+        "item": "https://www.rejoiceeventsandflorals.com/custom/"
       }
     ]
   }
@@ -88,7 +96,7 @@
   {
     "@context": "https://schema.org",
     "@type": "Service",
-    "@id": "https://www.rejoiceeventsandflorals.com/custom.html#service",
+    "@id": "https://www.rejoiceeventsandflorals.com/custom/#service",
     "name": "Custom Celebration & Event Package Checklist Builder",
     "serviceType": "Custom Event Planning, Floral Styling, Audio Visual, Staging",
     "provider": {
@@ -123,7 +131,7 @@
   <!-- Header Navigation -->
   <header class="chk-navbar" role="banner">
     <div class="chk-nav-container">
-      <a href="index.html#packages" class="chk-brand" aria-label="Rejoice Events Home">
+      <a href="/#packages" class="chk-brand" aria-label="Rejoice Events Home">
         <img src="images/logo.png" alt="Rejoice Event Planners" class="chk-brand-logo-img" />
         <div class="chk-brand-text">
           <span class="chk-brand-title">REJOICE</span>
@@ -132,7 +140,7 @@
       </a>
 
       <div class="chk-nav-actions">
-        <a href="index.html#packages" class="btn-nav-home">&#8592; Back to Website</a>
+        <a href="/#packages" class="btn-nav-home">&#8592; Back to Website</a>
       </div>
     </div>
   </header>

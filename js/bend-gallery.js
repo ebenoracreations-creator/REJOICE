@@ -26,7 +26,7 @@
       ],
       image: 'images/packages/wedding-card.jpg',
       alt: 'Luxury Kerala Wedding Stage Decor by Rejoice Events',
-      url: 'wedding.html'
+      url: 'wedding/'
     },
     {
       id: 'baptism',
@@ -44,7 +44,7 @@
       ],
       image: 'images/packages/baptism-card.jpg',
       alt: 'Bespoke Baptism and Holy Communion Setup by Rejoice Events',
-      url: 'baptism.html'
+      url: 'baptism/'
     },
     {
       id: 'birthday',
@@ -62,7 +62,7 @@
       ],
       image: 'images/packages/birthday-card.jpg',
       alt: 'Enchanted Fairy Birthday Garden Setup by Rejoice Events',
-      url: 'birthday.html'
+      url: 'birthday/'
     },
     {
       id: 'funeral',
@@ -79,7 +79,7 @@
       ],
       image: 'images/packages/funeral-card.jpeg',
       alt: 'Sacred Floral Altar Memorial Tribute by Rejoice Events',
-      url: 'funeral.html'
+      url: 'funeral/'
     },
     {
       id: 'custom',
@@ -97,7 +97,7 @@
       ],
       image: 'images/packages/engagements.png',
       alt: 'Bespoke Custom Celebration Planning by Rejoice Events Kerala',
-      url: 'custom.html'
+      url: 'custom/'
     }
   ];
 

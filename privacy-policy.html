@@ -9,20 +9,28 @@
     if (location.protocol === 'http:' || location.hostname === 'rejoiceeventsandflorals.com') {
       location.replace('https://www.rejoiceeventsandflorals.com' + location.pathname + location.search + location.hash);
     }
+    // Clean URL: Strip index.html and .html from address bar
+    if (location.pathname.endsWith('/index.html') || location.pathname === '/index.html') {
+      var cleanPath = location.pathname.replace(/\/index\.html$/, '/') || '/';
+      history.replaceState(null, '', cleanPath + location.search + location.hash);
+    } else if (location.pathname.endsWith('.html')) {
+      var cleanPath = location.pathname.replace(/\.html$/, '/');
+      history.replaceState(null, '', cleanPath + location.search + location.hash);
+    }
   </script>
 
   <!-- ══════════ PRIMARY SEO ══════════ -->
   <title>Privacy Policy — Rejoice Events &amp; Floral Studio Kottayam</title>
   <meta name="description" content="Privacy Policy for Rejoice Events &amp; Floral Studio, Kottayam, Kerala. Learn how we handle your event inquiries, client communications, and booking details with complete confidentiality." />
   <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://www.rejoiceeventsandflorals.com/privacy-policy.html" />
+  <link rel="canonical" href="https://www.rejoiceeventsandflorals.com/privacy-policy/" />
 
   <!-- ══════════ OPEN GRAPH ══════════ -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Rejoice Events &amp; Floral Studio" />
   <meta property="og:title" content="Privacy Policy — Rejoice Events &amp; Floral Studio" />
   <meta property="og:description" content="Our commitment to safeguarding your event planning data, celebration details, and personal communications." />
-  <meta property="og:url" content="https://www.rejoiceeventsandflorals.com/privacy-policy.html" />
+  <meta property="og:url" content="https://www.rejoiceeventsandflorals.com/privacy-policy/" />
   <meta property="og:locale" content="en_IN" />
 
   <!-- Favicons -->

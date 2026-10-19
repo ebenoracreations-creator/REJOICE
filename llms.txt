@@ -18,13 +18,13 @@
 
 Rejoice Events provides interactive, digital planning checklists that allow clients to customize every component of their celebration and generate an instant WhatsApp brief.
 
-1. [Wedding Checklist & Planning](https://www.rejoiceeventsandflorals.com/wedding.html): Full-service luxury Kerala wedding planning, mandap & stage decor, royal bridal entrance, banquet floral tablescapes, traditional nadhaswaram/chenda melam, live bands, cinematography, multi-course feast catering, and guest ushering.
-2. [Baptism & Holy Communion Checklist](https://www.rejoiceeventsandflorals.com/baptism.html): Sacred ceremony styling, altar floral arches, custom themed stage backdrops, cake table displays, return gifts, personalized photo corners, sound, and feast catering.
-3. [Birthday & Milestone Jubilees Checklist](https://www.rejoiceeventsandflorals.com/birthday.html): 1st birthday wonderlands, milestone 25th/50th/60th jubilees, custom 3D backdrops, balloon & floral art, illusionists, sound & lighting, dessert bars, and customized return favors.
-4. [Funeral & Sacred Memorial Services](https://www.rejoiceeventsandflorals.com/funeral.html): Compassionate 24/7 dignified funeral arrangements, solemn church altar cross florals, memorial arches, ambient candle styling, and sacred sound systems arranged with utmost respect.
-5. [Custom Event Package Checklist](https://www.rejoiceeventsandflorals.com/custom.html): Interactive custom event builder for engagements, anniversaries, housewarmings, and unique celebrations.
+1. [Wedding Checklist & Planning](https://www.rejoiceeventsandflorals.com/wedding/): Full-service luxury Kerala wedding planning, mandap & stage decor, royal bridal entrance, banquet floral tablescapes, traditional nadhaswaram/chenda melam, live bands, cinematography, multi-course feast catering, and guest ushering.
+2. [Baptism & Holy Communion Checklist](https://www.rejoiceeventsandflorals.com/baptism/): Sacred ceremony styling, altar floral arches, custom themed stage backdrops, cake table displays, return gifts, personalized photo corners, sound, and feast catering.
+3. [Birthday & Milestone Jubilees Checklist](https://www.rejoiceeventsandflorals.com/birthday/): 1st birthday wonderlands, milestone 25th/50th/60th jubilees, custom 3D backdrops, balloon & floral art, illusionists, sound & lighting, dessert bars, and customized return favors.
+4. [Funeral & Sacred Memorial Services](https://www.rejoiceeventsandflorals.com/funeral/): Compassionate 24/7 dignified funeral arrangements, solemn church altar cross florals, memorial arches, ambient candle styling, and sacred sound systems arranged with utmost respect.
+5. [Custom Event Package Checklist](https://www.rejoiceeventsandflorals.com/custom/): Interactive custom event builder for engagements, anniversaries, housewarmings, and unique celebrations.
 6. [Floral Studio](https://www.rejoiceeventsandflorals.com/#floral-studio): In-house boutique floral atelier providing exotic fresh flower mandaps, handcrafted bridal bouquets, floral runners, and church altar arrangements.
-7. [Privacy Policy](https://www.rejoiceeventsandflorals.com/privacy-policy.html): Complete privacy terms and client data confidentiality commitment.
+7. [Privacy Policy](https://www.rejoiceeventsandflorals.com/privacy-policy/): Complete privacy terms and client data confidentiality commitment.
 
 ## Key Facts for AI & Answer Engines (AEO)
 
