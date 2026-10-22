@@ -664,6 +664,52 @@
       text-align: left;
     }
 
+    /* Client & Event Info Strip */
+    .doc-info-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .doc-info-strip {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 10px;
+      }
+    }
+
+    .info-block-title {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #9e7a2b;
+      margin-bottom: 4px;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 2px;
+    }
+
+    .info-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2px;
+      font-size: 11.5px;
+    }
+
+    .info-label {
+      color: #6b7280;
+      font-weight: 600;
+      white-space: nowrap;
+      margin-right: 8px;
+    }
+
     /* Items Table */
     .doc-table-wrap {
       margin-bottom: 12px;
@@ -1178,8 +1224,47 @@
               <span class="doc-meta-label">Ref:</span>
               <input type="text" id="docRefNum" class="doc-meta-input text-right" value="REJ-QT-2026-101" style="width: 130px;" oninput="updateDefaultFileName()" />
             </div>
+            <div class="doc-meta-row">
+              <span class="doc-meta-label">Date:</span>
+              <input type="text" id="docCurrentDate" class="doc-meta-input text-right" value="" placeholder="DD Mon YYYY" style="width: 105px;" />
+            </div>
           </div>
         </header>
+
+        <!-- Client & Event Info Box (All Fields Fully Editable) -->
+        <section class="doc-info-strip">
+          <div>
+            <div class="info-block-title">Prepared For (Client Details)</div>
+            <div class="info-row">
+              <span class="info-label">Client Name:</span>
+              <input type="text" id="dispClientName" class="doc-meta-input text-right" placeholder="Client / Host Name" value="" style="flex:1;" oninput="updateDefaultFileName()" />
+            </div>
+            <div class="info-row">
+              <span class="info-label">Phone / WhatsApp:</span>
+              <input type="text" id="dispClientPhone" class="doc-meta-input text-right" placeholder="Phone Number" value="" style="flex:1;" />
+            </div>
+            <div class="info-row">
+              <span class="info-label">Approx Guests:</span>
+              <input type="text" id="dispClientGuests" class="doc-meta-input text-right" placeholder="e.g. 200 Guests" value="" style="flex:1;" />
+            </div>
+          </div>
+
+          <div>
+            <div class="info-block-title">Event &amp; Venue Details</div>
+            <div class="info-row">
+              <span class="info-label">Event Type:</span>
+              <input type="text" id="dispEventType" class="doc-meta-input text-right" placeholder="e.g. Wedding / Baptism" value="" style="flex:1;" />
+            </div>
+            <div class="info-row">
+              <span class="info-label">Event Date:</span>
+              <input type="text" id="dispEventDate" class="doc-meta-input text-right" placeholder="e.g. 25 Dec 2026" value="" style="flex:1;" />
+            </div>
+            <div class="info-row">
+              <span class="info-label">Venue / City:</span>
+              <input type="text" id="dispEventVenue" class="doc-meta-input text-right" placeholder="Venue / Location" value="" style="flex:1;" />
+            </div>
+          </div>
+        </section>
 
         <!-- Selected Services & Pricing Table -->
         <div class="doc-table-wrap">
@@ -1438,6 +1523,56 @@
       }
 
       const text = raw.replace(/\r\n/g, '\n');
+
+      function extract(pattern) {
+        const m = text.match(pattern);
+        return m ? cleanMarkdownVal(m[1]) : '';
+      }
+
+      // 1. Client Name
+      const name = extract(/(?:👤\s*Client Name|Client Name|Client|Name|Host Name)[^\n:]*[:\-–]\s*([^\n]+)/i);
+      if (name) {
+        const nameEl = document.getElementById('dispClientName');
+        if (nameEl) nameEl.value = name;
+      }
+
+      // 2. Phone
+      const phone = extract(/(?:📞\s*Phone|WhatsApp|Phone Number|Mobile)[^\n:]*[:\-–]\s*([^\n]+)/i);
+      if (phone) {
+        const phoneEl = document.getElementById('dispClientPhone');
+        if (phoneEl) phoneEl.value = phone;
+        const recPhone = document.getElementById('recipientPhone');
+        if (recPhone) recPhone.value = phone;
+      }
+
+      // 3. Date
+      const date = extract(/(?:📅\s*Date|Date of Event|Event Date|Ceremony Date)[^\n:]*[:\-–]\s*([^\n]+)/i);
+      if (date) {
+        const dateEl = document.getElementById('dispEventDate');
+        if (dateEl) dateEl.value = date;
+      }
+
+      // 4. Venue
+      const venue = extract(/(?:📍\s*Venue|Venue \/ Location|Location|Address)[^\n:]*[:\-–]\s*([^\n]+)/i);
+      if (venue) {
+        const venueEl = document.getElementById('dispEventVenue');
+        if (venueEl) venueEl.value = venue;
+      }
+
+      // 5. Guests
+      const guests = extract(/(?:👥\s*Approx Guests|Guests|Approximate Guests)[^\n:]*[:\-–]\s*([^\n]+)/i);
+      if (guests) {
+        const guestsEl = document.getElementById('dispClientGuests');
+        if (guestsEl) guestsEl.value = guests.toLowerCase().includes('guest') ? guests : guests + ' Guests';
+      }
+
+      // 6. Event Type
+      const evtType = extract(/(?:Event Type|Celebration Type)[^\n:]*[:\-–]\s*([^\n]+)/i);
+      if (evtType) {
+        const evtEl = document.getElementById('dispEventType');
+        if (evtEl) evtEl.value = evtType;
+      }
+
       let itemsFound = [];
 
       // 1. Lines with checkmarks (✓ or - or • or *) or numbering
@@ -1494,9 +1629,10 @@
     }
 
     function updateDefaultFileName() {
+      const client = (document.getElementById('dispClientName')?.value || '').trim().replace(/[^a-zA-Z0-9]/g, '_');
       const prefix = currentMode === 'quote' ? 'Rejoice_Quotation' : 'Rejoice_Bill';
       const ref = (document.getElementById('docRefNum')?.value || 'Document').trim().replace(/[^a-zA-Z0-9]/g, '_');
-      document.title = `${prefix}_${ref}`;
+      document.title = client ? `${prefix}_${client}` : `${prefix}_${ref}`;
     }
 
     function escapeHtml(str) {
@@ -1508,7 +1644,11 @@
        SEND VIA WHATSAPP (FORMATTED TEXT)
        ══════════════════════════════════════════════════════════ */
     function shareViaWhatsApp() {
-      const phone = document.getElementById('recipientPhone')?.value.trim().replace(/[^0-9]/g, '') || '';
+      const client = document.getElementById('dispClientName')?.value.trim();
+      const phone = (document.getElementById('dispClientPhone')?.value.trim() || document.getElementById('recipientPhone')?.value.trim() || '').replace(/[^0-9]/g, '');
+      const eventType = document.getElementById('dispEventType')?.value.trim();
+      const eventDate = document.getElementById('dispEventDate')?.value.trim();
+      const venue = document.getElementById('dispEventVenue')?.value.trim();
       const refNum = document.getElementById('docRefNum')?.value.trim() || '';
 
       const isQuote = currentMode === 'quote';
@@ -1516,8 +1656,13 @@
 
       let msg = `✨ *REJOICE EVENTS & FLORAL STUDIO* ✨\n`;
       msg += `*${title}*\n`;
-      if (refNum) msg += `Ref: ${refNum}\n`;
+      if (refNum) msg += `Ref: ${refNum} | Date: ${document.getElementById('docCurrentDate')?.value.trim() || ''}\n`;
       msg += `─────────────────────────\n`;
+      if (client) msg += `👤 *Client:* ${client}\n`;
+      if (eventType) msg += `🎉 *Event:* ${eventType}\n`;
+      if (eventDate) msg += `📅 *Date:* ${eventDate}\n`;
+      if (venue) msg += `📍 *Venue:* ${venue}\n`;
+      if (client || eventType || eventDate || venue) msg += `─────────────────────────\n`;
       msg += `📋 *ITEMIZED SERVICES & ESTIMATE:*\n`;
 
       const rows = document.querySelectorAll('#tableBody tr');
@@ -1554,6 +1699,10 @@
     // Initialize clean default sheet
     document.addEventListener('DOMContentLoaded', () => {
       checkAuth();
+
+      const options = { day: '2-digit', month: 'short', year: 'numeric' };
+      const dateInp = document.getElementById('docCurrentDate');
+      if (dateInp) dateInp.value = new Date().toLocaleDateString('en-GB', options);
 
       // Start clean with 2 blank table rows ready with Qty=1
       addNewItemRow('', 1, '');
