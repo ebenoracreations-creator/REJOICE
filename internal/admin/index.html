@@ -989,13 +989,15 @@
       outline: none;
     }
 
-    /* Bank Details Box (Shown ONLY in Event Bill mode) */
+    /* Bank Details Box (Shown ONLY in Event Bill mode, replacing Terms & Conditions) */
     .bank-details-box {
-      margin-top: 14px;
       border: 1px solid #e2d7bd;
       border-radius: 6px;
       background: #fdfbf7;
       padding: 9px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .bank-details-header {
@@ -1278,8 +1280,8 @@
         </div>
       </div>
 
-      <!-- Terms & Conditions Card (Sidebar Editor) -->
-      <div class="c-card">
+      <!-- Terms & Conditions Card (Sidebar Editor - Visible in Quotation mode, hidden in Event Bill) -->
+      <div id="sidebarTermsCard" class="c-card">
         <div class="c-card-title">Terms &amp; Conditions</div>
         <textarea 
           id="sidebarTerms" 
@@ -1437,16 +1439,46 @@
           </button>
         </div>
 
-        <!-- Calculations & Terms Grid (Keep together on 1 page) -->
+        <!-- Calculations & Financial Grid (Keep together on 1 page) -->
         <div class="doc-calc-grid">
-          <!-- Terms & Conditions (Editable) -->
-          <div class="terms-box">
+          <!-- Terms & Conditions (Quotation Mode ONLY - Deleted/Hidden in Event Bill) -->
+          <div id="termsBox" class="terms-box">
             <div class="terms-header-row">
               <span class="terms-title">Terms &amp; Conditions</span>
               <span class="terms-edit-hint">✏️ Click to edit</span>
             </div>
             <textarea id="termsText" class="terms-textarea" oninput="syncTermsFromSheet()">• A minimum advance payment is required for official date lock and booking confirmation.
 • The remaining balance must be cleared prior to event commencement.</textarea>
+          </div>
+
+          <!-- Bank & Payment Details (Event Bill Mode ONLY - Replaces Terms & Conditions) -->
+          <div id="bankDetailsBox" class="bank-details-box" style="display: none;">
+            <div class="bank-details-header">
+              <span class="bank-title">Bank &amp; Payment Transfer Details</span>
+              <span class="bank-edit-hint">✏️ Click to edit</span>
+            </div>
+            <div class="bank-grid">
+              <div class="bank-row">
+                <span class="bank-lbl">Account Holder:</span>
+                <input type="text" id="dispBankName" class="bank-input" value="Prathibha Rajan" oninput="syncBankFromSheet()" />
+              </div>
+              <div class="bank-row">
+                <span class="bank-lbl">Bank:</span>
+                <input type="text" id="dispBankBranch" class="bank-input" value="South Indian Bank" oninput="syncBankFromSheet()" />
+              </div>
+              <div class="bank-row">
+                <span class="bank-lbl">Account No:</span>
+                <input type="text" id="dispBankAcc" class="bank-input font-mono" value="5555053000084153" oninput="syncBankFromSheet()" />
+              </div>
+              <div class="bank-row">
+                <span class="bank-lbl">IFSC Code:</span>
+                <input type="text" id="dispBankIfsc" class="bank-input font-mono" value="SIBL0000240" oninput="syncBankFromSheet()" />
+              </div>
+              <div class="bank-row" style="grid-column: 1 / -1;">
+                <span class="bank-lbl">Phone / UPI:</span>
+                <input type="text" id="dispBankPhone" class="bank-input" value="97 464 200 90" oninput="syncBankFromSheet()" />
+              </div>
+            </div>
             <div id="paidBadge" class="paid-stamp">PAID IN FULL</div>
           </div>
 
@@ -1465,36 +1497,6 @@
             <div class="tot-row balance-row">
               <span>Balance Due:</span>
               <span id="dispBalanceDue">₹ 0</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Bank & Payment Details (Visible ONLY in Event Bill Mode) -->
-        <div id="bankDetailsBox" class="bank-details-box" style="display: none;">
-          <div class="bank-details-header">
-            <span class="bank-title">Bank &amp; Payment Transfer Details (NEFT / RTGS / IMPS / UPI)</span>
-            <span class="bank-edit-hint">✏️ Click to edit</span>
-          </div>
-          <div class="bank-grid">
-            <div class="bank-row">
-              <span class="bank-lbl">Account Holder:</span>
-              <input type="text" id="dispBankName" class="bank-input" value="Prathibha Rajan" oninput="syncBankFromSheet()" />
-            </div>
-            <div class="bank-row">
-              <span class="bank-lbl">Bank:</span>
-              <input type="text" id="dispBankBranch" class="bank-input" value="South Indian Bank" oninput="syncBankFromSheet()" />
-            </div>
-            <div class="bank-row">
-              <span class="bank-lbl">Account No:</span>
-              <input type="text" id="dispBankAcc" class="bank-input font-mono" value="5555053000084153" oninput="syncBankFromSheet()" />
-            </div>
-            <div class="bank-row">
-              <span class="bank-lbl">IFSC Code:</span>
-              <input type="text" id="dispBankIfsc" class="bank-input font-mono" value="SIBL0000240" oninput="syncBankFromSheet()" />
-            </div>
-            <div class="bank-row">
-              <span class="bank-lbl">Phone / UPI:</span>
-              <input type="text" id="dispBankPhone" class="bank-input" value="97 464 200 90" oninput="syncBankFromSheet()" />
             </div>
           </div>
         </div>
@@ -1570,6 +1572,8 @@
       const docRefNum = document.getElementById('docRefNum');
       const lblAdvance = document.getElementById('lblAdvance');
       const currentYear = new Date().getFullYear();
+      const termsBox = document.getElementById('termsBox');
+      const sidebarTermsCard = document.getElementById('sidebarTermsCard');
       const bankDetailsBox = document.getElementById('bankDetailsBox');
       const sidebarBankCard = document.getElementById('sidebarBankCard');
 
@@ -1579,6 +1583,8 @@
         docHeaderType.textContent = 'OFFICIAL QUOTATION';
         docRefNum.value = `REJ-QT-${currentYear}-${quoteSeq}`;
         lblAdvance.textContent = 'Advance (Date Lock):';
+        if (termsBox) termsBox.style.display = 'flex';
+        if (sidebarTermsCard) sidebarTermsCard.style.display = 'block';
         if (bankDetailsBox) bankDetailsBox.style.display = 'none';
         if (sidebarBankCard) sidebarBankCard.style.display = 'none';
       } else {
@@ -1587,7 +1593,10 @@
         docHeaderType.textContent = 'EVENT BILL & RECEIPT';
         docRefNum.value = `REJ-BILL-${currentYear}-${quoteSeq}`;
         lblAdvance.textContent = 'Advance Received:';
-        if (bankDetailsBox) bankDetailsBox.style.display = 'block';
+        // Terms & Conditions completely deleted/hidden in Event Bill mode
+        if (termsBox) termsBox.style.display = 'none';
+        if (sidebarTermsCard) sidebarTermsCard.style.display = 'none';
+        if (bankDetailsBox) bankDetailsBox.style.display = 'flex';
         if (sidebarBankCard) sidebarBankCard.style.display = 'block';
       }
       updateDefaultFileName();
@@ -1927,7 +1936,7 @@
         msg += `• Phone / UPI: ${bPhone}\n`;
       }
 
-      if (terms) {
+      if (isQuote && terms) {
         msg += `─────────────────────────\n`;
         msg += `📌 *Terms & Conditions:*\n${terms}\n`;
       }
