@@ -888,30 +888,50 @@
       flex-direction: column;
     }
 
+    .terms-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
     .terms-title {
       font-size: 10.5px;
       font-weight: 800;
       color: #9e7a2b;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      margin-bottom: 5px;
+    }
+
+    .terms-edit-hint {
+      font-size: 9.5px;
+      color: #94a3b8;
+      font-weight: 600;
+      letter-spacing: 0.04em;
     }
 
     .terms-textarea {
       width: 100%;
-      height: 70px;
-      border: none;
-      background: transparent;
-      font-size: 10.5px;
-      line-height: 1.45;
-      color: #4b5563;
-      resize: none;
+      min-height: 70px;
+      border: 1px dashed #cbd5e1;
+      border-radius: 5px;
+      background: #ffffff;
+      font-size: 11px;
+      line-height: 1.5;
+      color: #374151;
+      resize: vertical;
       outline: none;
       font-family: inherit;
+      padding: 6px 8px;
+      box-sizing: border-box;
+      transition: border-color 0.15s, box-shadow 0.15s;
     }
 
-    .terms-textarea:focus {
+    .terms-textarea:focus, .terms-textarea:hover {
+      border-color: #9e7a2b;
+      border-style: solid;
       background: #fff;
+      box-shadow: 0 0 0 2px rgba(197, 157, 66, 0.2);
     }
 
     .totals-box {
@@ -1031,7 +1051,7 @@
         color: #000000 !important;
       }
 
-      #lockScreen, .top-nav, .controls-panel, .btn-add-table-row, .btn-row-del, th.th-act, td.td-act, .sheet-bottom-actions {
+      #lockScreen, .top-nav, .controls-panel, .btn-add-table-row, .btn-row-del, th.th-act, td.td-act, .sheet-bottom-actions, .terms-edit-hint {
         display: none !important;
       }
 
@@ -1172,6 +1192,20 @@
         </div>
       </div>
 
+      <!-- Terms & Conditions Card (Sidebar Editor) -->
+      <div class="c-card">
+        <div class="c-card-title">Terms &amp; Conditions</div>
+        <textarea 
+          id="sidebarTerms" 
+          class="f-input" 
+          rows="3" 
+          style="font-size: 11.5px; line-height: 1.45; resize: vertical;" 
+          placeholder="Edit terms &amp; conditions..." 
+          oninput="syncTermsFromSidebar()"
+        >• A minimum advance payment is required for official date lock and booking confirmation.
+• The remaining balance must be cleared prior to event commencement.</textarea>
+      </div>
+
       <!-- Quick Actions (Print & WhatsApp) -->
       <div class="c-card">
         <div class="c-card-title">Quick Actions</div>
@@ -1243,10 +1277,6 @@
               <span class="info-label">Phone / WhatsApp:</span>
               <input type="text" id="dispClientPhone" class="doc-meta-input text-right" placeholder="Phone Number" value="" style="flex:1;" />
             </div>
-            <div class="info-row">
-              <span class="info-label">Approx Guests:</span>
-              <input type="text" id="dispClientGuests" class="doc-meta-input text-right" placeholder="e.g. 200 Guests" value="" style="flex:1;" />
-            </div>
           </div>
 
           <div>
@@ -1297,8 +1327,11 @@
         <div class="doc-calc-grid">
           <!-- Terms & Conditions (Editable) -->
           <div class="terms-box">
-            <div class="terms-title">Terms &amp; Conditions</div>
-            <textarea id="termsText" class="terms-textarea">• A minimum advance payment is required for official date lock and booking confirmation.
+            <div class="terms-header-row">
+              <span class="terms-title">Terms &amp; Conditions</span>
+              <span class="terms-edit-hint">✏️ Click to edit</span>
+            </div>
+            <textarea id="termsText" class="terms-textarea" oninput="syncTermsFromSheet()">• A minimum advance payment is required for official date lock and booking confirmation.
 • The remaining balance must be cleared prior to event commencement.</textarea>
             <div id="paidBadge" class="paid-stamp">PAID IN FULL</div>
           </div>
@@ -1559,14 +1592,7 @@
         if (venueEl) venueEl.value = venue;
       }
 
-      // 5. Guests
-      const guests = extract(/(?:👥\s*Approx Guests|Guests|Approximate Guests)[^\n:]*[:\-–]\s*([^\n]+)/i);
-      if (guests) {
-        const guestsEl = document.getElementById('dispClientGuests');
-        if (guestsEl) guestsEl.value = guests.toLowerCase().includes('guest') ? guests : guests + ' Guests';
-      }
-
-      // 6. Event Type
+      // 5. Event Type
       const evtType = extract(/(?:Event Type|Celebration Type)[^\n:]*[:\-–]\s*([^\n]+)/i);
       if (evtType) {
         const evtEl = document.getElementById('dispEventType');
@@ -1641,6 +1667,21 @@
     }
 
     /* ══════════════════════════════════════════════════════════
+       TERMS & CONDITIONS TWO-WAY SYNC
+       ══════════════════════════════════════════════════════════ */
+    function syncTermsFromSidebar() {
+      const val = document.getElementById('sidebarTerms')?.value ?? '';
+      const sheet = document.getElementById('termsText');
+      if (sheet) sheet.value = val;
+    }
+
+    function syncTermsFromSheet() {
+      const val = document.getElementById('termsText')?.value ?? '';
+      const side = document.getElementById('sidebarTerms');
+      if (side) side.value = val;
+    }
+
+    /* ══════════════════════════════════════════════════════════
        SEND VIA WHATSAPP (FORMATTED TEXT)
        ══════════════════════════════════════════════════════════ */
     function shareViaWhatsApp() {
@@ -1682,11 +1723,16 @@
       const total = document.getElementById('dispTotalAmt').textContent;
       const advance = document.getElementById('inpAdvance').value || '0';
       const balance = document.getElementById('dispBalanceDue').textContent;
+      const terms = document.getElementById('termsText')?.value.trim();
 
       msg += `─────────────────────────\n`;
       msg += `💰 *Total Amount:* ${total}\n`;
       msg += isQuote ? `🔒 *Advance Required (Date Lock):* ₹ ${Number(advance).toLocaleString('en-IN')}\n` : `💳 *Advance Paid:* ₹ ${Number(advance).toLocaleString('en-IN')}\n`;
       msg += `⚖️ *Balance Due:* ${balance}\n`;
+      if (terms) {
+        msg += `─────────────────────────\n`;
+        msg += `📌 *Terms & Conditions:*\n${terms}\n`;
+      }
       msg += `─────────────────────────\n`;
       msg += `*Rejoice Events & Floral Studio*\n`;
       msg += `Anakkal, Kanjirappally, Kottayam | +91 99614 02646`;
