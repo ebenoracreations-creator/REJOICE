@@ -989,6 +989,89 @@
       outline: none;
     }
 
+    /* Bank Details Box (Shown ONLY in Event Bill mode) */
+    .bank-details-box {
+      margin-top: 14px;
+      border: 1px solid #e2d7bd;
+      border-radius: 6px;
+      background: #fdfbf7;
+      padding: 9px 12px;
+    }
+
+    .bank-details-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 7px;
+      padding-bottom: 4px;
+      border-bottom: 1px dashed #e5dcc5;
+    }
+
+    .bank-title {
+      font-size: 10px;
+      font-weight: 800;
+      color: #9e7a2b;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .bank-edit-hint {
+      font-size: 9px;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    .bank-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 5px 14px;
+    }
+
+    @media (max-width: 600px) {
+      .bank-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .bank-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+    }
+
+    .bank-lbl {
+      color: #64748b;
+      font-weight: 600;
+      min-width: 90px;
+      font-size: 10px;
+    }
+
+    .bank-input {
+      flex: 1;
+      border: 1px dashed #cbd5e1;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 10.5px;
+      color: #111827;
+      font-weight: 600;
+      background: #ffffff;
+      outline: none;
+      font-family: inherit;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .bank-input:focus, .bank-input:hover {
+      border-color: #9e7a2b;
+      border-style: solid;
+      box-shadow: 0 0 0 2px rgba(197, 157, 66, 0.2);
+    }
+
+    .bank-input.font-mono {
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      letter-spacing: 0.04em;
+    }
+
     /* Paid in Full Stamp */
     .paid-stamp {
       display: none;
@@ -1026,7 +1109,9 @@
     .is-exporting .btn-row-del,
     .is-exporting .btn-add-table-row,
     .is-exporting th.th-act,
-    .is-exporting td.td-act {
+    .is-exporting td.td-act,
+    .is-exporting .terms-edit-hint,
+    .is-exporting .bank-edit-hint {
       display: none !important;
     }
 
@@ -1035,7 +1120,8 @@
     .is-exporting .item-qty-input,
     .is-exporting .item-rate-input,
     .is-exporting .advance-input,
-    .is-exporting .terms-textarea {
+    .is-exporting .terms-textarea,
+    .is-exporting .bank-input {
       border: none !important;
       background: transparent !important;
       box-shadow: none !important;
@@ -1051,7 +1137,7 @@
         color: #000000 !important;
       }
 
-      #lockScreen, .top-nav, .controls-panel, .btn-add-table-row, .btn-row-del, th.th-act, td.td-act, .sheet-bottom-actions, .terms-edit-hint {
+      #lockScreen, .top-nav, .controls-panel, .btn-add-table-row, .btn-row-del, th.th-act, td.td-act, .sheet-bottom-actions, .terms-edit-hint, .bank-edit-hint {
         display: none !important;
       }
 
@@ -1077,7 +1163,7 @@
         margin: 0 !important;
       }
 
-      .doc-meta-input, .item-name-input, .item-qty-input, .item-rate-input, .advance-input, .terms-textarea {
+      .doc-meta-input, .item-name-input, .item-qty-input, .item-rate-input, .advance-input, .terms-textarea, .bank-input {
         border: none !important;
         background: transparent !important;
         padding: 0 !important;
@@ -1206,6 +1292,34 @@
 • The remaining balance must be cleared prior to event commencement.</textarea>
       </div>
 
+      <!-- Bank Details Card (Sidebar Editor - Visible ONLY in Event Bill mode) -->
+      <div id="sidebarBankCard" class="c-card" style="display: none;">
+        <div class="c-card-title">
+          <span>Bank Transfer Details</span>
+          <span class="badge" style="background: #ecfdf5; color: #047857;">Bill Mode</span>
+        </div>
+        <div class="f-group" style="margin-bottom: 8px;">
+          <label class="f-label" for="sideBankName">Account Holder Name:</label>
+          <input type="text" id="sideBankName" class="f-input" value="Prathibha Rajan" oninput="syncBankFromSidebar()" />
+        </div>
+        <div class="f-group" style="margin-bottom: 8px;">
+          <label class="f-label" for="sideBankBranch">Bank Name:</label>
+          <input type="text" id="sideBankBranch" class="f-input" value="South Indian Bank" oninput="syncBankFromSidebar()" />
+        </div>
+        <div class="f-group" style="margin-bottom: 8px;">
+          <label class="f-label" for="sideBankAcc">Account Number:</label>
+          <input type="text" id="sideBankAcc" class="f-input" value="5555053000084153" oninput="syncBankFromSidebar()" />
+        </div>
+        <div class="f-group" style="margin-bottom: 8px;">
+          <label class="f-label" for="sideBankIfsc">IFSC Code:</label>
+          <input type="text" id="sideBankIfsc" class="f-input" value="SIBL0000240" oninput="syncBankFromSidebar()" />
+        </div>
+        <div class="f-group">
+          <label class="f-label" for="sideBankPhone">Phone / UPI:</label>
+          <input type="text" id="sideBankPhone" class="f-input" value="97 464 200 90" oninput="syncBankFromSidebar()" />
+        </div>
+      </div>
+
       <!-- Quick Actions (Print & WhatsApp) -->
       <div class="c-card">
         <div class="c-card-title">Quick Actions</div>
@@ -1247,7 +1361,7 @@
               <div class="doc-brand-sub">&amp; FLORAL STUDIO</div>
               <div class="doc-brand-addr">
                 Anakkal, Kanjirappally, Kottayam, Kerala<br />
-                Phone / WhatsApp: <strong>+91 99614 02646</strong>
+                Phone: <strong>+91 99614 02646</strong> / <strong>+91 97464 20090</strong>
               </div>
             </div>
           </div>
@@ -1274,7 +1388,7 @@
               <input type="text" id="dispClientName" class="doc-meta-input text-right" placeholder="Client / Host Name" value="" style="flex:1;" oninput="updateDefaultFileName()" />
             </div>
             <div class="info-row">
-              <span class="info-label">Phone / WhatsApp:</span>
+              <span class="info-label">Phone:</span>
               <input type="text" id="dispClientPhone" class="doc-meta-input text-right" placeholder="Phone Number" value="" style="flex:1;" />
             </div>
           </div>
@@ -1355,9 +1469,39 @@
           </div>
         </div>
 
+        <!-- Bank & Payment Details (Visible ONLY in Event Bill Mode) -->
+        <div id="bankDetailsBox" class="bank-details-box" style="display: none;">
+          <div class="bank-details-header">
+            <span class="bank-title">Bank &amp; Payment Transfer Details (NEFT / RTGS / IMPS / UPI)</span>
+            <span class="bank-edit-hint">✏️ Click to edit</span>
+          </div>
+          <div class="bank-grid">
+            <div class="bank-row">
+              <span class="bank-lbl">Account Holder:</span>
+              <input type="text" id="dispBankName" class="bank-input" value="Prathibha Rajan" oninput="syncBankFromSheet()" />
+            </div>
+            <div class="bank-row">
+              <span class="bank-lbl">Bank:</span>
+              <input type="text" id="dispBankBranch" class="bank-input" value="South Indian Bank" oninput="syncBankFromSheet()" />
+            </div>
+            <div class="bank-row">
+              <span class="bank-lbl">Account No:</span>
+              <input type="text" id="dispBankAcc" class="bank-input font-mono" value="5555053000084153" oninput="syncBankFromSheet()" />
+            </div>
+            <div class="bank-row">
+              <span class="bank-lbl">IFSC Code:</span>
+              <input type="text" id="dispBankIfsc" class="bank-input font-mono" value="SIBL0000240" oninput="syncBankFromSheet()" />
+            </div>
+            <div class="bank-row">
+              <span class="bank-lbl">Phone / UPI:</span>
+              <input type="text" id="dispBankPhone" class="bank-input" value="97 464 200 90" oninput="syncBankFromSheet()" />
+            </div>
+          </div>
+        </div>
+
         <!-- Sheet Footer -->
         <footer class="doc-footer">
-          Rejoice Events &amp; Floral Studio • Anakkal, Kanjirappally, Kottayam • Premium Wedding &amp; Event Planners
+          Rejoice Events &amp; Floral Studio • Anakkal, Kanjirappally, Kottayam • Phone: +91 99614 02646 / +91 97464 20090
         </footer>
 
       </div>
@@ -1426,6 +1570,8 @@
       const docRefNum = document.getElementById('docRefNum');
       const lblAdvance = document.getElementById('lblAdvance');
       const currentYear = new Date().getFullYear();
+      const bankDetailsBox = document.getElementById('bankDetailsBox');
+      const sidebarBankCard = document.getElementById('sidebarBankCard');
 
       if (mode === 'quote') {
         btnQuote.classList.add('active');
@@ -1433,12 +1579,16 @@
         docHeaderType.textContent = 'OFFICIAL QUOTATION';
         docRefNum.value = `REJ-QT-${currentYear}-${quoteSeq}`;
         lblAdvance.textContent = 'Advance (Date Lock):';
+        if (bankDetailsBox) bankDetailsBox.style.display = 'none';
+        if (sidebarBankCard) sidebarBankCard.style.display = 'none';
       } else {
         btnBill.classList.add('active');
         btnQuote.classList.remove('active');
         docHeaderType.textContent = 'EVENT BILL & RECEIPT';
         docRefNum.value = `REJ-BILL-${currentYear}-${quoteSeq}`;
         lblAdvance.textContent = 'Advance Received:';
+        if (bankDetailsBox) bankDetailsBox.style.display = 'block';
+        if (sidebarBankCard) sidebarBankCard.style.display = 'block';
       }
       updateDefaultFileName();
       calculateTotals();
@@ -1682,6 +1832,37 @@
     }
 
     /* ══════════════════════════════════════════════════════════
+       BANK DETAILS TWO-WAY SYNC (EVENT BILL ONLY)
+       ══════════════════════════════════════════════════════════ */
+    function syncBankFromSidebar() {
+      const name = document.getElementById('sideBankName')?.value || '';
+      const bank = document.getElementById('sideBankBranch')?.value || '';
+      const acc = document.getElementById('sideBankAcc')?.value || '';
+      const ifsc = document.getElementById('sideBankIfsc')?.value || '';
+      const phone = document.getElementById('sideBankPhone')?.value || '';
+
+      if (document.getElementById('dispBankName')) document.getElementById('dispBankName').value = name;
+      if (document.getElementById('dispBankBranch')) document.getElementById('dispBankBranch').value = bank;
+      if (document.getElementById('dispBankAcc')) document.getElementById('dispBankAcc').value = acc;
+      if (document.getElementById('dispBankIfsc')) document.getElementById('dispBankIfsc').value = ifsc;
+      if (document.getElementById('dispBankPhone')) document.getElementById('dispBankPhone').value = phone;
+    }
+
+    function syncBankFromSheet() {
+      const name = document.getElementById('dispBankName')?.value || '';
+      const bank = document.getElementById('dispBankBranch')?.value || '';
+      const acc = document.getElementById('dispBankAcc')?.value || '';
+      const ifsc = document.getElementById('dispBankIfsc')?.value || '';
+      const phone = document.getElementById('dispBankPhone')?.value || '';
+
+      if (document.getElementById('sideBankName')) document.getElementById('sideBankName').value = name;
+      if (document.getElementById('sideBankBranch')) document.getElementById('sideBankBranch').value = bank;
+      if (document.getElementById('sideBankAcc')) document.getElementById('sideBankAcc').value = acc;
+      if (document.getElementById('sideBankIfsc')) document.getElementById('sideBankIfsc').value = ifsc;
+      if (document.getElementById('sideBankPhone')) document.getElementById('sideBankPhone').value = phone;
+    }
+
+    /* ══════════════════════════════════════════════════════════
        SEND VIA WHATSAPP (FORMATTED TEXT)
        ══════════════════════════════════════════════════════════ */
     function shareViaWhatsApp() {
@@ -1729,13 +1910,31 @@
       msg += `💰 *Total Amount:* ${total}\n`;
       msg += isQuote ? `🔒 *Advance Required (Date Lock):* ₹ ${Number(advance).toLocaleString('en-IN')}\n` : `💳 *Advance Paid:* ₹ ${Number(advance).toLocaleString('en-IN')}\n`;
       msg += `⚖️ *Balance Due:* ${balance}\n`;
+      
+      if (!isQuote) {
+        const bName = document.getElementById('dispBankName')?.value.trim() || 'Prathibha Rajan';
+        const bBank = document.getElementById('dispBankBranch')?.value.trim() || 'South Indian Bank';
+        const bAcc = document.getElementById('dispBankAcc')?.value.trim() || '5555053000084153';
+        const bIfsc = document.getElementById('dispBankIfsc')?.value.trim() || 'SIBL0000240';
+        const bPhone = document.getElementById('dispBankPhone')?.value.trim() || '97 464 200 90';
+
+        msg += `─────────────────────────\n`;
+        msg += `🏦 *BANK TRANSFER DETAILS:*\n`;
+        msg += `• Name: ${bName}\n`;
+        msg += `• Bank: ${bBank}\n`;
+        msg += `• A/C No: ${bAcc}\n`;
+        msg += `• IFSC: ${bIfsc}\n`;
+        msg += `• Phone / UPI: ${bPhone}\n`;
+      }
+
       if (terms) {
         msg += `─────────────────────────\n`;
         msg += `📌 *Terms & Conditions:*\n${terms}\n`;
       }
       msg += `─────────────────────────\n`;
       msg += `*Rejoice Events & Floral Studio*\n`;
-      msg += `Anakkal, Kanjirappally, Kottayam | +91 99614 02646`;
+      msg += `Anakkal, Kanjirappally, Kottayam\n`;
+      msg += `Phone: +91 99614 02646 / +91 97464 20090`;
 
       const encoded = encodeURIComponent(msg);
       const url = phone ? `https://wa.me/${phone}?text=${encoded}` : `https://wa.me/?text=${encoded}`;
