@@ -44,6 +44,16 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+    /* Hide number input spinners across all browsers */
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none; 
+      margin: 0; 
+    }
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+
     body {
       font-family: var(--font-body);
       background-color: var(--bg-dark);
@@ -511,19 +521,20 @@
       width: 100%;
       max-width: 760px;
       min-height: auto;
-      padding: 28px 32px 24px;
+      padding: 24px 28px 20px;
       box-shadow: 0 15px 40px rgba(0,0,0,0.45);
       border-radius: 4px;
       position: relative;
       display: flex;
       flex-direction: column;
-      font-size: 12.5px;
+      font-size: 12px;
+      box-sizing: border-box;
       overflow: hidden;
     }
 
     @media (max-width: 768px) {
       .doc-sheet {
-        padding: 20px 14px;
+        padding: 16px 12px;
       }
     }
 
@@ -561,14 +572,35 @@
       align-items: center;
       justify-content: space-between;
       border-bottom: 2px solid #111827;
-      padding-bottom: 14px;
-      margin-bottom: 16px;
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .doc-brand {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    @media (max-width: 600px) {
+      .doc-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .doc-meta {
+        width: 100%;
+        text-align: left;
+        border-top: 1px dashed #e5e7eb;
+        padding-top: 6px;
+      }
+      .doc-meta-row {
+        justify-content: flex-start;
+      }
     }
 
     /* Clean transparent logo directly on white background */
@@ -668,29 +700,35 @@
     .doc-info-strip {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 12px;
       background: #f9fafb;
       border: 1px solid #e5e7eb;
       border-radius: 6px;
-      padding: 10px 14px;
-      margin-bottom: 14px;
+      padding: 8px 12px;
+      margin-bottom: 10px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .doc-info-strip > div {
+      min-width: 0;
     }
 
     @media (max-width: 600px) {
       .doc-info-strip {
         grid-template-columns: 1fr;
-        gap: 8px;
-        padding: 10px;
+        gap: 6px;
+        padding: 8px 10px;
       }
     }
 
     .info-block-title {
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: #9e7a2b;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
       border-bottom: 1px solid #e5e7eb;
       padding-bottom: 2px;
     }
@@ -700,7 +738,9 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: 2px;
-      font-size: 11.5px;
+      font-size: 11px;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .info-label {
@@ -708,16 +748,24 @@
       font-weight: 600;
       white-space: nowrap;
       margin-right: 8px;
+      flex-shrink: 0;
+      font-size: 10.5px;
     }
 
     /* Items Table */
     .doc-table-wrap {
-      margin-bottom: 12px;
+      margin-bottom: 8px;
+      width: 100%;
+      box-sizing: border-box;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .doc-table {
       width: 100%;
+      table-layout: fixed;
       border-collapse: collapse;
+      box-sizing: border-box;
       page-break-inside: auto;
     }
 
@@ -728,25 +776,28 @@
     .doc-table th {
       background: #0f141d;
       color: #ffffff;
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 8px 10px;
+      letter-spacing: 0.05em;
+      padding: 6px 8px;
       text-align: left;
+      box-sizing: border-box;
     }
 
-    .doc-table th.th-num { width: 34px; text-align: center; }
-    .doc-table th.th-qty { width: 56px; text-align: center; }
-    .doc-table th.th-rate { width: 105px; text-align: right; }
-    .doc-table th.th-amt { width: 115px; text-align: right; }
-    .doc-table th.th-act { width: 36px; text-align: center; }
+    .doc-table th.th-num { width: 30px; text-align: center; }
+    .doc-table th.th-desc { width: auto; }
+    .doc-table th.th-qty { width: 46px; text-align: center; }
+    .doc-table th.th-rate { width: 90px; text-align: right; }
+    .doc-table th.th-amt { width: 100px; text-align: right; }
+    .doc-table th.th-act { width: 30px; text-align: center; }
 
     .doc-table td {
-      padding: 6px 8px;
+      padding: 5px 6px;
       border-bottom: 1px solid #e5e7eb;
       vertical-align: middle;
-      font-size: 12.5px;
+      font-size: 12px;
+      box-sizing: border-box;
     }
 
     .doc-table tr:nth-child(even) td {
@@ -760,12 +811,27 @@
       font-size: 11px;
     }
 
+    .td-desc {
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .td-qty {
+      text-align: center;
+    }
+
+    .td-rate {
+      text-align: right;
+    }
+
     .item-name-input {
       width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
       border: 1px solid transparent;
-      padding: 5px 6px;
+      padding: 3px 5px;
       border-radius: 4px;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 600;
       color: #111827;
       background: transparent;
@@ -779,16 +845,21 @@
     }
 
     .item-qty-input {
-      width: 50px;
+      width: 100%;
+      max-width: 40px;
+      min-width: 0;
+      box-sizing: border-box;
       border: 1px solid #cbd5e1;
-      padding: 4px 2px;
+      padding: 3px 2px;
       text-align: center;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 700;
       color: #111827;
       border-radius: 4px;
       background: #f8fafc;
       outline: none;
+      margin: 0 auto;
+      display: block;
     }
 
     .item-qty-input:focus {
@@ -797,17 +868,22 @@
     }
 
     .item-rate-input {
-      width: 100px;
+      width: 100%;
+      max-width: 82px;
+      min-width: 0;
+      box-sizing: border-box;
       border: 1px solid #cbd5e1;
-      padding: 4px 6px;
+      padding: 3px 5px;
       text-align: right;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 700;
       color: #0f172a;
-      border-radius: 5px;
+      border-radius: 4px;
       background: #f8fafc;
       outline: none;
       font-family: inherit;
+      margin-left: auto;
+      display: block;
     }
 
     .item-rate-input:focus {
@@ -820,8 +896,9 @@
       text-align: right;
       font-weight: 700;
       color: #0f172a;
-      font-size: 12.5px;
-      padding-right: 8px;
+      font-size: 12px;
+      padding-right: 6px;
+      white-space: nowrap;
     }
 
     .btn-row-del {
@@ -866,37 +943,44 @@
     /* Financial Calculation & Terms Grid */
     .doc-calc-grid {
       display: grid;
-      grid-template-columns: 1fr 270px;
-      gap: 16px;
+      grid-template-columns: 1fr 245px;
+      gap: 12px;
       margin-top: 4px;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
       page-break-inside: avoid;
+      break-inside: avoid;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     @media (max-width: 600px) {
       .doc-calc-grid {
         grid-template-columns: 1fr;
+        gap: 8px;
       }
     }
 
     .terms-box {
       border: 1px solid #e5e7eb;
       border-radius: 6px;
-      padding: 10px 12px;
+      padding: 8px 10px;
       background: #fafbfc;
       display: flex;
       flex-direction: column;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .terms-header-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
+      box-sizing: border-box;
     }
 
     .terms-title {
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 800;
       color: #9e7a2b;
       text-transform: uppercase;
@@ -904,7 +988,7 @@
     }
 
     .terms-edit-hint {
-      font-size: 9.5px;
+      font-size: 9px;
       color: #94a3b8;
       font-weight: 600;
       letter-spacing: 0.04em;
@@ -912,17 +996,17 @@
 
     .terms-textarea {
       width: 100%;
-      min-height: 70px;
+      min-height: 64px;
       border: 1px dashed #cbd5e1;
       border-radius: 5px;
       background: #ffffff;
-      font-size: 11px;
-      line-height: 1.5;
+      font-size: 10.5px;
+      line-height: 1.45;
       color: #374151;
       resize: vertical;
       outline: none;
       font-family: inherit;
-      padding: 6px 8px;
+      padding: 5px 8px;
       box-sizing: border-box;
       transition: border-color 0.15s, box-shadow 0.15s;
     }
@@ -938,28 +1022,32 @@
       border: 1.5px solid #111827;
       border-radius: 6px;
       overflow: hidden;
+      width: 100%;
+      box-sizing: border-box;
+      background: #ffffff;
     }
 
     .tot-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 7px 12px;
-      font-size: 12px;
+      padding: 6px 10px;
+      font-size: 11.5px;
       border-bottom: 1px solid #e5e7eb;
+      box-sizing: border-box;
     }
 
     .tot-row.grand-total {
       background: #0f141d;
       color: #ffffff;
       font-weight: 800;
-      font-size: 13.5px;
+      font-size: 12.5px;
       border-bottom: none;
     }
 
     .tot-row.grand-total .tot-val {
       color: #facc15;
-      font-size: 15px;
+      font-size: 14px;
     }
 
     .tot-row.advance-row {
@@ -972,21 +1060,22 @@
       background: #f0fdf4;
       color: #166534;
       font-weight: 800;
-      font-size: 13.5px;
+      font-size: 12.5px;
       border-bottom: none;
     }
 
     .advance-input {
-      width: 95px;
+      width: 80px;
       border: 1px solid #f59e0b;
       background: #ffffff;
       border-radius: 4px;
-      padding: 3px 6px;
+      padding: 2px 5px;
       text-align: right;
       font-weight: 800;
-      font-size: 12.5px;
+      font-size: 12px;
       color: #92400e;
       outline: none;
+      box-sizing: border-box;
     }
 
     /* Bank Details Box (Shown ONLY in Event Bill mode, replacing Terms & Conditions) */
@@ -994,23 +1083,26 @@
       border: 1px solid #e2d7bd;
       border-radius: 6px;
       background: #fdfbf7;
-      padding: 9px 12px;
+      padding: 8px 10px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .bank-details-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 7px;
-      padding-bottom: 4px;
+      margin-bottom: 5px;
+      padding-bottom: 3px;
       border-bottom: 1px dashed #e5dcc5;
+      box-sizing: border-box;
     }
 
     .bank-title {
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 800;
       color: #9e7a2b;
       text-transform: uppercase;
@@ -1024,36 +1116,38 @@
     }
 
     .bank-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 5px 14px;
-    }
-
-    @media (max-width: 600px) {
-      .bank-grid {
-        grid-template-columns: 1fr;
-      }
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .bank-row {
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 11px;
+      font-size: 10.5px;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .bank-lbl {
       color: #64748b;
-      font-weight: 600;
-      min-width: 90px;
+      font-weight: 700;
+      min-width: 85px;
+      flex-shrink: 0;
       font-size: 10px;
     }
 
     .bank-input {
       flex: 1;
+      min-width: 0;
+      width: 100%;
+      box-sizing: border-box;
       border: 1px dashed #cbd5e1;
       border-radius: 4px;
-      padding: 2px 6px;
+      padding: 2px 5px;
       font-size: 10.5px;
       color: #111827;
       font-weight: 600;
@@ -1093,11 +1187,14 @@
 
     .doc-footer {
       border-top: 1px solid #e5e7eb;
-      padding-top: 10px;
+      padding-top: 8px;
+      margin-top: 4px;
       text-align: center;
-      font-size: 10px;
+      font-size: 9.5px;
       color: #9ca3af;
       letter-spacing: 0.05em;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     /* ══════════ EXPORTING / CLEAN PDF & PNG RENDERING ══════════ */
@@ -1105,7 +1202,8 @@
     .is-exporting {
       box-shadow: none !important;
       border: none !important;
-      padding: 24px 28px !important;
+      padding: 16px 20px !important;
+      overflow: visible !important;
     }
 
     .is-exporting .btn-row-del,
@@ -1134,9 +1232,24 @@
 
     /* ══════════ BROWSER PRINT STYLESHEET ══════════ */
     @media print {
-      body {
+      @page {
+        size: A4 portrait;
+        margin: 8mm 8mm 8mm 8mm;
+      }
+
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      html, body {
+        width: 100% !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
         background: #ffffff !important;
         color: #000000 !important;
+        overflow: visible !important;
       }
 
       #lockScreen, .top-nav, .controls-panel, .btn-add-table-row, .btn-row-del, th.th-act, td.td-act, .sheet-bottom-actions, .terms-edit-hint, .bank-edit-hint {
@@ -1145,24 +1258,201 @@
 
       .app-layout {
         display: block !important;
+        width: 100% !important;
         max-width: 100% !important;
         padding: 0 !important;
         margin: 0 !important;
       }
 
       .sheet-wrapper {
+        display: block !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
         background: transparent !important;
         border: none !important;
-        padding: 0 !important;
+        box-shadow: none !important;
+        overflow: visible !important;
       }
 
       .doc-sheet {
-        box-shadow: none !important;
-        border: none !important;
+        display: block !important;
+        width: 100% !important;
         max-width: 100% !important;
-        min-height: auto !important;
-        padding: 8mm 10mm !important;
         margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        overflow: visible !important;
+        background: transparent !important;
+        font-size: 11px !important;
+      }
+
+      .doc-watermark {
+        opacity: 0.04 !important;
+        width: 250px !important;
+        height: 250px !important;
+      }
+
+      .doc-header {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        margin-bottom: 10px !important;
+        padding-bottom: 8px !important;
+        border-bottom: 1.5px solid #111827 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      .doc-brand-name {
+        font-size: 17px !important;
+      }
+
+      .doc-type-badge {
+        font-size: 13.5px !important;
+      }
+
+      .doc-info-strip {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+        padding: 6px 10px !important;
+        margin-bottom: 8px !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        border: 1px solid #d1d5db !important;
+        background: #f9fafb !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      .doc-table-wrap {
+        margin-bottom: 6px !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        overflow: visible !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      .doc-table {
+        width: 100% !important;
+        table-layout: fixed !important;
+        box-sizing: border-box !important;
+      }
+
+      .doc-table th {
+        background: #0f141d !important;
+        color: #ffffff !important;
+        padding: 5px 6px !important;
+        font-size: 9.5px !important;
+      }
+
+      .doc-table td {
+        padding: 3.5px 5px !important;
+        font-size: 11px !important;
+        border-bottom: 1px solid #e5e7eb !important;
+      }
+
+      .doc-calc-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 230px !important;
+        gap: 10px !important;
+        margin-top: 4px !important;
+        margin-bottom: 8px !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      .terms-box {
+        border: 1px solid #d1d5db !important;
+        background: #f9fafb !important;
+        padding: 6px 8px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      .terms-textarea {
+        border: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+        font-size: 9.5px !important;
+        line-height: 1.35 !important;
+        resize: none !important;
+      }
+
+      .bank-details-box {
+        border: 1px solid #d1d5db !important;
+        background: #fdfbf7 !important;
+        padding: 6px 8px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      .bank-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 2px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      .bank-row {
+        display: flex !important;
+        align-items: center !important;
+        gap: 5px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      .bank-lbl {
+        min-width: 80px !important;
+        font-size: 9px !important;
+        flex-shrink: 0 !important;
+      }
+
+      .bank-input {
+        flex: 1 !important;
+        min-width: 0 !important;
+        width: 100% !important;
+        font-size: 9.5px !important;
+      }
+
+      .totals-box {
+        border: 1.5px solid #111827 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      .tot-row {
+        padding: 4px 6px !important;
+        font-size: 10.5px !important;
+      }
+
+      .tot-row.grand-total {
+        font-size: 11.5px !important;
+      }
+
+      .tot-row.grand-total .tot-val {
+        font-size: 13px !important;
+      }
+
+      .doc-footer {
+        border-top: 1px solid #e5e7eb !important;
+        padding-top: 5px !important;
+        margin-top: 3px !important;
+        font-size: 8.5px !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
       }
 
       .doc-meta-input, .item-name-input, .item-qty-input, .item-rate-input, .advance-input, .terms-textarea, .bank-input {
@@ -1170,11 +1460,7 @@
         background: transparent !important;
         padding: 0 !important;
         box-shadow: none !important;
-      }
-
-      @page {
-        size: A4 portrait;
-        margin: 6mm;
+        outline: none !important;
       }
     }
   </style>
@@ -1418,7 +1704,7 @@
             <thead>
               <tr>
                 <th class="th-num">#</th>
-                <th>Service / Requirement Description</th>
+                <th class="th-desc">Service / Requirement Description</th>
                 <th class="th-qty">Qty</th>
                 <th class="th-rate">Rate (₹)</th>
                 <th class="th-amt">Amount (₹)</th>
@@ -1474,7 +1760,7 @@
                 <span class="bank-lbl">IFSC Code:</span>
                 <input type="text" id="dispBankIfsc" class="bank-input font-mono" value="SIBL0000240" oninput="syncBankFromSheet()" />
               </div>
-              <div class="bank-row" style="grid-column: 1 / -1;">
+              <div class="bank-row">
                 <span class="bank-lbl">Phone / UPI:</span>
                 <input type="text" id="dispBankPhone" class="bank-input" value="97 464 200 90" oninput="syncBankFromSheet()" />
               </div>
@@ -1618,13 +1904,13 @@
 
       tr.innerHTML = `
         <td class="td-num">${rowCount}</td>
-        <td>
+        <td class="td-desc">
           <input type="text" class="item-name-input" value="${escapeHtml(name)}" placeholder="Service / Item Description" oninput="updateDefaultFileName()" />
         </td>
-        <td>
+        <td class="td-qty">
           <input type="number" class="item-qty-input" value="${qty}" min="1" oninput="calculateTotals()" />
         </td>
-        <td>
+        <td class="td-rate">
           <input type="number" class="item-rate-input" value="${rate}" placeholder="0" min="0" oninput="calculateTotals()" />
         </td>
         <td class="td-amt">₹ 0</td>
