@@ -154,7 +154,7 @@
       const catTitle = cat.querySelector('.chk-category-title')?.textContent.trim() || 'Services';
       const checkedItems = cat.querySelectorAll('.chk-item.checked');
       if (checkedItems.length > 0) {
-        let catText = `\n📌 *${catTitle}:*\n`;
+        let catText = `\n*${catTitle}:*\n`;
         checkedItems.forEach(ci => {
           const titleEl = ci.querySelector('.chk-item-title');
           let itemTitle = '';
@@ -167,7 +167,7 @@
             if (ci.querySelector('.chk-badge-critical')) {
               itemTitle += ' (CRITICAL)';
             }
-            catText += `  ✓ ${itemTitle}\n`;
+            catText += `  • ${itemTitle}\n`;
             totalSelected++;
           }
         });
@@ -183,29 +183,29 @@
     }
 
     // Build the formatted WhatsApp message
-    let msg = `✨ *REJOICE EVENTS — CUSTOM CHECKLIST INQUIRY* ✨\n`;
+    let msg = `*REJOICE EVENTS — CUSTOM CHECKLIST INQUIRY*\n`;
     msg += `*Event Type:* ${eventType}\n`;
     msg += `─────────────────────────\n`;
-    msg += `👤 *Client Name:* ${name}\n`;
-    msg += `📞 *Phone / WhatsApp:* ${phone}\n`;
-    msg += `📅 *Date of Event:* ${date}\n`;
-    msg += `📍 *Venue / Location:* ${venue}\n`;
-    if (guests) msg += `👥 *Approx Guests:* ${guests}\n`;
-    if (theme) msg += `🎨 *Requested Theme:* ${theme}\n`;
+    msg += `*Client Name:* ${name}\n`;
+    msg += `*Phone / WhatsApp:* ${phone}\n`;
+    msg += `*Date of Event:* ${date}\n`;
+    msg += `*Venue / Location:* ${venue}\n`;
+    if (guests) msg += `*Approx Guests:* ${guests}\n`;
+    if (theme) msg += `*Requested Theme:* ${theme}\n`;
     msg += `─────────────────────────\n`;
     if (totalSelected > 0) {
-      msg += `📋 *SERVICES REQUESTED (${totalSelected} Items Selected):*\n`;
+      msg += `*SERVICES REQUESTED (${totalSelected} Items Selected):*\n`;
       selectedGrouped.forEach(grp => {
         msg += grp;
       });
     }
 
     if (customExtra) {
-      msg += `\n🌟 *CUSTOM REQUIREMENT / SOMETHING MORE:*\n${customExtra}\n`;
+      msg += `\n*CUSTOM REQUIREMENT / SOMETHING MORE:*\n${customExtra}\n`;
     }
 
     if (notes) {
-      msg += `\n💬 *Additional Notes / Requests:*\n${notes}\n`;
+      msg += `\n*Additional Notes / Requests:*\n${notes}\n`;
     }
 
     msg += `─────────────────────────\n`;
