@@ -1633,7 +1633,7 @@
         overflow: visible !important;
       }
 
-      #lockScreen, .top-nav, .controls-panel, .btn-add-table-row, .btn-row-del, th.th-act, td.td-act, .sheet-bottom-actions, .terms-edit-hint, .bank-edit-hint, .custom-modal {
+      #lockScreen, .top-nav, .controls-panel, .btn-add-table-row, .btn-row-del, th.th-act, td.td-act, .sheet-bottom-actions, .terms-edit-hint, .bank-edit-hint, .custom-modal, #autoSaveToast {
         display: none !important;
       }
 
@@ -2034,7 +2034,7 @@
           </button>
         </div>
         <div class="export-grid" style="grid-template-columns: 1fr 1fr;">
-          <button type="button" class="btn-action btn-action-print" onclick="window.print()">
+          <button type="button" class="btn-action btn-action-print" onclick="printAndAutoSave()">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
             <span>Print A4</span>
           </button>
@@ -2253,7 +2253,7 @@
           <span>Past Records &amp; Invoices</span>
         </button>
 
-        <button type="button" class="btn-primary-action btn-action-print" onclick="window.print()">
+        <button type="button" class="btn-primary-action btn-action-print" onclick="printAndAutoSave()">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
           <span>Print / Save PDF</span>
         </button>
@@ -3042,8 +3042,10 @@ function doGet(e) {
     /* ══════════════════════════════════════════════════════════
        GOOGLE SHEET URL CONFIGURATION & STATUS
        ══════════════════════════════════════════════════════════ */
+    const DEFAULT_GSHEET_URL = 'https://script.google.com/macros/s/AKfycbwinzoh-yIlzA3NBsf6wmisx4DSgIgEslmzOrxwbqjS8-_i6DkRSpJ09Mk4m7YnDyz5/exec';
+
     function getGSheetUrl() {
-      return localStorage.getItem('rejoice_gsheet_url') || '';
+      return localStorage.getItem('rejoice_gsheet_url') || DEFAULT_GSHEET_URL;
     }
 
     function saveGSheetUrl() {
@@ -3148,7 +3150,41 @@ function doGet(e) {
       if (el) el.textContent = count !== undefined ? count : getSavedRecords().length;
     }
 
-    async function saveRecordToSheet() {
+    function showSaveToast(msg, isSuccess = true) {
+      let toast = document.getElementById('autoSaveToast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'autoSaveToast';
+        toast.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#059669;color:#fff;padding:11px 18px;border-radius:10px;font-weight:700;font-size:13px;box-shadow:0 12px 28px rgba(0,0,0,0.5);z-index:999999;display:flex;align-items:center;gap:8px;transition:opacity 0.25s,transform 0.25s;pointer-events:none;';
+        document.body.appendChild(toast);
+      }
+      toast.style.background = isSuccess ? '#059669' : '#b45309';
+      toast.innerHTML = (isSuccess ? '✅ ' : '⚠️ ') + msg;
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateY(0)';
+      clearTimeout(toast._timeout);
+      toast._timeout = setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+      }, 3500);
+    }
+
+    async function printAndAutoSave() {
+      // Auto-save silently to local storage and sync with Google Sheet
+      try {
+        await saveRecordToSheet(true);
+      } catch (err) {
+        console.warn('Auto-save error before print:', err);
+      }
+      window.print();
+    }
+
+    // Auto-save when browser print dialog is triggered (e.g. via Ctrl+P)
+    window.addEventListener('beforeprint', () => {
+      saveRecordToSheet(true);
+    });
+
+    async function saveRecordToSheet(silent = false) {
       const isQuote = currentMode === 'quote';
       const type = isQuote ? 'quote' : 'bill';
       const refNum = document.getElementById('docRefNum').value.trim() || 
@@ -3180,7 +3216,7 @@ function doGet(e) {
         }
       });
 
-      if (items.length === 0) {
+      if (items.length === 0 && !silent) {
         if (!confirm('No items are currently in the table. Do you still want to save this record?')) {
           return;
         }
@@ -3224,6 +3260,7 @@ function doGet(e) {
         existing.unshift(record);
       }
       saveRecordsToLocal(existing);
+      updateRecordCountBadge(existing.length);
 
       // 2. Sync to Google Sheet if connected
       const sheetUrl = getGSheetUrl();
@@ -3235,16 +3272,26 @@ function doGet(e) {
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify(record)
           });
-          alert(`✅ ${type === 'bill' ? 'Event Bill' : 'Quotation'} [${refNum}] saved successfully!\n\n• Stored in records database\n• Synced to Google Sheet`);
+          if (silent) {
+            showSaveToast(`Auto-saved [${refNum}] to Google Sheet!`);
+          } else {
+            alert(`✅ ${type === 'bill' ? 'Event Bill' : 'Quotation'} [${refNum}] saved successfully!\n\n• Stored in records database\n• Synced to Google Sheet`);
+          }
         } catch (err) {
           console.warn('Google Sheet sync error:', err);
-          alert(`💾 Record [${refNum}] saved locally!\n(Google Sheet sync will retry when re-connected)`);
+          if (silent) {
+            showSaveToast(`Saved [${refNum}] locally (Sheet sync pending)`, false);
+          } else {
+            alert(`💾 Record [${refNum}] saved locally!\n(Google Sheet sync will retry when re-connected)`);
+          }
         }
       } else {
-        alert(`💾 ${type === 'bill' ? 'Event Bill' : 'Quotation'} [${refNum}] saved to Records!\n\nTip: Connect your Google Sheet in settings to auto-sync to the cloud.`);
+        if (silent) {
+          showSaveToast(`Saved [${refNum}] to records`);
+        } else {
+          alert(`💾 ${type === 'bill' ? 'Event Bill' : 'Quotation'} [${refNum}] saved to Records!\n\nTip: Connect your Google Sheet in settings to auto-sync to the cloud.`);
+        }
       }
-
-      updateRecordCountBadge(existing.length);
     }
 
     /* ══════════════════════════════════════════════════════════
